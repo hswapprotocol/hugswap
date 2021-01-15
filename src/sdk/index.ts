@@ -10,7 +10,7 @@ export {
   MINIMUM_LIQUIDITY
 } from './constants'
 
-export type{
+export type {
   BigintIsh
 } from './constants'
 
