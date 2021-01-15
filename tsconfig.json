@@ -25,9 +25,7 @@
     "types": ["react-spring", "jest"],
     "baseUrl": "src",
     "paths": {
-      "@src/*": [
-        "*"
-      ]
+      "@src/*": ["*"]
     }
   },
   "exclude": ["node_modules", "cypress"],
