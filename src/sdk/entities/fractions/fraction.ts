@@ -1,12 +1,14 @@
 import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import _Decimal from 'decimal.js-light'
-import _Big, { RoundingMode } from 'big.js'
+import _Big from 'big.js'
 import toFormat from 'toformat'
 
 import { BigintIsh, Rounding } from '../../constants'
 import { ONE } from '../../constants'
 import { parseBigintIsh } from '../../utils'
+
+const RoundingMode = require('big.js')
 
 const Decimal = toFormat(_Decimal)
 const Big = toFormat(_Big)
