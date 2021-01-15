@@ -1,7 +1,8 @@
 name: Release
 on:
+  push:
   schedule:
-    - cron:  '0 12 * * 1-4' # every day 12:00 UTC Monday-Thursday
+    - cron: '0 12 * * 1-4' # every day 12:00 UTC Monday-Thursday
 
   # manual trigger
   workflow_dispatch:
@@ -49,7 +50,7 @@ jobs:
         id: upload
         uses: anantaramdas/ipfs-pinata-deploy-action@39bbda1ce1fe24c69c6f57861b8038278d53688d
         with:
-          pin-name: Uniswap ${{ needs.bump_version.outputs.new_tag }}
+          pin-name: Hugswap-${{ needs.bump_version.outputs.new_tag }}
           path: './build'
           pinata-api-key: ${{ secrets.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ secrets.PINATA_API_SECRET_KEY }}
@@ -60,13 +61,13 @@ jobs:
         with:
           cidv0: ${{ steps.upload.outputs.hash }}
 
-      - name: Update DNS with new IPFS hash
+      - name: Update DNS with hug.c01.link
         env:
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-          RECORD_DOMAIN: 'uniswap.org'
-          RECORD_NAME: '_dnslink.app'
-          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-        uses: textileio/cloudflare-update-dnslink@0fe7b7a1ffc865db3a4da9773f0f987447ad5848
+          RECORD_DOMAIN: 'hug.c01.link'
+          RECORD_NAME: '_dnslink.hug'
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_TOKEN_ZONE_ID }}
+        uses: textileio/cloudflare-update-dnslink@master
         with:
           cid: ${{ steps.upload.outputs.hash }}
 
@@ -82,23 +83,18 @@ jobs:
             IPFS hash of the deployment:
             - CIDv0: `${{ steps.upload.outputs.hash }}`
             - CIDv1: `${{ steps.convert_cidv0.outputs.cidv1 }}`
-
             The latest release is always accessible via our alias to the Cloudflare IPFS gateway at [app.uniswap.org](https://app.uniswap.org).
-
             You can also access the Uniswap Interface directly from an IPFS gateway.
             The Uniswap interface uses [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) to store your settings.
             **Beware** that other sites you access via the _same_ IPFS gateway can read and modify your settings on the Uniswap interface without your permission.
             You can avoid this issue by using a subdomain IPFS gateway, or our alias to the latest release at [app.uniswap.org](https://app.uniswap.org).
             The preferred URLs below are safe to use to access this specific release.
-
             Preferred URLs:
             - https://${{ steps.convert_cidv0.outputs.cidv1 }}.ipfs.dweb.link/
             - https://${{ steps.convert_cidv0.outputs.cidv1 }}.ipfs.cf-ipfs.com/
             - [ipfs://${{ steps.upload.outputs.hash }}/](ipfs://${{ steps.upload.outputs.hash }}/)
-
             Other IPFS gateways:
             - https://cloudflare-ipfs.com/ipfs/${{ steps.upload.outputs.hash }}/
             - https://ipfs.infura.io/ipfs/${{ steps.upload.outputs.hash }}/
             - https://ipfs.io/ipfs/${{ steps.upload.outputs.hash }}/
-
             ${{ needs.bump_version.outputs.changelog }}
