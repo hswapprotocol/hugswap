@@ -1,4 +1,4 @@
-import { Trade, currencyEquals, Percent } from '@uniswap/sdk'
+import { Trade, currencyEquals, Percent } from '@src/sdk'
 
 const ZERO_PERCENT = new Percent('0')
 const ONE_HUNDRED_PERCENT = new Percent('1')
