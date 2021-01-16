@@ -9,8 +9,8 @@ export enum ChainId {
   RINKEBY = 4,
   GÖRLI = 5,
   KOVAN = 42,
-  MAINNET = 128,
-  TESTNET = 256
+  HECO_MAINNET = 128,
+  HECO_TESTNET = 256
 }
 
 export enum TradeType {

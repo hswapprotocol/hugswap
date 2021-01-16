@@ -254,7 +254,6 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
   const [addError, setAddError] = useState<string | null>(null)
-
   const handleInput = useCallback(e => {
     setListUrlInput(e.target.value)
     setAddError(null)

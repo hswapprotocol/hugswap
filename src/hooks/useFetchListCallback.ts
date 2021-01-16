@@ -16,8 +16,8 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
 
   const ensResolver = useCallback(
     (ensName: string) => {
-      if (!library || chainId !== ChainId.MAINNET) {
-        if (NETWORK_CHAIN_ID === ChainId.MAINNET) {
+      if (!library || chainId !== ChainId.HECO_MAINNET) {
+        if (NETWORK_CHAIN_ID === ChainId.HECO_MAINNET) {
           const networkLibrary = getNetworkLibrary()
           if (networkLibrary) {
             return resolveENSContentHash(ensName, networkLibrary)

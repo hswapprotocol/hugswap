@@ -195,7 +195,7 @@ export default function Vote() {
                 </TYPE.body>
                 <AddressButton>
                   <StyledExternalLink
-                    href={getEtherscanLink(ChainId.MAINNET, userDelegatee, 'address')}
+                    href={getEtherscanLink(ChainId.HECO_MAINNET, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
                     {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}

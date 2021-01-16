@@ -289,7 +289,6 @@ export default function WalletModal({
   }
 
   function getModalContent() {
-    console.log({ error })
     if (error) {
       return (
         <UpperSection>

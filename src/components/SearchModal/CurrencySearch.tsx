@@ -22,7 +22,7 @@ import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
-
+// const tokenList = require('../../tokenlist.json')
 interface CurrencySearchProps {
   isOpen: boolean
   onDismiss: () => void
@@ -136,7 +136,6 @@ export function CurrencySearch({
   )
 
   const selectedListInfo = useSelectedListInfo()
-  console.log({ filteredTokens })
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn gap="14px">
@@ -166,7 +165,6 @@ export function CurrencySearch({
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>
       </PaddedColumn>
-
       <Separator />
 
       <div style={{ flex: '1' }}>

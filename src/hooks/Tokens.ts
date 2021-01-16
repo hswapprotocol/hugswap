@@ -10,11 +10,13 @@ import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 import { arrayify } from 'ethers/lib/utils'
 
+// const tokenList = require('../tokenlist.json')
+
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
   const userAddedTokens = useUserAddedTokens()
   const allTokens = useSelectedTokenList()
-
+  // const allTokens = tokenList.tokens;
   return useMemo(() => {
     if (!chainId) return {}
     return (
