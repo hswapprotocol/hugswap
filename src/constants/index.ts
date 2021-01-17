@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@src/sdk'
+import { ChainId, JSBI, Percent, Token, WHT } from '@src/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { injected, walletconnect } from '../connectors'
@@ -67,12 +67,12 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 }
 
 const WETH_ONLY: ChainTokenList = {
-  [ChainId.HECO_MAINNET]: [WETH[ChainId.HECO_MAINNET]],
-  [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],
-  [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
-  [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
-  [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
-  [ChainId.HECO_TESTNET]: [WETH[ChainId.HECO_TESTNET]]
+  [ChainId.HECO_MAINNET]: [WHT[ChainId.HECO_MAINNET]],
+  [ChainId.ROPSTEN]: [WHT[ChainId.ROPSTEN]],
+  [ChainId.RINKEBY]: [WHT[ChainId.RINKEBY]],
+  [ChainId.GÖRLI]: [WHT[ChainId.GÖRLI]],
+  [ChainId.KOVAN]: [WHT[ChainId.KOVAN]],
+  [ChainId.HECO_TESTNET]: [WHT[ChainId.HECO_TESTNET]]
 }
 
 // used to construct intermediary pairs for trading
@@ -87,7 +87,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.HECO_MAINNET]: {
-    [AMPL.address]: [DAI, WETH[ChainId.HECO_MAINNET]]
+    [AMPL.address]: [DAI, WHT[ChainId.HECO_MAINNET]]
   }
 }
 
@@ -189,8 +189,8 @@ export const PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN: Percent = new Percent(JSBI.Bi
 // for non expert mode disable swaps above this
 export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(1500), BIPS_BASE) // 15%
 
-// used to ensure the user doesn't send so much ETH so they end up with <.01
-export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
+// used to ensure the user doesn't send so much HT so they end up with <.01
+export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 HT
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000))
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), JSBI.BigInt(10000))
 

@@ -56,7 +56,7 @@ export function currencyEquals(currencyA: Currency, currencyB: Currency): boolea
   }
 }
 
-export const WETH = {
+export const WHT = {
   // [ChainId.MAINNET]: new Token(
   //   ChainId.MAINNET,
   //   '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -68,25 +68,25 @@ export const WETH = {
     ChainId.ROPSTEN,
     '0xc778417E063141139Fce010982780140Aa0cD5Ab',
     18,
-    'WETH',
-    'Wrapped Ether'
+    'WHT',
+    'Wrapped HT'
   ),
   [ChainId.RINKEBY]: new Token(
     ChainId.RINKEBY,
     '0xc778417E063141139Fce010982780140Aa0cD5Ab',
     18,
-    'WETH',
-    'Wrapped Ether'
+    'WHT',
+    'Wrapped HT'
   ),
   [ChainId.GÖRLI]: new Token(
-    ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'),
+    ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WHT', 'Wrapped HT'),
   
   [ChainId.KOVAN]: new Token(
-    ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'),
+    ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WHT', 'Wrapped HT'),
   
   [ChainId.HECO_MAINNET]: new Token(
-    ChainId.HECO_MAINNET, '0x83ac2f7cabe1382be946f1498fb62d1a4c699000', 18, 'WHT', 'Wrapped Heco'),
+    ChainId.HECO_MAINNET, '0x83ac2f7cabe1382be946f1498fb62d1a4c699000', 18, 'WHT', 'Wrapped HT'),
   
   [ChainId.HECO_TESTNET]: new Token(
-    ChainId.HECO_TESTNET, '0x83ac2f7cabe1382be946f1498fb62d1a4c699000', 18, 'WHT', 'Wrapped Heco')
+    ChainId.HECO_TESTNET, '0x83ac2f7cabe1382be946f1498fb62d1a4c699000', 18, 'WHT', 'Wrapped HT')
 }

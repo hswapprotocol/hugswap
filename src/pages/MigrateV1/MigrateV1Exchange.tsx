@@ -1,6 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { AddressZero } from '@ethersproject/constants'
-import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Token, TokenAmount, WETH } from '@src/sdk'
+import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Token, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
@@ -55,14 +55,14 @@ export function V1LiquidityInfo({
         <div style={{ marginLeft: '.75rem' }}>
           <TYPE.mediumHeader>
             {<FormattedCurrencyAmount currencyAmount={liquidityTokenAmount} />}{' '}
-            {chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}/ETH
+            {chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol}/HT
           </TYPE.mediumHeader>
         </div>
       </AutoRow>
 
       <RowBetween my="1rem">
         <Text fontSize={16} fontWeight={500}>
-          Pooled {chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}:
+          Pooled {chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol}:
         </Text>
         <RowFixed>
           <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
@@ -73,7 +73,7 @@ export function V1LiquidityInfo({
       </RowBetween>
       <RowBetween mb="1rem">
         <Text fontSize={16} fontWeight={500}>
-          Pooled ETH:
+          Pooled HT:
         </Text>
         <RowFixed>
           <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
@@ -92,10 +92,10 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
   const exchangeETHBalance = useETHBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
   const exchangeTokenBalance = useTokenBalance(liquidityTokenAmount.token.address, token)
 
-  const [v2PairState, v2Pair] = usePair(chainId ? WETH[chainId] : undefined, token)
+  const [v2PairState, v2Pair] = usePair(chainId ? WHT[chainId] : undefined, token)
   const isFirstLiquidityProvider: boolean = v2PairState === PairState.NOT_EXISTS
 
-  const v2SpotPrice = chainId && v2Pair ? v2Pair.reserveOf(token).divide(v2Pair.reserveOf(WETH[chainId])) : undefined
+  const v2SpotPrice = chainId && v2Pair ? v2Pair.reserveOf(token).divide(v2Pair.reserveOf(WHT[chainId])) : undefined
 
   const [confirmingMigration, setConfirmingMigration] = useState<boolean>(false)
   const [pendingMigrationHash, setPendingMigrationHash] = useState<string | null>(null)
@@ -207,26 +207,26 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
             <RowBetween>
               <TYPE.body>V1 Price:</TYPE.body>
               <TYPE.black>
-                {v1SpotPrice?.toSignificant(6)} {token.symbol}/ETH
+                {v1SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
             </RowBetween>
             <RowBetween>
               <div />
               <TYPE.black>
-                {v1SpotPrice?.invert()?.toSignificant(6)} ETH/{token.symbol}
+                {v1SpotPrice?.invert()?.toSignificant(6)} HT/{token.symbol}
               </TYPE.black>
             </RowBetween>
 
             <RowBetween>
               <TYPE.body>V2 Price:</TYPE.body>
               <TYPE.black>
-                {v2SpotPrice?.toSignificant(6)} {token.symbol}/ETH
+                {v2SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
             </RowBetween>
             <RowBetween>
               <div />
               <TYPE.black>
-                {v2SpotPrice?.invert()?.toSignificant(6)} ETH/{token.symbol}
+                {v2SpotPrice?.invert()?.toSignificant(6)} HT/{token.symbol}
               </TYPE.black>
             </RowBetween>
 
@@ -249,13 +249,13 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
             <RowBetween>
               <TYPE.body>V1 Price:</TYPE.body>
               <TYPE.black>
-                {v1SpotPrice?.toSignificant(6)} {token.symbol}/ETH
+                {v1SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
             </RowBetween>
             <RowBetween>
               <div />
               <TYPE.black>
-                {v1SpotPrice?.invert()?.toSignificant(6)} ETH/{token.symbol}
+                {v1SpotPrice?.invert()?.toSignificant(6)} HT/{token.symbol}
               </TYPE.black>
             </RowBetween>
           </AutoColumn>
@@ -304,7 +304,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
         </div>
       </LightCard>
       <TYPE.darkGray style={{ textAlign: 'center' }}>
-        {`Your Uniswap V1 ${token.symbol}/ETH liquidity will become Uniswap V2 ${token.symbol}/ETH liquidity.`}
+        {`Your Uniswap V1 ${token.symbol}/HT liquidity will become Uniswap V2 ${token.symbol}/HT liquidity.`}
       </TYPE.darkGray>
     </AutoColumn>
   )
@@ -352,11 +352,11 @@ export default function MigrateV1Exchange({
 
         {!account ? (
           <TYPE.largeHeader>You must connect an account.</TYPE.largeHeader>
-        ) : validatedAddress && chainId && token?.equals(WETH[chainId]) ? (
+        ) : validatedAddress && chainId && token?.equals(WHT[chainId]) ? (
           <>
             <TYPE.body my={9} style={{ fontWeight: 400 }}>
-              Because Uniswap V2 uses WETH under the hood, your Uniswap V1 WETH/ETH liquidity cannot be migrated. You
-              may want to remove your liquidity instead.
+              Because Uniswap V2 uses WHT under the hood, your Uniswap V1 WHT/HT liquidity cannot be migrated. You may
+              want to remove your liquidity instead.
             </TYPE.body>
 
             <ButtonConfirmed

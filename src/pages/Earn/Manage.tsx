@@ -115,20 +115,20 @@ export default function Manage({
   const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
 
   const token = currencyA === ETHER ? tokenB : tokenA
-  const WETH = currencyA === ETHER ? tokenA : tokenB
+  const WHT = currencyA === ETHER ? tokenA : tokenB
   const backgroundColor = useColor(token)
 
-  // get WETH value of staked LP tokens
+  // get WHT value of staked LP tokens
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
-  let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
-  if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && WETH) {
-    // take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
-    valueOfTotalStakedAmountInWETH = new TokenAmount(
-      WETH,
+  let valueOfTotalStakedAmountInWHT: TokenAmount | undefined
+  if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && WHT) {
+    // take the total amount of LP tokens staked, multiply by HT value of all LP tokens, divide by all LP tokens
+    valueOfTotalStakedAmountInWHT = new TokenAmount(
+      WHT,
       JSBI.divide(
         JSBI.multiply(
-          JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
-          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+          JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WHT).raw),
+          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WHT they entitle owner to
         ),
         totalSupplyOfStakingToken.raw
       )
@@ -138,10 +138,9 @@ export default function Manage({
   const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
   const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
 
-  // get the USD value of staked WETH
-  const USDPrice = useUSDCPrice(WETH)
-  const valueOfTotalStakedAmountInUSDC =
-    valueOfTotalStakedAmountInWETH && USDPrice?.quote(valueOfTotalStakedAmountInWETH)
+  // get the USD value of staked WHT
+  const USDPrice = useUSDCPrice(WHT)
+  const valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWHT && USDPrice?.quote(valueOfTotalStakedAmountInWHT)
 
   const toggleWalletModal = useWalletModalToggle()
 
@@ -169,7 +168,7 @@ export default function Manage({
             <TYPE.body fontSize={24} fontWeight={500}>
               {valueOfTotalStakedAmountInUSDC
                 ? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-                : `${valueOfTotalStakedAmountInWETH?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} ETH`}
+                : `${valueOfTotalStakedAmountInWHT?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} HT`}
             </TYPE.body>
           </AutoColumn>
         </PoolData>

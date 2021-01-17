@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@src/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WHT, Pair } from '@src/sdk'
 import { useMemo } from 'react'
 import { DAI, UNI, USDC, USDT, WBTC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
@@ -20,19 +20,19 @@ export const STAKING_REWARDS_INFO: {
 } = {
   [ChainId.HECO_MAINNET]: [
     {
-      tokens: [WETH[ChainId.HECO_MAINNET], DAI],
+      tokens: [WHT[ChainId.HECO_MAINNET], DAI],
       stakingRewardAddress: '0xa1484C3aa22a66C62b77E0AE78E15258bd0cB711'
     },
     {
-      tokens: [WETH[ChainId.HECO_MAINNET], USDC],
+      tokens: [WHT[ChainId.HECO_MAINNET], USDC],
       stakingRewardAddress: '0x7FBa4B8Dc5E7616e59622806932DBea72537A56b'
     },
     {
-      tokens: [WETH[ChainId.HECO_MAINNET], USDT],
+      tokens: [WHT[ChainId.HECO_MAINNET], USDT],
       stakingRewardAddress: '0x6C3e4cb2E96B01F4b866965A91ed4437839A121a'
     },
     {
-      tokens: [WETH[ChainId.HECO_MAINNET], WBTC],
+      tokens: [WHT[ChainId.HECO_MAINNET], WBTC],
       stakingRewardAddress: '0xCA35e32e7926b96A9988f61d510E038108d8068e'
     }
   ]
