@@ -11,8 +11,13 @@ import { ExternalLink } from '../../theme'
 import { ButtonPrimary } from '../Button'
 
 const StyledMenuIcon = styled(MenuIcon)`
+  :hover {
+    path {
+      stroke: ${({ theme }) => theme.text3};
+    }
+  }
   path {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({ theme }) => theme.text4};
   }
 `
 
@@ -24,16 +29,13 @@ const StyledMenuButton = styled.button`
   margin: 0;
   padding: 0;
   height: 35px;
-  background-color: ${({ theme }) => theme.bg3};
 
   padding: 0.15rem 0.5rem;
-  border-radius: 0.5rem;
 
   :hover,
   :focus {
     cursor: pointer;
     outline: none;
-    background-color: ${({ theme }) => theme.bg4};
   }
 
   svg {

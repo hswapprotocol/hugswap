@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Settings, X } from 'react-feather'
+import { X } from 'react-feather'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
@@ -21,12 +21,18 @@ import { RowBetween, RowFixed } from '../Row'
 import Toggle from '../Toggle'
 import TransactionSettings from '../TransactionSettings'
 
-const StyledMenuIcon = styled(Settings)`
-  height: 20px;
-  width: 20px;
+import { ReactComponent as Settings } from '../../assets/svg/settings.svg'
 
+const StyledMenuIcon = styled(Settings)`
+  height: 24px;
+  width: 24px;
+  :hover {
+    > * {
+      stroke: ${({ theme }) => theme.text3};
+    }
+  }
   > * {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({ theme }) => theme.text4};
   }
 `
 
@@ -51,16 +57,13 @@ const StyledMenuButton = styled.button`
   margin: 0;
   padding: 0;
   height: 35px;
-  background-color: ${({ theme }) => theme.bg3};
 
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.5rem;
+  padding: 0.15rem 0 0.15rem 1rem;
 
   :hover,
   :focus {
     cursor: pointer;
     outline: none;
-    background-color: ${({ theme }) => theme.bg4};
   }
 
   svg {
