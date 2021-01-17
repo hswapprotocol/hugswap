@@ -79,7 +79,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 
   // get the color of the token
   const token = currency0 === ETHER ? token1 : token0
-  const WETH = currency0 === ETHER ? token0 : token1
+  const WHT = currency0 === ETHER ? token0 : token1
   const backgroundColor = useColor(token)
 
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token)
@@ -90,19 +90,19 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
   if (totalSupplyOfStakingToken && stakingTokenPair) {
     // take the total amount of LP tokens staked, multiply by HT value of all LP tokens, divide by all LP tokens
     valueOfTotalStakedAmountInWETH = new TokenAmount(
-      WETH,
+      WHT,
       JSBI.divide(
         JSBI.multiply(
-          JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
-          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+          JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WHT).raw),
+          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WHT they entitle owner to
         ),
         totalSupplyOfStakingToken.raw
       )
     )
   }
 
-  // get the USD value of staked WETH
-  const USDPrice = useUSDCPrice(WETH)
+  // get the USD value of staked WHT
+  const USDPrice = useUSDCPrice(WHT)
   const valueOfTotalStakedAmountInUSDC =
     valueOfTotalStakedAmountInWETH && USDPrice?.quote(valueOfTotalStakedAmountInWETH)
 

@@ -1,8 +1,8 @@
 import uriToHttp from './uriToHttp'
 
 describe('uriToHttp', () => {
-  it('returns .eth.link for ens names', () => {
-    expect(uriToHttp('t2crtokens.eth')).toEqual([])
+  it('returns .ht.link for ens names', () => {
+    expect(uriToHttp('t2crtokens.ht')).toEqual([])
   })
   it('returns https first for http', () => {
     expect(uriToHttp('http://test.com')).toEqual(['https://test.com', 'http://test.com'])

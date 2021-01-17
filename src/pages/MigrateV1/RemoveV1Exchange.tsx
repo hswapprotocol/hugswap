@@ -120,7 +120,7 @@ function V1PairRemoval({
       <TYPE.darkGray style={{ textAlign: 'center' }}>
         {`Your Uniswap V1 ${
           chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol
-        }/ETH liquidity will be redeemed for underlying assets.`}
+        }/HT liquidity will be redeemed for underlying assets.`}
       </TYPE.darkGray>
     </AutoColumn>
   )
