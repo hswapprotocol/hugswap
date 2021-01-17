@@ -1,6 +1,8 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { X } from 'react-feather'
 import { Text } from 'rebass'
+// import { useTranslation } from 'react-i18next'
+import i18n from 'i18next'
 import styled, { ThemeContext } from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/actions'
@@ -9,16 +11,12 @@ import {
   useDarkModeManager,
   useExpertModeManager,
   useUserTransactionTTL,
-  useUserSlippageTolerance,
-  useUserSingleHopOnly
+  useUserSlippageTolerance
 } from '../../state/user/hooks'
-import { TYPE } from '../../theme'
 import { ButtonError } from '../Button'
 import { AutoColumn } from '../Column'
 import Modal from '../Modal'
-import QuestionHelper from '../QuestionHelper'
-import { RowBetween, RowFixed } from '../Row'
-import Toggle from '../Toggle'
+import { RowBetween } from '../Row'
 import TransactionSettings from '../TransactionSettings'
 
 import { ReactComponent as Settings } from '../../assets/svg/settings.svg'
@@ -126,12 +124,37 @@ const ModalContentWrapper = styled.div`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 20px;
 `
+const FancyButton = styled.button`
+  color: ${({ theme }) => theme.text1};
+  align-items: center;
+  height: 2rem;
+  border-radius: 36px;
+  font-size: 1rem;
+  width: auto;
+  min-width: 3.5rem;
+  border: 1px solid ${({ theme }) => theme.bg3};
+  outline: none;
+  background: none;
+  :hover {
+    border: 1px solid ${({ theme }) => theme.bg4};
+  }
+  :focus {
+    border: 1px solid ${({ theme }) => theme.primary1};
+  }
+`
+const Option = styled(FancyButton)<{ active: boolean }>`
+  margin-right: 8px;
+  :hover {
+    cursor: pointer;
+  }
+  background-color: ${({ active, theme }) => active && theme.primary1};
+  color: ${({ active, theme }) => (active ? theme.white : theme.text1)};
+`
 
 export default function SettingsTab() {
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.SETTINGS)
   const toggle = useToggleSettingsMenu()
-
   const theme = useContext(ThemeContext)
   const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance()
 
@@ -139,14 +162,14 @@ export default function SettingsTab() {
 
   const [expertMode, toggleExpertMode] = useExpertModeManager()
 
-  const [singleHopOnly, setSingleHopOnly] = useUserSingleHopOnly()
-
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
   // show confirmation view before turning on
   const [showConfirmation, setShowConfirmation] = useState(false)
 
   useOnClickOutside(node, open ? toggle : undefined)
+
+  // let { i18n } = useTranslation()
 
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
@@ -201,7 +224,7 @@ export default function SettingsTab() {
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
-            <Text fontWeight={600} fontSize={14}>
+            <Text fontWeight={600} fontSize={18}>
               Transaction Settings
             </Text>
             <TransactionSettings
@@ -210,53 +233,52 @@ export default function SettingsTab() {
               deadline={ttl}
               setDeadline={setTtl}
             />
-            <Text fontWeight={600} fontSize={14}>
-              Interface Settings
-            </Text>
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  Toggle Expert Mode
-                </TYPE.black>
-                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
-              </RowFixed>
-              <Toggle
-                id="toggle-expert-mode-button"
-                isActive={expertMode}
-                toggle={
-                  expertMode
-                    ? () => {
-                        toggleExpertMode()
-                        setShowConfirmation(false)
-                      }
-                    : () => {
-                        toggle()
-                        setShowConfirmation(true)
-                      }
-                }
-              />
-            </RowBetween>
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  Disable Multihops
-                </TYPE.black>
-                <QuestionHelper text="Restricts swaps to direct pairs only." />
-              </RowFixed>
-              <Toggle
-                id="toggle-disable-multihop-button"
-                isActive={singleHopOnly}
-                toggle={() => (singleHopOnly ? setSingleHopOnly(false) : setSingleHopOnly(true))}
-              />
-            </RowBetween>
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  Toggle Dark Mode
-                </TYPE.black>
-              </RowFixed>
-              <Toggle isActive={darkMode} toggle={toggleDarkMode} />
-            </RowBetween>
+            <div>
+              <Text marginBottom={10} fontWeight={400} fontSize={14} color={theme.text4}>
+                Language
+              </Text>
+              <div>
+                <Option
+                  onClick={() => {
+                    i18n.changeLanguage('en')
+                  }}
+                  active={i18n.language == 'en'}
+                >
+                  ENG
+                </Option>
+                <Option
+                  onClick={() => {
+                    i18n.changeLanguage('zh-CN')
+                  }}
+                  active={i18n.language == 'zh-CN'}
+                >
+                  中文
+                </Option>
+              </div>
+            </div>
+            <div>
+              <Text marginBottom={10} fontWeight={400} fontSize={14} color={theme.text4}>
+                Colour
+              </Text>
+              <div>
+                <Option
+                  onClick={() => {
+                    toggleDarkMode(true)
+                  }}
+                  active={darkMode}
+                >
+                  Dark
+                </Option>
+                <Option
+                  onClick={() => {
+                    toggleDarkMode(false)
+                  }}
+                  active={!darkMode}
+                >
+                  Light
+                </Option>
+              </div>
+            </div>
           </AutoColumn>
         </MenuFlyout>
       )}

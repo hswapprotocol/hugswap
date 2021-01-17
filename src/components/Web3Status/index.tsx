@@ -1,6 +1,6 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import { darken, lighten } from 'polished'
+import { darken } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,7 @@ const Web3StatusGeneric = styled(ButtonSecondary)`
   width: 100%;
   align-items: center;
   padding: 0.5rem;
-  border-radius: 12px;
+  border-radius: 20px;
   cursor: pointer;
   user-select: none;
   :focus {
@@ -59,43 +59,44 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
+  background-color: ${({ theme }) => theme.text6};
   border: none;
-  color: ${({ theme }) => theme.primaryText1};
+  color: ${({ theme }) => theme.bg1};
   font-weight: 500;
 
   :hover,
   :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-    color: ${({ theme }) => theme.primaryText1};
+    border: 1px solid ${({ theme }) => darken(0.05, theme.text6)};
+    color: ${({ theme }) => theme.bg1};
   }
 
   ${({ faded }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
+      background-color: ${({ theme }) => theme.text6};
+      border: 1px solid ${({ theme }) => theme.text6};
+      color: ${({ theme }) => theme.bg1};
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
+        background-color: ${({ theme }) => darken(-0.05, theme.text6)}};
+        border: 1px solid ${({ theme }) => darken(-0.05, theme.text6)};
+        color: ${({ theme }) => darken(0.05, theme.bg1)};
       }
     `}
 `
 
 const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg4)};
-  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
+  background-color: ${({ pending, theme }) => (pending ? theme.text6 : theme.bg4)};
+  border: 1px solid ${({ pending, theme }) => (pending ? theme.text6 : theme.bg4)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text6)};
   font-weight: 500;
   :hover,
   :focus {
-    background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2))};
-
+    background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.text6) : darken(-0.02, theme.bg4))};
+    border: 1px solid ${({ pending, theme }) => (pending ? darken(0.05, theme.text6) : darken(0.05, theme.text6))};
     :focus {
-      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg3))};
+      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.text6) : darken(0.1, theme.bg4))};
     }
   }
 `

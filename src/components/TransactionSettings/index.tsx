@@ -28,7 +28,7 @@ const FancyButton = styled.button`
   min-width: 3.5rem;
   border: 1px solid ${({ theme }) => theme.bg3};
   outline: none;
-  background: ${({ theme }) => theme.bg1};
+  background: none;
   :hover {
     border: 1px solid ${({ theme }) => theme.bg4};
   }
@@ -47,7 +47,7 @@ const Option = styled(FancyButton)<{ active: boolean }>`
 `
 
 const Input = styled.input`
-  background: ${({ theme }) => theme.bg1};
+  background: none;
   font-size: 16px;
   width: auto;
   outline: none;
@@ -148,10 +148,13 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
     <AutoColumn gap="md">
       <AutoColumn gap="sm">
         <RowFixed>
-          <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
+          <TYPE.black fontWeight={400} fontSize={14} color={theme.text4}>
             Slippage tolerance
           </TYPE.black>
-          <QuestionHelper text="Your transaction will revert if the price changes unfavorably by more than this percentage." />
+          <QuestionHelper
+            color={theme.text4}
+            text="Your transaction will revert if the price changes unfavorably by more than this percentage."
+          />
         </RowFixed>
         <RowBetween>
           <Option
@@ -225,10 +228,13 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
 
       <AutoColumn gap="sm">
         <RowFixed>
-          <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+          <TYPE.black fontSize={14} fontWeight={400} color={theme.text4}>
             Transaction deadline
           </TYPE.black>
-          <QuestionHelper text="Your transaction will revert if it is pending for more than this long." />
+          <QuestionHelper
+            color={theme.text4}
+            text="Your transaction will revert if it is pending for more than this long."
+          />
         </RowFixed>
         <RowFixed>
           <OptionCustom style={{ width: '80px' }} tabIndex={-1}>
@@ -242,7 +248,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               onChange={e => parseCustomDeadline(e.target.value)}
             />
           </OptionCustom>
-          <TYPE.body style={{ paddingLeft: '8px' }} fontSize={14}>
+          <TYPE.body style={{ paddingLeft: '8px' }} color={theme.text4} fontSize={14}>
             minutes
           </TYPE.body>
         </RowFixed>

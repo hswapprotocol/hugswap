@@ -57,13 +57,16 @@ export function useIsDarkMode(): boolean {
   return userDarkMode === null ? matchesDarkMode : userDarkMode
 }
 
-export function useDarkModeManager(): [boolean, () => void] {
+export function useDarkModeManager(): [boolean, (isDark: boolean) => void] {
   const dispatch = useDispatch<AppDispatch>()
   const darkMode = useIsDarkMode()
 
-  const toggleSetDarkMode = useCallback(() => {
-    dispatch(updateUserDarkMode({ userDarkMode: !darkMode }))
-  }, [darkMode, dispatch])
+  const toggleSetDarkMode = useCallback(
+    (isDark: boolean) => {
+      dispatch(updateUserDarkMode({ userDarkMode: isDark }))
+    },
+    [darkMode, dispatch]
+  )
 
   return [darkMode, toggleSetDarkMode]
 }
