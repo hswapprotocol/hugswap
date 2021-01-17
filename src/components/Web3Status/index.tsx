@@ -183,6 +183,7 @@ function Web3StatusInner() {
   if (account) {
     return (
       <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
+        {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
         {hasPendingTransactions ? (
           <RowBetween>
             <Text>{pending?.length} Pending</Text> <Loader stroke="white" />
@@ -193,7 +194,6 @@ function Web3StatusInner() {
             <Text>{ENSName || shortenAddress(account)}</Text>
           </>
         )}
-        {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
       </Web3StatusConnected>
     )
   } else if (error) {
