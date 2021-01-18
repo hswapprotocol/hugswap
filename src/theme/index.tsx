@@ -1,4 +1,4 @@
-import { transparentize } from 'polished'
+// import { transparentize } from 'polished'
 import React, { useMemo } from 'react'
 import styled, {
   ThemeProvider as StyledComponentsThemeProvider,
@@ -147,7 +147,8 @@ export function theme(darkMode: boolean): DefaultTheme {
     flexRowNoWrap: css`
       display: flex;
       flex-flow: row nowrap;
-    `
+    `,
+    darkMode
   }
 }
 
@@ -259,12 +260,10 @@ html {
 
 body {
   min-height: 100vh;
-  background-position: 0 -30vh;
-  background-repeat: no-repeat;
-  background-image: ${({ theme }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.9, theme.primary1)} 0%, ${transparentize(
-      1,
-      theme.bg1
-    )} 100%)`};
+  background: ${({ theme }) =>
+    theme.darkMode
+      ? `rgba(0, 0, 0, 0.6);`
+      : `radial-gradient(49.1% 87.28% at 50.9% 50%, rgba(223, 220, 254, 0.6) 0%, rgba(255, 255, 255, 0) 100%);`}
+  
 }
 `

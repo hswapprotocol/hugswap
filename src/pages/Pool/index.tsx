@@ -65,8 +65,7 @@ const ResponsiveButtonSecondary = styled(ButtonSecondary)`
 `
 
 const EmptyProposals = styled.div`
-  border: 1px solid ${({ theme }) => theme.text4};
-  padding: 16px 12px;
+  padding: 26px 12px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -153,58 +152,64 @@ export default function Pool() {
               </ButtonRow>
             </AppBodyWrapper>
 
-            {!account ? (
-              <Card padding="40px">
-                <TYPE.body color={theme.text3} textAlign="center">
-                  Connect to a wallet to view your liquidity.
-                </TYPE.body>
-              </Card>
-            ) : v2IsLoading ? (
-              <EmptyProposals>
-                <TYPE.body color={theme.text3} textAlign="center">
-                  <Dots>Loading</Dots>
-                </TYPE.body>
-              </EmptyProposals>
-            ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
-              <>
-                <ButtonSecondary>
-                  <RowBetween>
-                    <ExternalLink href={'https://uniswap.info/account/' + account}>
-                      Account analytics and accrued fees
-                    </ExternalLink>
-                    <span> ↗</span>
-                  </RowBetween>
-                </ButtonSecondary>
-                {v2PairsWithoutStakedAmount.map(v2Pair => (
-                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                ))}
-                {stakingPairs.map(
-                  (stakingPair, i) =>
-                    stakingPair[1] && ( // skip pairs that arent loaded
-                      <FullPositionCard
-                        key={stakingInfosWithBalance[i].stakingRewardAddress}
-                        pair={stakingPair[1]}
-                        stakedBalance={stakingInfosWithBalance[i].stakedAmount}
-                      />
-                    )
-                )}
-              </>
-            ) : (
-              <EmptyProposals>
-                <TYPE.body color={theme.text3} textAlign="center">
-                  No liquidity found.
-                </TYPE.body>
-              </EmptyProposals>
-            )}
-
-            <AutoColumn justify={'center'} gap="md">
-              <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
-                {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
-                <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
-                  {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
-                </StyledInternalLink>
-              </Text>
-            </AutoColumn>
+            <AppBodyWrapper>
+              <HideSmall>
+                <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
+                  我添加的流动性
+                </TYPE.mediumHeader>
+              </HideSmall>
+              {!account ? (
+                <Card padding="40px">
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    Connect to a wallet to view your liquidity.
+                  </TYPE.body>
+                </Card>
+              ) : v2IsLoading ? (
+                <EmptyProposals>
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    <Dots>Loading</Dots>
+                  </TYPE.body>
+                </EmptyProposals>
+              ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
+                <>
+                  <ButtonSecondary>
+                    <RowBetween>
+                      <ExternalLink href={'https://uniswap.info/account/' + account}>
+                        Account analytics and accrued fees
+                      </ExternalLink>
+                      <span> ↗</span>
+                    </RowBetween>
+                  </ButtonSecondary>
+                  {v2PairsWithoutStakedAmount.map(v2Pair => (
+                    <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                  ))}
+                  {stakingPairs.map(
+                    (stakingPair, i) =>
+                      stakingPair[1] && ( // skip pairs that arent loaded
+                        <FullPositionCard
+                          key={stakingInfosWithBalance[i].stakingRewardAddress}
+                          pair={stakingPair[1]}
+                          stakedBalance={stakingInfosWithBalance[i].stakedAmount}
+                        />
+                      )
+                  )}
+                </>
+              ) : (
+                <EmptyProposals>
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    还没有提供过流动性
+                  </TYPE.body>
+                </EmptyProposals>
+              )}
+              <AutoColumn justify={'center'} gap="md">
+                <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
+                  {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
+                  <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
+                    {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
+                  </StyledInternalLink>
+                </Text>
+              </AutoColumn>
+            </AppBodyWrapper>
           </AutoColumn>
         </AutoColumn>
       </PageWrapper>
