@@ -27,6 +27,54 @@ const PageWrapper = styled(AutoColumn)`
   width: 100%;
 `
 
+const HaloWrapper = styled.div`
+  position: relative;
+  &:before,
+  &:after,
+  & > div:first-child:after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+  &:before {
+    left: 16.32%;
+    right: 56.74%;
+    top: 30.74%;
+    bottom: 60%;
+    opacity: 0.36;
+    border: 50px solid #4100ff;
+    box-sizing: border-box;
+    filter: blur(111px);
+  }
+  &:after {
+    left: 55.9%;
+    right: 33.89%;
+    top: -10%;
+    bottom: 80%;
+    background: #01afa5;
+    opacity: 0.13;
+    border: 50px solid #01afa5;
+    box-sizing: border-box;
+    filter: blur(120px);
+  }
+  & > div:first-child::after {
+    left: 57.22%;
+    right: 32.85%;
+    top: 43.98%;
+    bottom: 42.78%;
+    opacity: 0.09;
+    border: 50px solid #ff00c7;
+    box-sizing: border-box;
+    filter: blur(120px);
+  }
+`
+
 const AppBodyWrapper = styled(BodyWrapper)`
   max-width: 100%;
   padding-left: 2rem;
@@ -126,8 +174,7 @@ export default function Pool() {
     <>
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
-
-        <AutoColumn gap="lg" justify="center">
+        <HaloWrapper>
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <AppBodyWrapper>
               <HideSmall>
@@ -211,7 +258,7 @@ export default function Pool() {
               </AutoColumn>
             </AppBodyWrapper>
           </AutoColumn>
-        </AutoColumn>
+        </HaloWrapper>
       </PageWrapper>
     </>
   )
