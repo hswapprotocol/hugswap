@@ -21,6 +21,7 @@ import { ButtonSecondary } from '../Button'
 
 import Identicon from '../Identicon'
 import Loader from '../Loader'
+import { ReactComponent as ConnectIcon } from '../../assets/svg/connect.svg'
 
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
@@ -61,13 +62,13 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   background-color: ${({ theme }) => theme.text6};
   border: none;
-  color: ${({ theme }) => theme.bg1};
+  color: ${({ theme }) => theme.text2} !important;
   font-weight: 500;
 
   :hover,
   :focus {
     border: 1px solid ${({ theme }) => darken(0.05, theme.text6)};
-    color: ${({ theme }) => theme.bg1};
+    color: ${({ theme }) => theme.text1};
   }
 
   ${({ faded }) =>
@@ -79,8 +80,8 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
 
       :hover,
       :focus {
-        background-color: ${({ theme }) => darken(-0.05, theme.text6)}};
-        border: 1px solid ${({ theme }) => darken(-0.05, theme.text6)};
+        background-color: ${({ theme }) => darken(0.05, theme.text6)}};
+        border: 1px solid ${({ theme }) => darken(0.05, theme.text6)};
         color: ${({ theme }) => darken(0.05, theme.bg1)};
       }
     `}
@@ -207,6 +208,7 @@ function Web3StatusInner() {
   } else {
     return (
       <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+        <ConnectIcon style={{ marginLeft: '6px' }} />
         <Text>{t('Connect to a wallet')}</Text>
       </Web3StatusConnect>
     )
