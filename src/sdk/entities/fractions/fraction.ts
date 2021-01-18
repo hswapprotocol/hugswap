@@ -8,7 +8,29 @@ import { BigintIsh, Rounding } from '../../constants'
 import { ONE } from '../../constants'
 import { parseBigintIsh } from '../../utils'
 
-const RoundingMode = require('big.js')
+// const RoundingMode = require('big.js')
+
+const RoundingMode = {
+    /**
+     * Rounds towards zero.
+     * I.e. truncate, no rounding.
+     */
+    RoundDown: 0,
+    /**
+     * Rounds towards nearest neighbour.
+     * If equidistant, rounds away from zero.
+     */
+    RoundHalfUp: 1,
+    /**
+     * Rounds towards nearest neighbour.
+     * If equidistant, rounds towards even neighbour.
+     */
+    RoundHalfEven: 2,
+    /**
+     * Rounds away from zero.
+     */
+    RoundUp: 3,
+}
 
 const Decimal = toFormat(_Decimal)
 const Big = toFormat(_Big)

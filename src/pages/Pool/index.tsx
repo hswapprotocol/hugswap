@@ -20,14 +20,23 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import { Dots } from '../../components/swap/styleds'
 import { useStakingInfo } from '../../state/stake/hooks'
 import { BIG_INT_ZERO } from '../../constants'
-import AppBody from '../AppBody'
+import { BodyWrapper } from '../AppBody'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
   width: 100%;
 `
 
+const AppBodyWrapper = styled(BodyWrapper)`
+  max-width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  width: 640px !important;
+`
+
 const ButtonRow = styled(RowFixed)`
+  width: 100%;
   gap: 8px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 100%;
@@ -38,6 +47,7 @@ const ButtonRow = styled(RowFixed)`
 
 const ResponsiveButtonPrimary = styled(ButtonPrimary)`
   width: fit-content;
+  margin-left: 0.8rem;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;
   `};
@@ -45,9 +55,13 @@ const ResponsiveButtonPrimary = styled(ButtonPrimary)`
 
 const ResponsiveButtonSecondary = styled(ButtonSecondary)`
   width: fit-content;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  border-color: ${({ theme }) => theme.text6}
+    ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;
   `};
+  &:hover {
+    border-color: ${({ theme }) => theme.text7};
+  }
 `
 
 const EmptyProposals = styled.div`
@@ -116,23 +130,28 @@ export default function Pool() {
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>
-            <AppBody>
+            <AppBodyWrapper>
               <HideSmall>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  Your liquidity
+                  提供流动性奖励
                 </TYPE.mediumHeader>
+                <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="1rem" textAlign="left">
+                  流动性提供者可获得0.3％的交易对手续费分成，该手续费会实时添加到流动池中，当撤回流动资金时能申领到该分成奖励。
+                </TYPE.subHeader>
               </HideSmall>
-              <ButtonRow>
-                <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/HT">
-                  Create a pair
+              <ButtonRow justify="flex-end">
+                <ResponsiveButtonSecondary as={Link} padding="6px 18px" to="/create/HT">
+                  <Text fontWeight={500} fontSize={14}>
+                    创建流动性
+                  </Text>
                 </ResponsiveButtonSecondary>
-                <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/HT">
-                  <Text fontWeight={500} fontSize={16}>
-                    Add Liquidity
+                <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 18px" to="/add/HT">
+                  <Text fontWeight={500} fontSize={14}>
+                    添加流动性
                   </Text>
                 </ResponsiveButtonPrimary>
               </ButtonRow>
-            </AppBody>
+            </AppBodyWrapper>
 
             {!account ? (
               <Card padding="40px">
