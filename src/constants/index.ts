@@ -7,7 +7,7 @@ import { injected, walletconnect } from '../connectors'
 // export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 
 // heco test地址
-export const ROUTER_ADDRESS = '0xF8f944D9384883073c829B02e7a65e5cCc8f9FdA'
+export const ROUTER_ADDRESS = '0x6a4d8aC99fC3E8E0836DA192d8cC12E615b2E3Ff'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 

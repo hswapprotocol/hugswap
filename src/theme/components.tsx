@@ -36,7 +36,11 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
 `
 
 export const CloseIcon = styled(X)<{ onClick: () => void }>`
+  color: ${({ theme }) => theme.text3};
   cursor: pointer;
+  :hover {
+    color: ${({ theme }) => theme.text1};
+  }
 `
 
 // A button that triggers some onClick result, but looks like a link.

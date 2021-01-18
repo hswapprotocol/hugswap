@@ -67,6 +67,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
     },
     { ...EMPTY_LIST }
   )
+  console.log({map});
   listCache?.set(list, map)
   return map
 }

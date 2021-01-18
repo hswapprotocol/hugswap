@@ -10,11 +10,10 @@ import { useAllTokens, useToken } from '../../hooks/Tokens'
 // import { useSelectedListInfo } from '../../state/lists/hooks'
 import { CloseIcon } from '../../theme'
 import { isAddress } from '../../utils'
-import Card from '../Card'
 import Column from '../Column'
 // import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
-import Row, { RowBetween } from '../Row'
+import { RowBetween } from '../Row'
 import CommonBases from './CommonBases'
 import CurrencyList from './CurrencyList'
 import { filterTokens } from './filtering'
@@ -141,7 +140,7 @@ export function CurrencySearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-            Select a token
+            Choose currency
             <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
           </Text>
           <CloseIcon onClick={onDismiss} />
@@ -182,13 +181,6 @@ export function CurrencySearch({
           )}
         </AutoSizer>
       </div>
-
-      <Separator />
-      <Card>
-        <RowBetween>
-          <Row>添加币种，请联系Hugswap</Row>
-        </RowBetween>
-      </Card>
     </Column>
   )
 }
