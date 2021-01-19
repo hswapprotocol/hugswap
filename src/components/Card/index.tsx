@@ -45,6 +45,13 @@ const BlueCardStyled = styled(Card)`
   width: fit-content;
 `
 
+export const NoBorderCardStyled = styled(Card)`
+  color: ${({ theme }) => theme.text4};
+  margin: 2rem auto 1.5rem;
+  padding: 0;
+  max-width: 17.5rem;
+`
+
 export const BlueCard = ({ children, ...rest }: CardProps) => {
   return (
     <BlueCardStyled {...rest}>

@@ -4,8 +4,8 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Link as HistoryLink } from 'react-router-dom'
 
-import { ArrowLeft } from 'react-feather'
-import { RowBetween } from '../Row'
+import { ArrowLeft, ChevronLeft } from 'react-feather'
+import { RowBetween, AutoRow } from '../Row'
 import QuestionHelper from '../QuestionHelper'
 
 const Tabs = styled.div`
@@ -45,11 +45,16 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const ActiveText = styled.div`
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
+  color: ${({ theme }) => theme.text2};
 `
 
 const StyledArrowLeft = styled(ArrowLeft)`
   color: ${({ theme }) => theme.text1};
+`
+
+const StyledChevronLeft = styled(ChevronLeft)`
+  color: ${({ theme }) => theme.text4};
 `
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
@@ -69,13 +74,12 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
 export function FindPoolTabs() {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <AutoRow style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
-          <StyledArrowLeft />
+          <StyledChevronLeft />
         </HistoryLink>
-        <ActiveText>Import Pool</ActiveText>
-        <QuestionHelper text={"Use this tool to find pairs that don't automatically appear in the interface."} />
-      </RowBetween>
+        <ActiveText style={{ textAlign: 'center', flex: 1, }}>Import</ActiveText>
+      </AutoRow>
     </Tabs>
   )
 }

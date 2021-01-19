@@ -1,7 +1,8 @@
 import { JSBI, Pair, Percent, TokenAmount } from '@src/sdk'
 import { darken } from 'polished'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
+import { ThemeContext } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components'
@@ -75,6 +76,7 @@ interface PositionCardProps {
 
 export function MinimalPositionCard({ pair, showUnwrapped = false, border }: PositionCardProps) {
   const { account } = useActiveWeb3React()
+  const htmlTheme = useContext(ThemeContext)
 
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
   const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1)
@@ -104,8 +106,8 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
   return (
     <>
       {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, JSBI.BigInt(0)) ? (
-        <GreyCard border={border}>
-          <AutoColumn gap="12px">
+        <GreyCard border={'0'} padding="20px 16px">
+          <AutoColumn gap="18px">
             <FixedHeightRow>
               <RowFixed>
                 <Text fontWeight={500} fontSize={16}>
@@ -116,32 +118,32 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <FixedHeightRow onClick={() => setShowMore(!showMore)}>
               <RowFixed>
                 <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />
-                <Text fontWeight={500} fontSize={20}>
-                  {currency0.symbol}/{currency1.symbol}
+                <Text fontWeight={500} fontSize={14}>
+                  {currency0.symbol}-{currency1.symbol}
                 </Text>
               </RowFixed>
               <RowFixed>
-                <Text fontWeight={500} fontSize={20}>
+                <Text fontWeight={500} fontSize={14}>
                   {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
                 </Text>
               </RowFixed>
             </FixedHeightRow>
-            <AutoColumn gap="4px">
+            <AutoColumn gap="12px">
               <FixedHeightRow>
-                <Text fontSize={16} fontWeight={500}>
-                  Your pool share:
+                <Text fontSize={14} fontWeight={500} color={htmlTheme.text4}>
+                  Your pool share
                 </Text>
-                <Text fontSize={16} fontWeight={500}>
+                <Text fontSize={14} fontWeight={500} color={htmlTheme.text3}>
                   {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
                 </Text>
               </FixedHeightRow>
               <FixedHeightRow>
-                <Text fontSize={16} fontWeight={500}>
-                  {currency0.symbol}:
+                <Text fontSize={14} fontWeight={500} color={htmlTheme.text4}>
+                  {currency0.symbol}
                 </Text>
                 {token0Deposited ? (
                   <RowFixed>
-                    <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
+                    <Text fontSize={14} fontWeight={500} marginLeft={'6px'} color={htmlTheme.text3}>
                       {token0Deposited?.toSignificant(6)}
                     </Text>
                   </RowFixed>
@@ -150,12 +152,12 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
                 )}
               </FixedHeightRow>
               <FixedHeightRow>
-                <Text fontSize={16} fontWeight={500}>
-                  {currency1.symbol}:
+                <Text fontSize={14} fontWeight={500} color={htmlTheme.text4}>
+                  {currency1.symbol}
                 </Text>
                 {token1Deposited ? (
                   <RowFixed>
-                    <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
+                    <Text fontSize={14} fontWeight={500} marginLeft={'6px'} color={htmlTheme.text3}>
                       {token1Deposited?.toSignificant(6)}
                     </Text>
                   </RowFixed>

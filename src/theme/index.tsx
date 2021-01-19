@@ -45,9 +45,9 @@ export function colors(darkMode: boolean): Colors {
     // 一级色 大标题、正文
     text2: darkMode ? '#E6E2F1' : '#191D2B',
     // 二级 小标题、正文
-    text3: darkMode ? '#A9B1C2' : '#4E5667',
+    text3: darkMode ? '#B0A9C2' : '#4E4E67',
     // 三级色 辅助类提示信息
-    text4: darkMode ? '#6B7384' : '#8E97AB',
+    text4: darkMode ? '#6B6C84' : '#8E8FAB',
     // 四级色 输入框内弱提示
     text5: darkMode ? '#4C5466' : '#AAB3C7',
 
@@ -78,7 +78,7 @@ export function colors(darkMode: boolean): Colors {
     // 背景色
     bg2: darkMode ? '#131522' : '#F1F3F6',
     // 辅助bg色
-    bg3: darkMode ? '#232737' : '#FBFBFC',
+    bg3: darkMode ? '#242438' : '#F6F6FB',
     // 小标签bg
     bg4: darkMode ? '#222C51' : '#ECEFFD',
     // 小标签bg
@@ -86,7 +86,7 @@ export function colors(darkMode: boolean): Colors {
     // Hover色
     bg5: darkMode ? '#37304B' : '#EAE7F5',
     // 分割线 & 边框色
-    bg6: darkMode ? '#2B3550' : '#D7DEF1',
+    bg6: darkMode ? '#2C2B50' : '#D9D7F1',
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
