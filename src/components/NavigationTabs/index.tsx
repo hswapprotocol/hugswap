@@ -4,9 +4,9 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Link as HistoryLink } from 'react-router-dom'
 
-import { ArrowLeft, ChevronLeft } from 'react-feather'
 import { RowBetween, AutoRow } from '../Row'
 import QuestionHelper from '../QuestionHelper'
+import { ReactComponent as Back } from '../../assets/images/back.svg'
 
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -49,12 +49,17 @@ const ActiveText = styled.div`
   color: ${({ theme }) => theme.text2};
 `
 
-const StyledArrowLeft = styled(ArrowLeft)`
-  color: ${({ theme }) => theme.text1};
-`
-
-const StyledChevronLeft = styled(ChevronLeft)`
-  color: ${({ theme }) => theme.text4};
+const StyledArrowLeft = styled(Back)`
+  path {
+    stroke: ${({ theme }) => theme.text3};
+  }
+  width: 9px;
+  height: 15px
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.text2};
+    }
+  }
 `
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
@@ -76,9 +81,9 @@ export function FindPoolTabs() {
     <Tabs>
       <AutoRow style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
-          <StyledChevronLeft />
+          <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText style={{ textAlign: 'center', flex: 1, }}>Import</ActiveText>
+        <ActiveText style={{ textAlign: 'center', flex: 1 }}>Import</ActiveText>
       </AutoRow>
     </Tabs>
   )
@@ -87,18 +92,18 @@ export function FindPoolTabs() {
 export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating: boolean }) {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <RowBetween style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText>{creating ? 'Create a pair' : adding ? 'Add Liquidity' : 'Remove Liquidity'}</ActiveText>
-        <QuestionHelper
-          text={
-            adding
-              ? 'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.'
-              : 'Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.'
-          }
-        />
+        <ActiveText style={adding ? {} : { textAlign: 'center', flex: 1, }}>{creating ? '创建流动性' : adding ? '添加流动性' : '移除流动性'}</ActiveText>
+        {
+            adding ?
+                (<QuestionHelper
+                text={'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.'}
+            />) : ''
+        }
+        
       </RowBetween>
     </Tabs>
   )
