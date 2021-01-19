@@ -43,7 +43,7 @@ export function colors(darkMode: boolean): Colors {
     // text，1-5dark下颜色越来越深
     text1: darkMode ? '#FFFFFF' : '#000000',
     // 一级色 大标题、正文
-    text2: darkMode ? '#DADFEA' : '#161B26',
+    text2: darkMode ? '#E6E2F1' : '#191D2B',
     // 二级 小标题、正文
     text3: darkMode ? '#A9B1C2' : '#4E5667',
     // 三级色 辅助类提示信息
@@ -74,7 +74,7 @@ export function colors(darkMode: boolean): Colors {
 
     // backgrounds / greys
     // 前景色
-    bg1: darkMode ? '#1F2333' : '#FFFFFF',
+    bg1: darkMode ? '#1E1E30' : '#FFFFFF',
     // 背景色
     bg2: darkMode ? '#131522' : '#F1F3F6',
     // 辅助bg色
@@ -82,7 +82,7 @@ export function colors(darkMode: boolean): Colors {
     // 小标签bg
     bg4: darkMode ? '#222C51' : '#ECEFFD',
     // Hover色
-    bg5: darkMode ? '#30354B' : '#E7EAF5',
+    bg5: darkMode ? '#37304B' : '#EAE7F5',
     // 分割线 & 边框色
     bg6: darkMode ? '#2B3550' : '#D7DEF1',
 
@@ -115,7 +115,8 @@ export function colors(darkMode: boolean): Colors {
     green1: '#27AE60',
     yellow1: '#FFE270',
     yellow2: '#F3841E',
-    blue1: '#2172E5'
+    blue1: '#2172E5',
+    shadow: darkMode ? '0px 4px 16px 4px rgba(0, 0, 0, 0.2)' : '0px 4px 16px rgba(131, 142, 163, 0.1)',
 
     // dont wanna forget these blue yet
     // blue4: darkMode ? '#153d6f70' : '#C4D9F8',
