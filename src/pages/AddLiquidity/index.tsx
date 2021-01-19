@@ -6,7 +6,7 @@ import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { ButtonError, ButtonLight, ButtonPrimary } from '../../components/Button'
 import { BlueCard, LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
@@ -38,6 +38,11 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
+
+const TokensText = styled.div`
+  font-size: 16px;
+  color: ${({ theme }) => theme.text4};
+`
 
 export default function AddLiquidity({
   match: {
@@ -212,38 +217,38 @@ export default function AddLiquidity({
       <AutoColumn gap="20px">
         <LightCard mt="20px" borderRadius="20px">
           <RowFlat>
-            <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
+            <Text fontSize="32px" fontWeight={500} lineHeight="32px" marginRight={10}>
               {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol}
             </Text>
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
               currency1={currencies[Field.CURRENCY_B]}
-              size={30}
+              size={32}
             />
           </RowFlat>
         </LightCard>
       </AutoColumn>
     ) : (
       <AutoColumn gap="20px">
-        <RowFlat style={{ marginTop: '20px' }}>
-          <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
+        <RowFlat style={{ marginTop: '40px' }}>
+          <Text fontSize="32px" fontWeight={500} lineHeight="32px" marginRight={10}>
             {liquidityMinted?.toSignificant(6)}
           </Text>
           <DoubleCurrencyLogo
             currency0={currencies[Field.CURRENCY_A]}
             currency1={currencies[Field.CURRENCY_B]}
-            size={30}
+            size={32}
           />
         </RowFlat>
         <Row>
-          <Text fontSize="24px">
+          <TokensText>
             {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol + ' Pool Tokens'}
-          </Text>
+          </TokensText>
         </Row>
-        <TYPE.italic fontSize={12} textAlign="left" padding={'8px 0 0 0 '}>
+        <Text fontSize={14} textAlign="left" padding={'8px 0 0 0 '}>
           {`Output is estimated. If the price changes by more than ${allowedSlippage /
             100}% your transaction will revert.`}
-        </TYPE.italic>
+        </Text>
       </AutoColumn>
     )
   }
@@ -315,7 +320,7 @@ export default function AddLiquidity({
             hash={txHash}
             content={() => (
               <ConfirmationModalContent
-                title={noLiquidity ? 'You are creating a pool' : 'You will receive'}
+                title={noLiquidity ? 'You are creating a pool' : 'You will get'}
                 onDismiss={handleDismissConfirmation}
                 topContent={modalHeader}
                 bottomContent={modalBottom}
