@@ -350,7 +350,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
             </RowBetween>
           )}
           <ButtonEmptyWrap>
-            <Link2 style={{ width: '100%', textAlign: 'center' }} href={`https://uniswap.info/account/${account}`}>
+            <Link2 style={{ width: '100%', textAlign: 'center' }} href={`https://info.hugswap.com/account/${account}`}>
               查看数据分析
             </Link2>
           </ButtonEmptyWrap>

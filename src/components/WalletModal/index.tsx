@@ -7,6 +7,7 @@ import ReactGA from 'react-ga'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
+import { ReactComponent as Back } from '../../assets/images/back.svg'
 import { fortmatic, injected, portis } from '../../connectors'
 import { OVERLAY_READY } from '../../connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from '../../constants'
@@ -26,13 +27,29 @@ const CloseIcon = styled.div`
   top: 14px;
   &:hover {
     cursor: pointer;
-    opacity: 0.6;
   }
 `
 
 const CloseColor = styled(Close)`
-  path {
-    stroke: ${({ theme }) => theme.text4};
+  &:hover {
+    & * {
+      stroke: ${({ theme }) => theme.text2};
+    }
+  }
+  & * {
+    stroke: ${({ theme }) => theme.text3};
+  }
+`
+
+const BackColor = styled(Back)`
+  margin-left: 10px;
+  &:hover {
+    & * {
+      stroke: ${({ theme }) => theme.text1};
+    }
+  }
+  & * {
+    stroke: ${({ theme }) => theme.text2};
   }
 `
 
@@ -54,8 +71,7 @@ const HeaderRow = styled.div`
 `
 
 const ContentWrapper = styled.div`
-  background-color: ${({ theme }) => theme.bg2};
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 
@@ -226,7 +242,9 @@ export default function WalletModal({
               color={option.color}
               link={option.href}
               header={option.name}
-              subheader={null}
+              subheader={option.subheader}
+              subheaderLink={option.subheaderLink}
+              size={32}
               icon={require('../../assets/images/' + option.iconName)}
             />
           )
@@ -245,8 +263,10 @@ export default function WalletModal({
                 key={key}
                 color={'#E8831D'}
                 header={'Install Metamask'}
-                subheader={null}
+                subheader={option.subheader}
+                subheaderLink={option.subheaderLink}
                 link={'https://metamask.io/'}
+                size={32}
                 icon={MetamaskIcon}
               />
             )
@@ -280,7 +300,9 @@ export default function WalletModal({
             color={option.color}
             link={option.href}
             header={option.name}
-            subheader={null} //use option.descriptio to bring back multi-line
+            subheader={option.subheader} //use option.descriptio to bring back multi-line
+            subheaderLink={option.subheaderLink}
+            size={32}
             icon={require('../../assets/images/' + option.iconName)}
           />
         )
@@ -330,7 +352,7 @@ export default function WalletModal({
                 setWalletView(WALLET_VIEWS.ACCOUNT)
               }}
             >
-              Back
+              <BackColor />
             </HoverText>
           </HeaderRow>
         ) : (

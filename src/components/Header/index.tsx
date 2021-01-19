@@ -316,7 +316,7 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
-          <StyledExternalLink id={`stake-nav-link`} href={'https://uniswap.info'}>
+          <StyledExternalLink id={`stake-nav-link`} href={'https://info.hugswap.com'}>
             Info
           </StyledExternalLink>
         </HeaderLinks>

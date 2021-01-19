@@ -123,7 +123,9 @@ export interface WalletInfo {
   color: string
   primary?: true
   mobile?: true
-  mobileOnly?: true
+  mobileOnly?: true,
+  subheader?: string,
+  subheaderLink?: string,
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
@@ -138,11 +140,13 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   },
   METAMASK: {
     connector: injected,
-    name: 'MetaMask',
+    name: 'METAMASK',
     iconName: 'metamask.png',
     description: 'Easy-to-use browser extension.',
     href: null,
-    color: '#E8831D'
+    color: '#E8831D',
+    subheader: '如何在 metamask 上切换 Heco 主网？',
+    subheaderLink: 'https://www.defibox.com/defiStrategy/113'
   },
   WALLET_CONNECT: {
     connector: walletconnect,
@@ -151,6 +155,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
     href: null,
     color: '#4196FC',
+    subheader: 'Heco 推荐钱包',
+    subheaderLink: 'https://docs.hecochain.com/#/wallet',
     mobile: true
   },
   // WALLET_LINK: {

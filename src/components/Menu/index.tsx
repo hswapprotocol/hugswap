@@ -107,11 +107,11 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://uniswap.org/">
+          <MenuItem id="link" href="https://hugswap.com/">
             <Info size={14} />
             About
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.org/docs/v2">
+          <MenuItem id="link" href="https://hugswap.com/docs/v2">
             <BookOpen size={14} />
             Docs
           </MenuItem>
@@ -123,7 +123,7 @@ export default function Menu() {
             <MessageCircle size={14} />
             Discord
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.info/">
+          <MenuItem id="link" href="https://info.hugswap.com/">
             <PieChart size={14} />
             Analytics
           </MenuItem>
