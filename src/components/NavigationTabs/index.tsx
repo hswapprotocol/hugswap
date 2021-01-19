@@ -4,9 +4,9 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Link as HistoryLink } from 'react-router-dom'
 
-import { ArrowLeft } from 'react-feather'
 import { RowBetween } from '../Row'
 import QuestionHelper from '../QuestionHelper'
+import { ReactComponent as Back } from '../../assets/images/back.svg'
 
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -48,8 +48,17 @@ const ActiveText = styled.div`
   font-size: 20px;
 `
 
-const StyledArrowLeft = styled(ArrowLeft)`
-  color: ${({ theme }) => theme.text1};
+const StyledArrowLeft = styled(Back)`
+  path {
+    stroke: ${({ theme }) => theme.text3};
+  }
+  width: 10px;
+  height: 17px
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.text2};
+    }
+  }
 `
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
@@ -69,7 +78,7 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
 export function FindPoolTabs() {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <RowBetween style={{ padding: '1rem 0' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
@@ -83,11 +92,11 @@ export function FindPoolTabs() {
 export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating: boolean }) {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <RowBetween style={{ padding: '1rem 0' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText>{creating ? 'Create a pair' : adding ? 'Add Liquidity' : 'Remove Liquidity'}</ActiveText>
+        <ActiveText>{creating ? '创建流动性' : adding ? '添加流动性' : '移除流动性'}</ActiveText>
         <QuestionHelper
           text={
             adding
