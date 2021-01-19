@@ -57,9 +57,9 @@ const HaloWrapper = styled.div`
     right: 33.89%;
     top: -10%;
     bottom: 80%;
-    background: #01afa5;
-    opacity: 0.13;
-    border: 50px solid #01afa5;
+    background: #000aff;
+    opacity: 0.12;
+    border: 50px solid #000aff;
     box-sizing: border-box;
     filter: blur(120px);
   }
