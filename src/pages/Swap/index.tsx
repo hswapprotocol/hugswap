@@ -81,6 +81,7 @@ const TreeBallsWrapper = styled.div`
     display: block;
     position: absolute;
     border-radius: 50%;
+    filter: blur(120px);
   }
   & > div:first-child {
     opacity: 0.83;
@@ -89,7 +90,6 @@ const TreeBallsWrapper = styled.div`
     height: 147px;
     width: 147px;
     background: #01AFA5;
-    filter: blur(120px);
   }
   & > div:first-child + div {
     opacity: 0.57;
@@ -98,7 +98,6 @@ const TreeBallsWrapper = styled.div`
     height: 100px;
     width: 100px;
     background: #4100FF;
-    filter: blur(120px);
   }
   & > div:last-child {
     opacity: 0.9;
@@ -107,7 +106,6 @@ const TreeBallsWrapper = styled.div`
     height: 100px;
     width: 100px;
     background: #FF00C7;
-    filter: blur(120px);
   }
 `
 const TreeBalls = () => {

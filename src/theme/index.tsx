@@ -81,6 +81,8 @@ export function colors(darkMode: boolean): Colors {
     bg3: darkMode ? '#232737' : '#FBFBFC',
     // 小标签bg
     bg4: darkMode ? '#222C51' : '#ECEFFD',
+    // 小标签bg
+    bgTagS: darkMode ? '#2B2251' : '#F0ECFD',
     // Hover色
     bg5: darkMode ? '#37304B' : '#EAE7F5',
     // 分割线 & 边框色
