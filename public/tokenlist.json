@@ -8,7 +8,10 @@
   },
   "tags": {},
   "logoURI": "ipfs://QmZgpZq1HkVS7YCThNJeR51KFVo5AL8P3ThA2y9wcw53p9",
-  "keywords": ["Chicken", "default"],
+  "keywords": [
+    "Chicken",
+    "default"
+  ],
   "tokens": [
     {
       "name": "Wrapped Ether",
@@ -111,12 +114,12 @@
       "chainId": 42
     },
     {
-      "name": "Wrapped Ether",
+      "name": "Wrapped HT",
       "address": "0xA3402dc2616D57F2cbCE2F6e0Aeb7e3F0953d8dd",
       "symbol": "WHT",
       "decimals": 18,
       "chainId": 256,
-      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/2502.png"
+      "logoURI": "https://localhost:3000/images/Hicon/HT.svg"
     },
     {
       "name": "Tether COIN",

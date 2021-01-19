@@ -1,0 +1,18 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="80" height="80" rx="40" fill="url(#paint0_radial)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.1704 21.0526H28.6607V62.0885H22.1704V21.0526Z" fill="#1D2243"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35.1804 21.0526H41.6707V62.0885H35.1804V21.0526Z" fill="#2EA7DF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.1691 45.605V39.1019H48.6541C51.854 39.1019 54.4482 36.5172 54.4482 33.3288C54.4482 30.1404 51.854 27.5557 48.6541 27.5557H35.1579V21.0526H48.6541C55.4587 21.0526 60.9749 26.5489 60.9749 33.3288C60.9749 40.1088 55.4587 45.605 48.6541 45.605H22.1691Z" fill="#2EA7DF"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="22" y="21" width="39" height="25">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.1691 45.605V39.1019H48.6541C51.854 39.1019 54.4482 36.5172 54.4482 33.3288C54.4482 30.1404 51.854 27.5557 48.6541 27.5557H35.1579V21.0526H48.6541C55.4587 21.0526 60.9749 26.5489 60.9749 33.3288C60.9749 40.1088 55.4587 45.605 48.6541 45.605H22.1691Z" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.1691 39.0628H35.1818V45.6509H22.1691V39.0628Z" fill="#1D2243"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(40 40) scale(48.3142)">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="#E9E9E9"/>
+</radialGradient>
+</defs>
+</svg>
