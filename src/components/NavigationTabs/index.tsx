@@ -53,8 +53,8 @@ const StyledArrowLeft = styled(Back)`
   path {
     stroke: ${({ theme }) => theme.text3};
   }
-  width: 10px;
-  height: 17px
+  width: 9px;
+  height: 15px
   &:hover {
     path {
       stroke: ${({ theme }) => theme.text2};
@@ -92,7 +92,7 @@ export function FindPoolTabs() {
 export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating: boolean }) {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem 0' }}>
+      <RowBetween style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
