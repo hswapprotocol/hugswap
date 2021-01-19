@@ -4,7 +4,7 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Link as HistoryLink } from 'react-router-dom'
 
-import { RowBetween } from '../Row'
+import { RowBetween, AutoRow } from '../Row'
 import QuestionHelper from '../QuestionHelper'
 import { ReactComponent as Back } from '../../assets/images/back.svg'
 
@@ -45,7 +45,8 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const ActiveText = styled.div`
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
+  color: ${({ theme }) => theme.text2};
 `
 
 const StyledArrowLeft = styled(Back)`
@@ -78,13 +79,12 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
 export function FindPoolTabs() {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem 0' }}>
+      <AutoRow style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText>Import Pool</ActiveText>
-        <QuestionHelper text={"Use this tool to find pairs that don't automatically appear in the interface."} />
-      </RowBetween>
+        <ActiveText style={{ textAlign: 'center', flex: 1 }}>Import</ActiveText>
+      </AutoRow>
     </Tabs>
   )
 }

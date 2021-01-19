@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { Code, Twitter, Info, Send } from 'react-feather'
 import styled from 'styled-components'
-// import TwitterIcon from '../../assets/svg/twitter.svg'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/actions'
