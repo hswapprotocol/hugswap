@@ -26,8 +26,9 @@ export function getNetworkLibrary(): Web3Provider {
   return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any))
 }
 
+// 支持的网络id
 export const injected = new InjectedConnector({
-  supportedChainIds: [3, 4, 5, 42, 128, 256]
+  supportedChainIds: [128, 256]
 })
 
 // mainnet only
