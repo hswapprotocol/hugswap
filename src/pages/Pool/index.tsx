@@ -7,7 +7,7 @@ import { SwapPoolTabs } from '../../components/NavigationTabs'
 import FullPositionCard from '../../components/PositionCard'
 import { useUserHasLiquidityInAllTokens } from '../../data/V1'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import { StyledInternalLink, TYPE, HideSmall } from '../../theme'
+import { StyledInternalLink, TYPE } from '../../theme'
 import { Text } from 'rebass'
 import Card from '../../components/Card'
 import { RowFixed } from '../../components/Row'
@@ -81,6 +81,9 @@ const AppBodyWrapper = styled(BodyWrapper)`
   padding-right: 2rem;
   padding-bottom: 2rem;
   width: 640px !important;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 100% !important;
+  `};
 `
 
 const ButtonRow = styled(RowFixed)`
@@ -177,14 +180,12 @@ export default function Pool() {
         <HaloWrapper>
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <AppBodyWrapper>
-              <HideSmall>
-                <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  提供流动性奖励
-                </TYPE.mediumHeader>
-                <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="1rem" textAlign="left">
-                  流动性提供者可获得0.3％的交易对手续费分成，该手续费会实时添加到流动池中，当撤回流动资金时能申领到该分成奖励。
-                </TYPE.subHeader>
-              </HideSmall>
+              <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
+                提供流动性奖励
+              </TYPE.mediumHeader>
+              <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="1rem" textAlign="left">
+                流动性提供者可获得0.3％的交易对手续费分成，该手续费会实时添加到流动池中，当撤回流动资金时能申领到该分成奖励。
+              </TYPE.subHeader>
               <ButtonRow justify="flex-end">
                 <ResponsiveButtonSecondary as={Link} padding="6px 18px" to="/create/HT">
                   <Text fontWeight={500} fontSize={14}>
@@ -200,11 +201,9 @@ export default function Pool() {
             </AppBodyWrapper>
 
             <AppBodyWrapper>
-              <HideSmall>
-                <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  我添加的流动性
-                </TYPE.mediumHeader>
-              </HideSmall>
+              <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
+                我添加的流动性
+              </TYPE.mediumHeader>
               {!account ? (
                 <Card padding="40px">
                   <TYPE.body color={theme.text3} textAlign="center">
