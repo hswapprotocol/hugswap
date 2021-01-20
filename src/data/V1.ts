@@ -19,7 +19,7 @@ import { useAllTokens } from '../hooks/Tokens'
 import { useV1FactoryContract } from '../hooks/useContract'
 import { Version } from '../hooks/useToggledVersion'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
-import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
+import { useHTBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
   const contract = useV1FactoryContract()
@@ -37,15 +37,15 @@ export class MockV1Pair extends Pair {
 function useMockV1Pair(inputCurrency?: Currency): MockV1Pair | undefined {
   const token = inputCurrency instanceof Token ? inputCurrency : undefined
 
-  const isWETH = Boolean(token && token.equals(WHT[token.chainId]))
-  const v1PairAddress = useV1ExchangeAddress(isWETH ? undefined : token?.address)
+  const isWHT = Boolean(token && token.equals(WHT[token.chainId]))
+  const v1PairAddress = useV1ExchangeAddress(isWHT ? undefined : token?.address)
   const tokenBalance = useTokenBalance(v1PairAddress, token)
-  const ETHBalance = useETHBalances([v1PairAddress])[v1PairAddress ?? '']
+  const HTBalance = useHTBalances([v1PairAddress])[v1PairAddress ?? '']
 
   return useMemo(
     () =>
-      token && tokenBalance && ETHBalance && inputCurrency ? new MockV1Pair(ETHBalance.raw, tokenBalance) : undefined,
-    [ETHBalance, inputCurrency, token, tokenBalance]
+      token && tokenBalance && HTBalance && inputCurrency ? new MockV1Pair(HTBalance.raw, tokenBalance) : undefined,
+    [HTBalance, inputCurrency, token, tokenBalance]
   )
 }
 
@@ -106,14 +106,14 @@ export function useV1Trade(
   const inputPair = useMockV1Pair(inputCurrency)
   const outputPair = useMockV1Pair(outputCurrency)
 
-  const inputIsETH = inputCurrency === ETHER
-  const outputIsETH = outputCurrency === ETHER
+  const inputIsHT = inputCurrency === ETHER
+  const outputIsHT = outputCurrency === ETHER
 
   // construct a direct or through HT v1 route
   let pairs: Pair[] = []
-  if (inputIsETH && outputPair) {
+  if (inputIsHT && outputPair) {
     pairs = [outputPair]
-  } else if (outputIsETH && inputPair) {
+  } else if (outputIsHT && inputPair) {
     pairs = [inputPair]
   }
   // if neither are HT, it's token-to-token (if they both exist)

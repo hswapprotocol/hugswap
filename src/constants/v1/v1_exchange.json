@@ -9,7 +9,7 @@
       },
       {
         "type": "uint256",
-        "name": "eth_sold",
+        "name": "ht_sold",
         "indexed": true
       },
       {
@@ -36,7 +36,7 @@
       },
       {
         "type": "uint256",
-        "name": "eth_bought",
+        "name": "ht_bought",
         "indexed": true
       }
     ],
@@ -53,7 +53,7 @@
       },
       {
         "type": "uint256",
-        "name": "eth_amount",
+        "name": "ht_amount",
         "indexed": true
       },
       {
@@ -75,7 +75,7 @@
       },
       {
         "type": "uint256",
-        "name": "eth_amount",
+        "name": "ht_amount",
         "indexed": true
       },
       {
@@ -189,7 +189,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth"
+        "name": "min_ht"
       },
       {
         "type": "uint256",
@@ -213,7 +213,7 @@
     "type": "function"
   },
   {
-    "name": "ethToTokenSwapInput",
+    "name": "htToTokenSwapInput",
     "outputs": [
       {
         "type": "uint256",
@@ -235,7 +235,7 @@
     "type": "function"
   },
   {
-    "name": "ethToTokenTransferInput",
+    "name": "htToTokenTransferInput",
     "outputs": [
       {
         "type": "uint256",
@@ -261,7 +261,7 @@
     "type": "function"
   },
   {
-    "name": "ethToTokenSwapOutput",
+    "name": "htToTokenSwapOutput",
     "outputs": [
       {
         "type": "uint256",
@@ -283,7 +283,7 @@
     "type": "function"
   },
   {
-    "name": "ethToTokenTransferOutput",
+    "name": "htToTokenTransferOutput",
     "outputs": [
       {
         "type": "uint256",
@@ -323,7 +323,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth"
+        "name": "min_ht"
       },
       {
         "type": "uint256",
@@ -349,7 +349,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth"
+        "name": "min_ht"
       },
       {
         "type": "uint256",
@@ -375,7 +375,7 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "eth_bought"
+        "name": "ht_bought"
       },
       {
         "type": "uint256",
@@ -401,7 +401,7 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "eth_bought"
+        "name": "ht_bought"
       },
       {
         "type": "uint256",
@@ -439,7 +439,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth_bought"
+        "name": "min_ht_bought"
       },
       {
         "type": "uint256",
@@ -473,7 +473,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth_bought"
+        "name": "min_ht_bought"
       },
       {
         "type": "uint256",
@@ -511,7 +511,7 @@
       },
       {
         "type": "uint256",
-        "name": "max_eth_sold"
+        "name": "max_ht_sold"
       },
       {
         "type": "uint256",
@@ -545,7 +545,7 @@
       },
       {
         "type": "uint256",
-        "name": "max_eth_sold"
+        "name": "max_ht_sold"
       },
       {
         "type": "uint256",
@@ -583,7 +583,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth_bought"
+        "name": "min_ht_bought"
       },
       {
         "type": "uint256",
@@ -617,7 +617,7 @@
       },
       {
         "type": "uint256",
-        "name": "min_eth_bought"
+        "name": "min_ht_bought"
       },
       {
         "type": "uint256",
@@ -655,7 +655,7 @@
       },
       {
         "type": "uint256",
-        "name": "max_eth_sold"
+        "name": "max_ht_sold"
       },
       {
         "type": "uint256",
@@ -689,7 +689,7 @@
       },
       {
         "type": "uint256",
-        "name": "max_eth_sold"
+        "name": "max_ht_sold"
       },
       {
         "type": "uint256",
@@ -719,7 +719,7 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "eth_sold"
+        "name": "ht_sold"
       }
     ],
     "constant": true,
@@ -773,7 +773,7 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "eth_bought"
+        "name": "ht_bought"
       }
     ],
     "constant": true,

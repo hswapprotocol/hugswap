@@ -66,7 +66,7 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.HECO_MAINNET]: '0x090D4613473dEE047c3f2706764f49E0821D256e'
 }
 
-const WETH_ONLY: ChainTokenList = {
+const WHT_ONLY: ChainTokenList = {
   [ChainId.HECO_MAINNET]: [WHT[ChainId.HECO_MAINNET]],
   [ChainId.ROPSTEN]: [WHT[ChainId.ROPSTEN]],
   [ChainId.RINKEBY]: [WHT[ChainId.RINKEBY]],
@@ -77,8 +77,8 @@ const WETH_ONLY: ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  ...WETH_ONLY,
-  [ChainId.HECO_MAINNET]: [...WETH_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT, COMP, MKR]
+  ...WHT_ONLY,
+  [ChainId.HECO_MAINNET]: [...WHT_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT, COMP, MKR]
 }
 
 /**
@@ -93,14 +93,14 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  ...WETH_ONLY,
-  [ChainId.HECO_MAINNET]: [...WETH_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT]
+  ...WHT_ONLY,
+  [ChainId.HECO_MAINNET]: [...WHT_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  ...WETH_ONLY,
-  [ChainId.HECO_MAINNET]: [...WETH_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT]
+  ...WHT_ONLY,
+  [ChainId.HECO_MAINNET]: [...WHT_ONLY[ChainId.HECO_MAINNET], DAI, USDC, USDT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -196,7 +196,7 @@ export const PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN: Percent = new Percent(JSBI.Bi
 export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(1500), BIPS_BASE) // 15%
 
 // used to ensure the user doesn't send so much HT so they end up with <.01
-export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 HT
+export const MIN_HT: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 HT
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000))
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), JSBI.BigInt(10000))
 

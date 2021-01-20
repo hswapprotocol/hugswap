@@ -5,7 +5,7 @@ import v1SwapArguments from './v1SwapArguments'
 
 describe('v1SwapArguments', () => {
   const USDC_WHT = new MockV1Pair('1000000', new TokenAmount(USDC, '1000000'))
-  const DAI_WETH = new MockV1Pair('1000000', new TokenAmount(DAI, '1000000'))
+  const DAI_WHT = new MockV1Pair('1000000', new TokenAmount(DAI, '1000000'))
 
   // just some random address
   const TEST_RECIPIENT_ADDRESS = USDC_WHT.liquidityToken.address
@@ -36,7 +36,7 @@ describe('v1SwapArguments', () => {
     expect(result.value).toEqual('0x0')
   })
   it('exact token to token', () => {
-    const trade = Trade.exactIn(new Route([USDC_WHT, DAI_WETH], USDC), new TokenAmount(USDC, '100'))
+    const trade = Trade.exactIn(new Route([USDC_WHT, DAI_WHT], USDC), new TokenAmount(USDC, '100'))
     const result = v1SwapArguments(trade, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
@@ -79,7 +79,7 @@ describe('v1SwapArguments', () => {
     expect(result.value).toEqual('0x0')
   })
   it('token to exact token', () => {
-    const trade = Trade.exactOut(new Route([USDC_WHT, DAI_WETH], USDC), new TokenAmount(DAI, '100'))
+    const trade = Trade.exactOut(new Route([USDC_WHT, DAI_WHT], USDC), new TokenAmount(DAI, '100'))
     const result = v1SwapArguments(trade, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),

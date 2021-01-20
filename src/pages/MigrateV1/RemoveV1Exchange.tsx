@@ -14,7 +14,7 @@ import { useToken } from '../../hooks/Tokens'
 import { useV1ExchangeContract } from '../../hooks/useContract'
 import { NEVER_RELOAD, useSingleCallResult } from '../../state/multicall/hooks'
 import { useIsTransactionPending, useTransactionAdder } from '../../state/transactions/hooks'
-import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
+import { useTokenBalance, useHTBalances } from '../../state/wallet/hooks'
 import { BackArrow, TYPE } from '../../theme'
 import { isAddress } from '../../utils'
 import { BodyWrapper } from '../AppBody'
@@ -41,7 +41,7 @@ function V1PairRemoval({
 }) {
   const { chainId } = useActiveWeb3React()
   const totalSupply = useTotalSupply(liquidityTokenAmount.token)
-  const exchangeETHBalance = useETHBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
+  const exchangeHTBalance = useHTBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
   const exchangeTokenBalance = useTokenBalance(liquidityTokenAmount.token.address, token)
 
   const [confirmingRemoval, setConfirmingRemoval] = useState<boolean>(false)
@@ -49,8 +49,8 @@ function V1PairRemoval({
 
   const shareFraction: Fraction = totalSupply ? new Percent(liquidityTokenAmount.raw, totalSupply.raw) : ZERO_FRACTION
 
-  const ethWorth: CurrencyAmount = exchangeETHBalance
-    ? CurrencyAmount.ether(exchangeETHBalance.multiply(shareFraction).multiply(WEI_DENOM).quotient)
+  const ethWorth: CurrencyAmount = exchangeHTBalance
+    ? CurrencyAmount.ether(exchangeHTBalance.multiply(shareFraction).multiply(WEI_DENOM).quotient)
     : CurrencyAmount.ether(ZERO)
 
   const tokenWorth: TokenAmount = exchangeTokenBalance

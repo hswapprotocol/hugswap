@@ -86,10 +86,10 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
   const [, stakingTokenPair] = usePair(...stakingInfo.tokens)
 
   // let returnOverMonth: Percent = new Percent('0')
-  let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
+  let valueOfTotalStakedAmountInWHT: TokenAmount | undefined
   if (totalSupplyOfStakingToken && stakingTokenPair) {
     // take the total amount of LP tokens staked, multiply by HT value of all LP tokens, divide by all LP tokens
-    valueOfTotalStakedAmountInWETH = new TokenAmount(
+    valueOfTotalStakedAmountInWHT = new TokenAmount(
       WHT,
       JSBI.divide(
         JSBI.multiply(
@@ -103,8 +103,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 
   // get the USD value of staked WHT
   const USDPrice = useUSDCPrice(WHT)
-  const valueOfTotalStakedAmountInUSDC =
-    valueOfTotalStakedAmountInWETH && USDPrice?.quote(valueOfTotalStakedAmountInWETH)
+  const valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWHT && USDPrice?.quote(valueOfTotalStakedAmountInWHT)
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -130,7 +129,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
           <TYPE.white>
             {valueOfTotalStakedAmountInUSDC
               ? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-              : `${valueOfTotalStakedAmountInWETH?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} HT`}
+              : `${valueOfTotalStakedAmountInWHT?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} HT`}
           </TYPE.white>
         </RowBetween>
         <RowBetween>

@@ -64,7 +64,7 @@ export function CurrencySearch({
     }
   }, [isAddressSearch])
 
-  const showETH: boolean = useMemo(() => {
+  const showHT: boolean = useMemo(() => {
     const s = searchQuery.toLowerCase().trim()
     return s === '' || s === 'h' || s === 'ht'
   }, [searchQuery])
@@ -171,7 +171,7 @@ export function CurrencySearch({
           {({ height }) => (
             <CurrencyList
               height={height}
-              showETH={showETH}
+              showHT={showHT}
               currencies={filteredSortedTokens}
               onCurrencySelect={handleCurrencySelect}
               otherCurrency={otherSelectedCurrency}

@@ -13,7 +13,7 @@ import { useTotalUniEarned } from '../stake/hooks'
 /**
  * Returns a map of the given addresses to their eventually consistent HT balances.
  */
-export function useETHBalances(
+export function useHTBalances(
   uncheckedAddresses?: (string | undefined)[]
 ): { [address: string]: CurrencyAmount | undefined } {
   const multicallContract = useMulticallContract()
@@ -106,8 +106,8 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
-  const ethBalance = useETHBalances(containsETH ? [account] : [])
+  const containsHT: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
+  const ethBalance = useHTBalances(containsHT ? [account] : [])
 
   return useMemo(
     () =>
