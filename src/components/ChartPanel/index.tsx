@@ -11,6 +11,8 @@ import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
 import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart } from 'recharts'
 import { toK, toNiceDate, toNiceDateYear, formattedNum } from '../../utils'
+import { useSelectedListInfo } from '../../state/lists/hooks'
+import { ZERO_ADDRESS } from '../../constants/index' // HT的地址，是零地址
 
 const ChartWrapper = styled.div``
 const ChartName = styled.div`
@@ -123,6 +125,12 @@ const Chart = styled.div``
 // const DATA_FREQUENCY = {
 //   LINE: 'LINE',
 // }
+interface DefaultToken {
+  decimals: number
+  name: string
+  symbol: string
+}
+
 const defaultTokens = [
   {
     decimals: 18,
@@ -136,14 +144,27 @@ const defaultTokens = [
   }
 ]
 
+const getTokenInfo = (symbol: any = '') => {
+  const allTokens = useSelectedListInfo()
+  if (symbol === 'HT') {
+    return {
+      ...Currency.ETHER,
+      address: ZERO_ADDRESS
+    }
+  }
+  return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
+}
+
 interface ChartPanelProps {
   id: string
-  tokenA: Currency | null | undefined
-  tokenB: Currency | null | undefined
+  tokenA: Currency | DefaultToken | undefined
+  tokenB: Currency | DefaultToken | undefined
 }
 export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
   const currency = tokenA || tokenB || Currency.ETHER
   const theme = useContext(ThemeContext)
+  console.log('tokenAInfo:', getTokenInfo(tokenA?.symbol))
+  console.log('tokenBInfo:', getTokenInfo(tokenB?.symbol))
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
