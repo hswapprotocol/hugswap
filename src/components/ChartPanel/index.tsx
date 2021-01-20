@@ -124,7 +124,6 @@ export default function ChartPanel({
   currency,
   otherCurrency,
 }: ChartPanelProps) {
-  // const theme = useContext(ThemeContext)
   currency = Currency.ETHER;
   const theme = useContext(ThemeContext)
  // settings for the window and candle width
