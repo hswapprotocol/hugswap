@@ -48,6 +48,7 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
+import { useTranslation } from 'react-i18next'
 
 const SwapFrame = styled.div`
   display: grid;
@@ -149,6 +150,7 @@ const TreeBalls = () => {
 
 export default function Swap() {
   const { t } = useTranslation()
+
   const loadedUrlParams = useDefaultsFromURLSearch()
 
   // token warning stuff
@@ -417,6 +419,7 @@ export default function Swap() {
               <AutoColumn gap={'md'}>
                 <CurrencyInputPanel
                   label={independentField === Field.OUTPUT && !showWrap && trade ? t('fromEstimated') : t('from')}
+
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}
