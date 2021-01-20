@@ -1,5 +1,5 @@
 // ChartPanel
-import { Currency, Pair } from '@src/sdk'
+import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
 import React, { useState, useContext }  from 'react'
 import { useTranslation } from 'react-i18next'
@@ -124,15 +124,26 @@ const Chart = styled.div``
 // const DATA_FREQUENCY = {
 //   LINE: 'LINE',
 // }
+const defaultTokens = [
+  {
+    decimals: 18,
+    name: 'HT',
+    symbol: 'HT'
+  },
+  {
+    decimals: 18,
+    name: 'HUSD',
+    symbol: 'HUSD'
+  }
+]
 
 interface ChartPanelProps {
   id: string
-  pair?: Pair | null
-  currency?: Currency | null
-  otherCurrency?: Currency | null
+  tokenA: Currency | null | undefined
+  tokenB: Currency | null | undefined
 }
-export default function ChartPanel({ id, pair, currency, otherCurrency }: ChartPanelProps) {
-  currency = Currency.ETHER
+export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
+  const currency = tokenA || tokenB || Currency.ETHER
   const theme = useContext(ThemeContext)
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
@@ -192,14 +203,14 @@ export default function ChartPanel({ id, pair, currency, otherCurrency }: ChartP
   return (
     <ChartWrapper>
       <ChartName>
-        {pair ? (
-          <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
+        {tokenA && tokenB ? (
+          <DoubleCurrencyLogo currency0={tokenA} currency1={tokenB} size={24} margin={true} />
         ) : currency ? (
           <CurrencyLogo currency={currency} size={'24px'} />
         ) : null}
-        {pair ? (
+        {tokenA && tokenB ? (
           <StyledTokenName className="pair-name-container">
-            {pair?.token0.symbol}:{pair?.token1.symbol}
+            {tokenA.symbol}:{tokenB.symbol}
           </StyledTokenName>
         ) : (
           <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>

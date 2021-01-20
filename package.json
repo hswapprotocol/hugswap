@@ -1,6 +1,6 @@
 {
-  "name": "@uniswap/interface",
-  "description": "Uniswap Interface",
+  "name": "hugswap",
+  "description": "Hugswap",
   "homepage": "https://swap.hbfile.net/",
   "private": true,
   "devDependencies": {
@@ -106,7 +106,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js --env=production",
     "test": "node scripts/test.js --env=jsdom",
     "server": "serve ./build",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'"

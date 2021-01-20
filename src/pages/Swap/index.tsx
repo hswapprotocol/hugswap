@@ -386,6 +386,7 @@ export default function Swap() {
     onCurrencySelection
   ])
   const isHideMedium = useMedia('(max-width: 960px)')
+  console.log({ aToken: currencies[Field.INPUT], bToken: currencies[Field.OUTPUT] })
   return (
     <>
       <TokenWarningModal
@@ -395,7 +396,9 @@ export default function Swap() {
       />
       <SwapFrame>
         <HideMedium>
-          {isHideMedium || <ChartPanel id="main-chart" pair={null} currency={null} otherCurrency={null} />}
+          {isHideMedium || (
+            <ChartPanel id="main-chart" tokenA={currencies[Field.INPUT]} tokenB={currencies[Field.OUTPUT]} />
+          )}
         </HideMedium>
         <SwapBlock>
           <TreeBalls />
