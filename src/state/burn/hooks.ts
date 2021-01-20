@@ -1,5 +1,6 @@
 import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount } from '@src/sdk'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePair } from '../../data/Reserves'
 import { useTotalSupply } from '../../data/TotalSupply'
@@ -28,6 +29,7 @@ export function useDerivedBurnInfo(
   }
   error?: string
 } {
+  const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
 
   const { independentField, typedValue } = useBurnState()
@@ -123,7 +125,7 @@ export function useDerivedBurnInfo(
   }
 
   if (!parsedAmounts[Field.LIQUIDITY] || !parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'Enter an amount'
+    error = error ?? t('enterAmount')
   }
 
   return { pair, parsedAmounts, error }

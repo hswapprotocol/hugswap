@@ -1,4 +1,5 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WHT, Pair } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { DAI, UNI, USDC, USDT, WBTC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
@@ -237,6 +238,7 @@ export function useDerivedStakeInfo(
   parsedAmount?: CurrencyAmount
   error?: string
 } {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
 
   const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingToken)
@@ -251,7 +253,7 @@ export function useDerivedStakeInfo(
     error = 'Connect Wallet'
   }
   if (!parsedAmount) {
-    error = error ?? 'Enter an amount'
+    error = error ?? t('enterAmount')
   }
 
   return {
@@ -268,6 +270,7 @@ export function useDerivedUnstakeInfo(
   parsedAmount?: CurrencyAmount
   error?: string
 } {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
 
   const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingAmount.token)
@@ -279,7 +282,7 @@ export function useDerivedUnstakeInfo(
     error = 'Connect Wallet'
   }
   if (!parsedAmount) {
-    error = error ?? 'Enter an amount'
+    error = error ?? t('enterAmount')
   }
 
   return {

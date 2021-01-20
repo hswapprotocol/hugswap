@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Text } from 'rebass'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ButtonDropdownLight, ButtonPrimary } from '../../components/Button'
 import { NoBorderCardStyled } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
@@ -34,6 +35,8 @@ export default function PoolFinder() {
 
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
+
+  const { t } = useTranslation()
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
   const addPair = usePairAdder()
@@ -97,7 +100,7 @@ export default function PoolFinder() {
             </Row>
           ) : (
             <Text fontWeight={500} fontSize={18} color={theme.text4}>
-              Choose currency
+              {t('selectCurrency')}
             </Text>
           )}
         </ButtonDropdownLight>
@@ -117,7 +120,7 @@ export default function PoolFinder() {
             </Row>
           ) : (
             <Text fontWeight={500} fontSize={18} color={theme.text4}>
-              Choose currency
+              {t('selectCurrency')}
             </Text>
           )}
         </ButtonDropdownLight>

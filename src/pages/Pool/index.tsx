@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { Pair, JSBI } from '@src/sdk'
 import { Link } from 'react-router-dom'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
@@ -125,6 +126,7 @@ const EmptyProposals = styled.div`
 `
 
 export default function Pool() {
+  const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
 
@@ -181,20 +183,20 @@ export default function Pool() {
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <AppBodyWrapper>
               <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                提供流动性奖励
+                {t('liquidityReward')}
               </TYPE.mediumHeader>
               <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="1rem" textAlign="left">
-                流动性提供者可获得0.3％的交易对手续费分成，该手续费会实时添加到流动池中，当撤回流动资金时能申领到该分成奖励。
+                {t('liquidityContent')}
               </TYPE.subHeader>
               <ButtonRow justify="flex-end">
                 <ResponsiveButtonSecondary as={Link} padding="6px 18px" to="/create/HT">
                   <Text fontWeight={500} fontSize={14}>
-                    创建流动性
+                  {t('createLiquidity')}
                   </Text>
                 </ResponsiveButtonSecondary>
                 <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 18px" to="/add/HT">
                   <Text fontWeight={500} fontSize={14}>
-                    添加流动性
+                    {t('addLiquiditys')}
                   </Text>
                 </ResponsiveButtonPrimary>
               </ButtonRow>
@@ -202,12 +204,12 @@ export default function Pool() {
 
             <AppBodyWrapper>
               <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                我添加的流动性
+                {t('myLiquidity')}
               </TYPE.mediumHeader>
               {!account ? (
                 <Card padding="40px">
                   <TYPE.body color={theme.text3} textAlign="center">
-                    Connect to a wallet to view your liquidity.
+                    {t('connectHint')}
                   </TYPE.body>
                 </Card>
               ) : v2IsLoading ? (
@@ -235,15 +237,15 @@ export default function Pool() {
               ) : (
                 <EmptyProposals>
                   <TYPE.body color={theme.text3} textAlign="center">
-                    还没有提供过流动性
+                    {t('noLiquiditys')}
                   </TYPE.body>
                 </EmptyProposals>
               )}
               <AutoColumn justify={'center'} gap="md">
                 <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0', marginTop: 20 }}>
-                  {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
+                  {hasV1Liquidity ? t('foundLiquidity') : t('noLiquidityHint')}{' '}
                   <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
-                    {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
+                    {hasV1Liquidity ? t('migrate') : t('import')}
                   </StyledInternalLink>
                 </Text>
               </AutoColumn>

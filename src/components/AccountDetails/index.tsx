@@ -1,4 +1,5 @@
 import React, { useCallback, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -225,6 +226,7 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
+  const { t } = useTranslation()
   const { chainId, account, connector } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const dispatch = useDispatch<AppDispatch>()
@@ -238,7 +240,7 @@ export default function AccountDetails({
           SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
       )
       .map(k => SUPPORTED_WALLETS[k].name)[0]
-    return <WalletName>Connected with {name}</WalletName>
+    return <WalletName>{t('connected')} {name}</WalletName>
   }
 
   function getStatusIcon() {
@@ -276,7 +278,7 @@ export default function AccountDetails({
                 portis.portis.showPortis()
               }}
             >
-              Show Portis
+              {t('showPortis')}
             </MainWalletAction>
           </IconWrapper>
         </>
@@ -295,7 +297,7 @@ export default function AccountDetails({
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>Account</HeaderRow>
+        <HeaderRow>{t('account')}</HeaderRow>
         <AccountSection>
           <YourAccount>
             <InfoCard>
@@ -309,7 +311,7 @@ export default function AccountDetails({
                         ;(connector as any).close()
                       }}
                     >
-                      Disconnect
+                        {t('disconnect')}
                     </WalletAction>
                   )}
                   <WalletAction
@@ -318,7 +320,7 @@ export default function AccountDetails({
                       openOptions()
                     }}
                   >
-                    Change
+                    {t('change')}
                   </WalletAction>
                 </div>
               </AccountGroupingRow>
@@ -348,7 +350,9 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <Copy toCopy={account}>
-                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                            <span style={{ marginLeft: '4px' }}>
+                                {t('copyAddress')}
+                            </span>
                           </Copy>
                         )}
                         {chainId && account && (
@@ -358,7 +362,9 @@ export default function AccountDetails({
                             href={chainId && getHecoscanLink(chainId, ENSName, 'address')}
                           >
                             <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>View on Hecoscan</span>
+                            <span style={{ marginLeft: '4px' }}>
+                                {t('viewHecoscan')}
+                            </span>
                           </AddressLink>
                         )}
                       </div>
@@ -370,7 +376,9 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <Copy toCopy={account}>
-                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                            <span style={{ marginLeft: '4px' }}>
+                            {t('copyAddress')}
+                            </span>
                           </Copy>
                         )}
                         {chainId && account && (
@@ -380,7 +388,9 @@ export default function AccountDetails({
                             href={getHecoscanLink(chainId, account, 'address')}
                           >
                             <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>View on Hecoscan</span>
+                            <span style={{ marginLeft: '4px' }}>
+                                {t('viewHecoscan')}
+                            </span>
                           </AddressLink>
                         )}
                       </div>
@@ -395,15 +405,21 @@ export default function AccountDetails({
       {!!pendingTransactions.length || !!confirmedTransactions.length ? (
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
-            <TYPE.body>Recent Transactions</TYPE.body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback}>(clear all)</LinkStyledButton>
+            <TYPE.body>
+                {t('recentTransactions')}
+            </TYPE.body>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>
+                {t('clearAll')}
+            </LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}
         </LowerSection>
       ) : (
         <LowerSection>
-          <TYPE.body color={theme.text1}>Your transactions will appear here...</TYPE.body>
+          <TYPE.body color={theme.text1}>
+            {t('hint3')}
+          </TYPE.body>
         </LowerSection>
       )}
     </>

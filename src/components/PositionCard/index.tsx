@@ -1,6 +1,7 @@
 import { JSBI, Pair, Percent, TokenAmount } from '@src/sdk'
 import { darken } from 'polished'
 import React, { useState, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -186,6 +187,8 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 export default function FullPositionCard({ pair, border, stakedBalance }: PositionCardProps) {
   const { account } = useActiveWeb3React()
 
+
+  const { t } = useTranslation()
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
@@ -248,12 +251,12 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
               >
                 {showMore ? (
                   <>
-                    管理
+                    {t('manage')}
                     <ChevronUp size="20" style={{ marginLeft: '10px' }} />
                   </>
                 ) : (
                   <>
-                    管理
+                    {t('manage')}
                     <ChevronDown size="20" style={{ marginLeft: '10px' }} />
                   </>
                 )}
@@ -266,7 +269,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
         <AutoColumnWrap gap="8px">
           <FixedHeightRow>
             <Text fontSize={16} fontWeight={600}>
-              您的 LP token 总数:
+                {t('yourLPToken')}
             </Text>
             <Text fontSize={16} fontWeight={600}>
               {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
@@ -275,7 +278,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
           {stakedBalance && (
             <FixedHeightRow>
               <Text fontSize={16} fontWeight={500}>
-                Pool tokens in rewards pool:
+                {t('poolTokensRewards')}
               </Text>
               <Text fontSize={16} fontWeight={500}>
                 {stakedBalance.toSignificant(4)}
@@ -285,7 +288,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
           <FixedHeightRow>
             <RowFixed>
               <Text3 fontSize={14} fontWeight={400}>
-                已投入的 {currency0.symbol}:
+                {t('Invested')} {currency0.symbol}:
               </Text3>
             </RowFixed>
             {token0Deposited ? (
@@ -303,7 +306,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
           <FixedHeightRow>
             <RowFixed>
               <Text3 fontSize={14} fontWeight={400}>
-                已投入的 {currency1.symbol}:
+                {t('Invested')} {currency1.symbol}:
               </Text3>
             </RowFixed>
             {token1Deposited ? (
@@ -320,7 +323,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
 
           <FixedHeightRow>
             <Text3 fontSize={14} fontWeight={400}>
-              流动性分成比：
+                {t('LiquidityRatio')}
             </Text3>
             <Text fontSize={14} fontWeight={400}>
               {poolTokenPercentage
@@ -338,7 +341,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
                 to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                 width="48%"
               >
-                Add
+                {t('add')}
               </ButtonPrimary>
               <ButtonPrimary
                 padding="8px"
@@ -347,13 +350,13 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
                 width="48%"
                 to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
               >
-                Remove
+                {t('remove')}
               </ButtonPrimary>
             </RowBetween>
           )}
           <ButtonEmptyWrap>
             <Link2 style={{ width: '100%', textAlign: 'center' }} href={`https://info.hugswap.com/account/${account}`}>
-              查看数据分析
+              {t('viewData')}
             </Link2>
           </ButtonEmptyWrap>
           {stakedBalance && JSBI.greaterThan(stakedBalance.raw, BIG_INT_ZERO) && (
@@ -364,7 +367,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
               to={`/uni/${currencyId(currency0)}/${currencyId(currency1)}`}
               width="100%"
             >
-              Manage Liquidity in Rewards Pool
+                {t('manageLiquidity')}
             </ButtonPrimary>
           )}
         </AutoColumnWrap>
