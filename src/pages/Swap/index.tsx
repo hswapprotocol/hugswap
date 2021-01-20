@@ -481,7 +481,7 @@ export default function Swap() {
                       {Boolean(trade) && (
                         <RowBetween align="center">
                           <Text fontWeight={500} fontSize={14} color={theme.text2}>
-                            Price
+                            {t('Price')}
                           </Text>
                           <TradePrice
                             price={trade?.executionPrice}
@@ -506,7 +506,7 @@ export default function Swap() {
               </AutoColumn>
               <BottomGrouping>
                 {!account ? (
-                  <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                  <ButtonLight onClick={toggleWalletModal}>{t('connectWallet')}</ButtonLight>
                 ) : showWrap ? (
                   <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                     {wrapInputError ??
@@ -587,8 +587,8 @@ export default function Swap() {
                       {swapInputError
                         ? swapInputError
                         : priceImpactSeverity > 3 && !isExpertMode
-                        ? `Price Impact Too High`
-                        : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                        ? t('Price Impact Too High')
+                        : `${priceImpactSeverity > 2 ? t('Swap Anyway') : t('Swap')}`}
                     </Text>
                   </ButtonError>
                 )}

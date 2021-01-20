@@ -1,4 +1,5 @@
 import { splitSignature } from '@ethersproject/bytes'
+import { useTranslation } from 'react-i18next'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, Percent, WHT } from '@src/sdk'
@@ -58,6 +59,7 @@ export default function RemoveLiquidity({
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
+  const { t } = useTranslation()
   const { account, chainId, library } = useActiveWeb3React()
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
     currencyA,
@@ -404,7 +406,7 @@ export default function RemoveLiquidity({
           <>
             <RowBetween>
               <Text color={theme.text2} fontWeight={500} fontSize={16}>
-                Price
+                {t('Price')}
               </Text>
               <Text fontWeight={500} fontSize={16} color={theme.text1}>
                 1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
@@ -505,7 +507,7 @@ export default function RemoveLiquidity({
               <AutoColumn gap="15px">
                 <RowBetween>
                   <Text fontWeight={500} color={theme.text4}>
-                    Amount
+                    {t('Amount')}
                   </Text>
                   {/* <ClickableText
                     fontWeight={500}
@@ -641,7 +643,7 @@ export default function RemoveLiquidity({
             {pair && (
               <div style={{ padding: '10px 20px' }}>
                 <RowBetween color={theme.text4} fontSize={14}>
-                  Price:
+                  {t('Price')}:
                   <div style={{ color: theme.text3 }}>
                     1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
                   </div>
@@ -656,7 +658,7 @@ export default function RemoveLiquidity({
             )}
             <div style={{ position: 'relative' }}>
               {!account ? (
-                <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                <ButtonLight onClick={toggleWalletModal}>{t('connectWallet')}</ButtonLight>
               ) : (
                 <RowBetween>
                   <ButtonConfirmed
@@ -670,9 +672,9 @@ export default function RemoveLiquidity({
                     {approval === ApprovalState.PENDING ? (
                       <Dots>Approving</Dots>
                     ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
-                      'Approved'
+                      t('Approved')
                     ) : (
-                      'Approve'
+                      t('Approve')
                     )}
                   </ButtonConfirmed>
                   <ButtonError
@@ -683,7 +685,7 @@ export default function RemoveLiquidity({
                     error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                   >
                     <Text fontSize={16} fontWeight={500}>
-                      {error || 'Remove'}
+                      {error || t('remove')}
                     </Text>
                   </ButtonError>
                 </RowBetween>

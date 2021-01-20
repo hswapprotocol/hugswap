@@ -4,6 +4,7 @@ import { Currency, currencyEquals, ETHER, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
+import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
@@ -53,6 +54,7 @@ export default function AddLiquidity({
   const { account, chainId, library } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
+  const { t } = useTranslation()
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
@@ -335,7 +337,7 @@ export default function AddLiquidity({
                   <BlueCard>
                     <AutoColumn>
                       <TYPE.link fontWeight={400} color={'text4'}>
-                        您作为该流动性第一个提供者。所添加的币种比例将直接影响到流动性池的价格，请提前预知相关风险性。
+                        {t('content1')}
                       </TYPE.link>
                     </AutoColumn>
                   </BlueCard>
@@ -373,7 +375,7 @@ export default function AddLiquidity({
                 <LightCard padding="0px" borderRadius={'20px'}>
                   <RowBetween padding="1rem">
                     <TYPE.subHeader fontWeight={500} fontSize={14}>
-                      {noLiquidity ? 'Initial prices' : 'Prices'} and pool share
+                      {noLiquidity ? t('Initial prices') : t('Prices')}
                     </TYPE.subHeader>
                   </RowBetween>{' '}
                   <LightCard padding="1rem" borderRadius={'20px'}>
@@ -389,7 +391,7 @@ export default function AddLiquidity({
             )}
 
             {!account ? (
-              <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+              <ButtonLight onClick={toggleWalletModal}>{t('connectWallet')}</ButtonLight>
             ) : (
               <AutoColumn gap={'md'}>
                 {(approvalA === ApprovalState.NOT_APPROVED ||

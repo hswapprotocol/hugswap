@@ -1,7 +1,8 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext }  from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
@@ -158,13 +159,25 @@ const Chart = styled.div``
 // const DATA_FREQUENCY = {
 //   LINE: 'LINE',
 // }
+const defaultTokens = [
+  {
+    decimals: 18,
+    name: 'HT',
+    symbol: 'HT'
+  },
+  {
+    decimals: 18,
+    name: 'HUSD',
+    symbol: 'HUSD'
+  }
+]
 
 interface ChartPanelProps {
   id: string
   tokenA: Currency | null | undefined
   tokenB: Currency | null | undefined
 }
-export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
+export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
   const currency = tokenA || tokenB || Currency.ETHER
   const theme = useContext(ThemeContext)
   // settings for the window and candle width
@@ -195,7 +208,8 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
       priceData = dataAll
       break
   }
-  console.log({ priceData })
+  const { t } = useTranslation()
+  console.log(priceData)
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
@@ -300,7 +314,7 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={'Price'}
+              name={t('Price')}
               yAxisId={0}
               stroke={color}
               fill="url(#colorUv)"

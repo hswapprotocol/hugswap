@@ -77,30 +77,33 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
 }
 
 export function FindPoolTabs() {
+  const { t } = useTranslation()
   return (
     <Tabs>
       <AutoRow style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText style={{ textAlign: 'center', flex: 1 }}>Import</ActiveText>
+        <ActiveText style={{ textAlign: 'center', flex: 1 }}>{t('ImportTitle')}</ActiveText>
       </AutoRow>
     </Tabs>
   )
 }
 
 export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating: boolean }) {
+  const { t } = useTranslation()
+
   return (
     <Tabs>
       <RowBetween style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText style={adding ? {} : { textAlign: 'center', flex: 1, }}>{creating ? '创建流动性' : adding ? '添加流动性' : '移除流动性'}</ActiveText>
+        <ActiveText style={adding ? {} : { textAlign: 'center', flex: 1, }}>{creating ? t('createLiquidity') : adding ? t('addLiquiditys') : t('removeLiquiditys')}</ActiveText>
         {
             adding ?
                 (<QuestionHelper
-                text={'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.'}
+                text={t('hint5')}
             />) : ''
         }
         
