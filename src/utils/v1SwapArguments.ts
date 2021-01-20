@@ -23,20 +23,20 @@ export default function v1SwapArguments(
     throw new Error('too many pairs')
   }
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const inputETH = trade.inputAmount.currency === ETHER
-  const outputETH = trade.outputAmount.currency === ETHER
-  if (inputETH && outputETH) throw new Error('ETHER to ETHER')
+  const inputHT = trade.inputAmount.currency === ETHER
+  const outputHT = trade.outputAmount.currency === ETHER
+  if (inputHT && outputHT) throw new Error('HECO to HECO')
   const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage))
   const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage))
   const deadline = `0x${options.deadline.toString(16)}`
   if (isExactIn) {
-    if (inputETH) {
+    if (inputHT) {
       return {
         methodName: 'ethToTokenTransferInput',
         args: [minimumAmountOut, deadline, options.recipient],
         value: maximumAmountIn
       }
-    } else if (outputETH) {
+    } else if (outputHT) {
       return {
         methodName: 'tokenToEthTransferInput',
         args: [maximumAmountIn, minimumAmountOut, deadline, options.recipient],
@@ -55,13 +55,13 @@ export default function v1SwapArguments(
       }
     }
   } else {
-    if (inputETH) {
+    if (inputHT) {
       return {
         methodName: 'ethToTokenTransferOutput',
         args: [minimumAmountOut, deadline, options.recipient],
         value: maximumAmountIn
       }
-    } else if (outputETH) {
+    } else if (outputHT) {
       return {
         methodName: 'tokenToEthTransferOutput',
         args: [minimumAmountOut, maximumAmountIn, deadline, options.recipient],

@@ -11,7 +11,7 @@ import LogoDark from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo_white.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances } from '../../state/wallet/hooks'
+import { useHTBalances } from '../../state/wallet/hooks'
 // import { CardNoise } from '../earn/styled'
 // import { CountUp } from 'use-count-up'
 import { ExternalLink } from '../../theme'
@@ -270,7 +270,7 @@ export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useHTBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
   // const toggleClaimModal = useToggleSelfClaimModal()

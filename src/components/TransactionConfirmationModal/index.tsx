@@ -3,56 +3,54 @@ import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import Modal from '../Modal'
 import { ExternalLink } from '../../theme'
-import { Text } from 'rebass'
+import { Text, Flex } from 'rebass'
 import { CloseIcon, CustomLightSpinner } from '../../theme/components'
 import { RowBetween } from '../Row'
-import { AlertTriangle, ArrowUpCircle } from 'react-feather'
+import { AlertTriangle } from 'react-feather'
 import { ButtonPrimary } from '../Button'
 import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
+import { ReactComponent as Success } from '../../assets/svg/success.svg'
 
-import { getEtherscanLink } from '../../utils'
+import { getHecoscanLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
 
 const Wrapper = styled.div`
   width: 100%;
 `
 const Section = styled(AutoColumn)`
-  padding: 24px;
+  padding: 24px 24px 60px 24px;
 `
 
 const BottomSection = styled(Section)`
-  background-color: ${({ theme }) => theme.bg2};
+  // background-color: ${({ theme }) => theme.bg2};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 `
 
 const ConfirmedIcon = styled(ColumnCenter)`
-  padding: 60px 0;
+  padding: 20px 0 40px;
 `
 
 function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
+  const theme = useContext(ThemeContext)
   return (
     <Wrapper>
       <Section>
-        <RowBetween>
-          <div />
-          <CloseIcon onClick={onDismiss} />
-        </RowBetween>
         <ConfirmedIcon>
           <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20}>
-            Waiting For Confirmation
+            Confirming…
           </Text>
           <AutoColumn gap="12px" justify={'center'}>
-            <Text fontWeight={600} fontSize={14} color="" textAlign="center">
+            <Text fontWeight={600} fontSize={14} color={theme.text3} textAlign="center">
               {pendingText}
             </Text>
           </AutoColumn>
-          <Text fontSize={12} color="#565A69" textAlign="center">
-            Confirm this transaction in your wallet
+          <Text fontSize={12} color={theme.text4} textAlign="center">
+            You can confirm the transaction on the wallet
           </Text>
         </AutoColumn>
       </Section>
@@ -79,24 +77,25 @@ function TransactionSubmittedContent({
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <ConfirmedIcon>
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+          <Success />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20}>
-            Transaction Submitted
+            Submitted successfully
           </Text>
           {chainId && hash && (
-            <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
-              <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                View on Hecoscan
+            <Flex alignItems="center">
+              <Text fontWeight={500} fontSize={14} color={theme.text3}>
+                Go to Hecoscan to{' '}
               </Text>
-            </ExternalLink>
+
+              <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>
+                <Text fontWeight={500} fontSize={14} color={theme.text11}>
+                  &nbsp;view transaction details
+                </Text>
+              </ExternalLink>
+            </Flex>
           )}
-          <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
-            <Text fontWeight={500} fontSize={20}>
-              Close
-            </Text>
-          </ButtonPrimary>
         </AutoColumn>
       </Section>
     </Wrapper>

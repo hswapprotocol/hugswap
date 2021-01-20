@@ -23,9 +23,9 @@ import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallbac
 import { useV1ExchangeContract, useV2MigratorContract } from '../../hooks/useContract'
 import { NEVER_RELOAD, useSingleCallResult } from '../../state/multicall/hooks'
 import { useIsTransactionPending, useTransactionAdder } from '../../state/transactions/hooks'
-import { useETHBalances, useTokenBalance } from '../../state/wallet/hooks'
+import { useHTBalances, useTokenBalance } from '../../state/wallet/hooks'
 import { BackArrow, ExternalLink, TYPE } from '../../theme'
-import { getEtherscanLink, isAddress } from '../../utils'
+import { getHecoscanLink, isAddress } from '../../utils'
 import { BodyWrapper } from '../AppBody'
 import { EmptyState } from './EmptyState'
 
@@ -89,7 +89,7 @@ export function V1LiquidityInfo({
 function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount: TokenAmount; token: Token }) {
   const { account, chainId } = useActiveWeb3React()
   const totalSupply = useTotalSupply(liquidityTokenAmount.token)
-  const exchangeETHBalance = useETHBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
+  const exchangeHTBalance = useHTBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
   const exchangeTokenBalance = useTokenBalance(liquidityTokenAmount.token.address, token)
 
   const [v2PairState, v2Pair] = usePair(chainId ? WHT[chainId] : undefined, token)
@@ -102,8 +102,8 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
 
   const shareFraction: Fraction = totalSupply ? new Percent(liquidityTokenAmount.raw, totalSupply.raw) : ZERO_FRACTION
 
-  const ethWorth: CurrencyAmount = exchangeETHBalance
-    ? CurrencyAmount.ether(exchangeETHBalance.multiply(shareFraction).multiply(WEI_DENOM).quotient)
+  const ethWorth: CurrencyAmount = exchangeHTBalance
+    ? CurrencyAmount.ether(exchangeHTBalance.multiply(shareFraction).multiply(WEI_DENOM).quotient)
     : CurrencyAmount.ether(ZERO)
 
   const tokenWorth: TokenAmount = exchangeTokenBalance
@@ -113,8 +113,8 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
   const [approval, approve] = useApproveCallback(liquidityTokenAmount, MIGRATOR_ADDRESS)
 
   const v1SpotPrice =
-    exchangeTokenBalance && exchangeETHBalance
-      ? exchangeTokenBalance.divide(new Fraction(exchangeETHBalance.raw, WEI_DENOM))
+    exchangeTokenBalance && exchangeHTBalance
+      ? exchangeTokenBalance.divide(new Fraction(exchangeHTBalance.raw, WEI_DENOM))
       : null
 
   const priceDifferenceFraction: Fraction | undefined =
@@ -129,7 +129,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
     ? priceDifferenceFraction?.multiply('-1')
     : priceDifferenceFraction
 
-  const minAmountETH: JSBI | undefined =
+  const minAmountHT: JSBI | undefined =
     v2SpotPrice && tokenWorth
       ? tokenWorth
           .divide(v2SpotPrice)
@@ -150,14 +150,14 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
 
   const migrator = useV2MigratorContract()
   const migrate = useCallback(() => {
-    if (!minAmountToken || !minAmountETH || !migrator) return
+    if (!minAmountToken || !minAmountHT || !migrator) return
 
     setConfirmingMigration(true)
     migrator
       .migrate(
         token.address,
         minAmountToken.toString(),
-        minAmountETH.toString(),
+        minAmountHT.toString(),
         account,
         Math.floor(new Date().getTime() / 1000) + DEFAULT_DEADLINE_FROM_NOW
       )
@@ -176,7 +176,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
       .catch(() => {
         setConfirmingMigration(false)
       })
-  }, [minAmountToken, minAmountETH, migrator, token, account, addTransaction])
+  }, [minAmountToken, minAmountHT, migrator, token, account, addTransaction])
 
   const noLiquidityTokens = !!liquidityTokenAmount && liquidityTokenAmount.equalTo(ZERO)
 
@@ -190,7 +190,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
         This tool will safely migrate your V1 liquidity to V2 with minimal price risk. The process is completely
         trustless thanks to the{' '}
         {chainId && (
-          <ExternalLink href={getEtherscanLink(chainId, MIGRATOR_ADDRESS, 'address')}>
+          <ExternalLink href={getHecoscanLink(chainId, MIGRATOR_ADDRESS, 'address')}>
             <TYPE.blue display="inline">Uniswap migration contract↗</TYPE.blue>
           </ExternalLink>
         )}

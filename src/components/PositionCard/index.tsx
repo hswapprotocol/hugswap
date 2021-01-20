@@ -86,10 +86,10 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
-  const poolTokenPercentage =
-    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
-      : undefined
+  // const poolTokenPercentage =
+  //   !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+  //     ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
+  //     : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
@@ -111,14 +111,14 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <FixedHeightRow>
               <RowFixed>
                 <Text fontWeight={500} fontSize={16}>
-                  Your position
+                  I currently hold
                 </Text>
               </RowFixed>
             </FixedHeightRow>
             <FixedHeightRow onClick={() => setShowMore(!showMore)}>
               <RowFixed>
-                <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />
-                <Text fontWeight={500} fontSize={14}>
+                {/* <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} /> */}
+                <Text fontWeight={500} fontSize={14} color={htmlTheme.text4}>
                   {currency0.symbol}-{currency1.symbol}
                 </Text>
               </RowFixed>
@@ -129,14 +129,14 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
               </RowFixed>
             </FixedHeightRow>
             <AutoColumn gap="12px">
-              <FixedHeightRow>
+              {/* <FixedHeightRow>
                 <Text fontSize={14} fontWeight={500} color={htmlTheme.text4}>
                   Your pool share
                 </Text>
                 <Text fontSize={14} fontWeight={500} color={htmlTheme.text3}>
                   {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
                 </Text>
-              </FixedHeightRow>
+              </FixedHeightRow> */}
               <FixedHeightRow>
                 <Text fontSize={14} fontWeight={500} color={htmlTheme.text4}>
                   {currency0.symbol}
