@@ -76,6 +76,7 @@ const ResolutionsWrapper = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
+  user-select: none;
   
   li {
     position: relative;
@@ -194,28 +195,29 @@ const getTokenInfo = (symbol: any = '') => {
 interface ChartPanelProps {
   id: string
   tokenA: Currency | DefaultToken | undefined
-  tokenB: Currency | DefaultToken | undefined
+  tokenB: Currency | undefined
 }
 export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
   const currency = tokenA || tokenB || Currency.ETHER
   const theme = useContext(ThemeContext)
-  console.log('tokenAInfo:', getTokenInfo(tokenA?.symbol))
-  console.log('tokenBInfo:', getTokenInfo(tokenB?.symbol))
+  const [tokenAInfo] = useState(getTokenInfo(tokenA?.symbol))
+  const [tokenBInfo] = useState(getTokenInfo(tokenB?.symbol))
+  console.log('address tokenA:', tokenAInfo?.address)
+  console.log('tokenAInfo:', tokenAInfo)
+  console.log('tokenBInfo:', tokenBInfo)
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
-  // const [darkMode] = useDarkModeManager()
-  // const textColor = darkMode ? 'white' : 'black'
-  let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
-  let chartData = useTokenChartData(address)
+  // let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
+  let chartData = useTokenChartData(tokenAInfo?.address)
   const [timeWindow] = useState(timeframeOptions.WEEK)
   // const prevWindow = usePrevious(timeWindow)
 
   // hourly and daily price data based on the current time window
-  const dataDay = useTokenPriceData(address, timeframeOptions.DAY, 900)
-  const dataWeek = useTokenPriceData(address, timeframeOptions.WEEK, 3600)
-  const dataAll = useTokenPriceData(address, timeframeOptions.ALL_TIME, 3600)
+  const dataDay = useTokenPriceData(tokenAInfo?.address, timeframeOptions.DAY, 900)
+  const dataWeek = useTokenPriceData(tokenAInfo?.address, timeframeOptions.WEEK, 3600)
+  const dataAll = useTokenPriceData(tokenAInfo?.address, timeframeOptions.ALL_TIME, 3600)
 
   let priceData = dataDay
   switch (timeWindow) {
@@ -230,7 +232,7 @@ export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = def
       break
   }
   const { t } = useTranslation()
-  console.log(priceData)
+  console.log('priceData', priceData)
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
