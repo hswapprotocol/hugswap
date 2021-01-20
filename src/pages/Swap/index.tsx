@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
+import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
@@ -41,14 +42,13 @@ import {
 } from '../../state/swap/hooks'
 import { useExpertModeManager, useUserSlippageTolerance, useUserSingleHopOnly } from '../../state/user/hooks'
 import { LinkStyledButton, TYPE } from '../../theme'
-import { HideSmall } from '../../theme/components'
+import { HideMedium } from '../../theme/components'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 // import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
-import { useTranslation } from 'react-i18next'
 
 const SwapFrame = styled.div`
   display: grid;
@@ -385,7 +385,7 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-
+  const isHideMedium = useMedia('(max-width: 960px)')
   return (
     <>
       <TokenWarningModal
@@ -394,9 +394,9 @@ export default function Swap() {
         onConfirm={handleConfirmTokenWarning}
       />
       <SwapFrame>
-        <HideSmall>
-          <ChartPanel id="main-chart" pair={null} currency={null} otherCurrency={null} />
-        </HideSmall>
+        <HideMedium>
+          {isHideMedium || <ChartPanel id="main-chart" pair={null} currency={null} otherCurrency={null} />}
+        </HideMedium>
         <SwapBlock>
           <TreeBalls />
           <SwapBody>
@@ -419,7 +419,6 @@ export default function Swap() {
               <AutoColumn gap={'md'}>
                 <CurrencyInputPanel
                   label={independentField === Field.OUTPUT && !showWrap && trade ? t('fromEstimated') : t('from')}
-
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}

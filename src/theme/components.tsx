@@ -203,6 +203,12 @@ export const HideExtraSmall = styled.span`
   `};
 `
 
+export const HideMedium = styled.span`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `};
+`
+
 export const ExtraSmallOnly = styled.span`
   display: none;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
