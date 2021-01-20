@@ -8,7 +8,9 @@ import { injected, walletconnect } from '../connectors'
 
 // heco test地址
 export const ROUTER_ADDRESS = '0x6a4d8aC99fC3E8E0836DA192d8cC12E615b2E3Ff'
+export const FACTORY_ADDRESS = '0x31c220a57038eD6a22e41798B4CCBC441E450903'
 
+export const BUNDLE_ID = '1'
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export { PRELOADED_PROPOSALS } from './proposals'
@@ -207,3 +209,13 @@ export const BLOCKED_ADDRESSES: string[] = [
   '0x901bb9583b24D97e995513C6778dc6888AB6870e',
   '0xA7e5d5A720f06526557c513402f2e6B5fA20b008'
 ]
+
+export const timeframeOptions = {
+  DAY: '1 day',
+  WEEK: '1 week',
+  // MONTH: '1 month',
+  // THREE_MONTHS: '3 months',
+  // YEAR: '1 year',
+  ALL_TIME: 'All time',
+}
+
