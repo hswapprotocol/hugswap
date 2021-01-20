@@ -50,12 +50,12 @@ import { isTradeBetter } from 'utils/trades'
 const SwapFrame = styled.div`
   display: grid;
   grid-template-columns: 3fr 2fr;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
-  align-items: center;
   flex-direction: row;
   width: 100%;
   max-width: 1200px;
+  gap: 3rem;
 
   top: -78px;
   position: relative;
@@ -74,7 +74,7 @@ const SwapFrame = styled.div`
 `
 
 const InfoWrapper = styled.div`
-
+  
 `
 
 const SwapBlock = styled.div`
