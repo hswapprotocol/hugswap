@@ -34,7 +34,7 @@ const ChartTools = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.75rem;
 `
 const PriceBlock = styled.div`
   display: flex;
