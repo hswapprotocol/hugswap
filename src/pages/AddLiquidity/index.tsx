@@ -41,7 +41,7 @@ import { PoolPriceBar } from './PoolPriceBar'
 
 const TokensText = styled.div`
   font-size: 16px;
-  color: ${({ theme }) => theme.text4};
+  color: ${({ theme }) => theme.text3};
 `
 
 export default function AddLiquidity({
@@ -245,7 +245,7 @@ export default function AddLiquidity({
             {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol + ' Pool Tokens'}
           </TokensText>
         </Row>
-        <Text fontSize={14} textAlign="left" padding={'8px 0 0 0 '}>
+        <Text fontSize={14} color={theme.text4} lineHeight={1.4} textAlign="left" padding={'2px 0 0 0 '}>
           {`Output is estimated. If the price changes by more than ${allowedSlippage /
             100}% your transaction will revert.`}
         </Text>
@@ -440,14 +440,13 @@ export default function AddLiquidity({
               </AutoColumn>
             )}
           </AutoColumn>
+          {pair && !noLiquidity && pairState !== PairState.INVALID ? (
+            <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+              <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+            </AutoColumn>
+          ) : null}
         </Wrapper>
       </AppBody>
-
-      {pair && !noLiquidity && pairState !== PairState.INVALID ? (
-        <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
-        </AutoColumn>
-      ) : null}
     </>
   )
 }

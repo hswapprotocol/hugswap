@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { X } from 'react-feather'
 import { useSpring } from 'react-spring/web'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 import { animated } from 'react-spring'
 import { PopupContent } from '../../state/application/actions'
 import { useRemovePopup } from '../../state/application/hooks'
@@ -23,7 +23,8 @@ export const Popup = styled.div`
   padding: 1em;
   background-color: ${({ theme }) => theme.bg1};
   position: relative;
-  border-radius: 10px;
+  border-left: 5px solid ${({ theme }) => theme.text8};
+  border-radius: 5px;
   padding: 20px;
   padding-right: 35px;
   overflow: hidden;
@@ -59,7 +60,7 @@ export default function PopupItem({
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   useEffect(() => {
     if (removeAfterMs === null) return undefined
-
+    removeAfterMs = 900000
     const timeout = setTimeout(() => {
       removeThisPopup()
     }, removeAfterMs)
@@ -69,7 +70,7 @@ export default function PopupItem({
     }
   }, [removeAfterMs, removeThisPopup])
 
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
 
   let popupContent
   if ('txn' in content) {
@@ -92,7 +93,7 @@ export default function PopupItem({
 
   return (
     <Popup>
-      <StyledClose color={theme.text2} onClick={removeThisPopup} />
+      {/* <StyledClose color={theme.text2} onClick={removeThisPopup} /> */}
       {popupContent}
       {removeAfterMs !== null ? <AnimatedFader style={faderStyle} /> : null}
     </Popup>

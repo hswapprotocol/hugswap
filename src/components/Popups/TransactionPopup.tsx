@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { AlertCircle, CheckCircle } from 'react-feather'
+import { AlertCircle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { TYPE } from '../../theme'
@@ -7,6 +7,8 @@ import { ExternalLink } from '../../theme/components'
 import { getEtherscanLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
+import { Text, Flex } from 'rebass'
+import { ReactComponent as Success } from '../../assets/svg/success.svg'
 
 const RowNoFlex = styled(AutoRow)`
   flex-wrap: nowrap;
@@ -27,12 +29,22 @@ export default function TransactionPopup({
 
   return (
     <RowNoFlex>
-      <div style={{ paddingRight: 16 }}>
-        {success ? <CheckCircle color={theme.green1} size={24} /> : <AlertCircle color={theme.red1} size={24} />}
-      </div>
       <AutoColumn gap="8px">
-        <TYPE.body fontWeight={500}>{summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}</TYPE.body>
-        {chainId && <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>View on Hecoscan</ExternalLink>}
+        <Flex>
+          {success ? <Success style={{ width: 24, height: 24 }} /> : <AlertCircle color={theme.red1} size={24} />}
+          <div style={{ paddingLeft: '10px' }}>
+            <TYPE.body fontWeight={500} marginBottom={10}>
+              {summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
+            </TYPE.body>
+            {chainId && (
+              <Text fontSize={14} color={theme.text4}>
+                Go to
+                <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>&nbsp;Hecoscan&nbsp;</ExternalLink>
+                to view details
+              </Text>
+            )}
+          </div>
+        </Flex>
       </AutoColumn>
     </RowNoFlex>
   )
