@@ -27,7 +27,7 @@ const HECOSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   256: 'scan-testnet.'
 }
 
-export function getEtherscanLink(
+export function getHecoscanLink(
   chainId: ChainId,
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'

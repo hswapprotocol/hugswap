@@ -4,7 +4,7 @@ import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { TYPE } from '../../theme'
 import { ExternalLink } from '../../theme/components'
-import { getEtherscanLink } from '../../utils'
+import { getHecoscanLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 import { Text, Flex } from 'rebass'
@@ -39,7 +39,7 @@ export default function TransactionPopup({
             {chainId && (
               <Text fontSize={14} color={theme.text4}>
                 Go to
-                <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>&nbsp;Hecoscan&nbsp;</ExternalLink>
+                <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>&nbsp;Hecoscan&nbsp;</ExternalLink>
                 to view details
               </Text>
             )}

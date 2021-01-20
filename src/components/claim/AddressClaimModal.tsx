@@ -18,7 +18,7 @@ import Confetti from '../Confetti'
 import { CardNoise, CardBGImage, CardBGImageSmaller } from '../earn/styled'
 import { useIsTransactionPending } from '../../state/transactions/hooks'
 import { TokenAmount } from '@src/sdk'
-import { getEtherscanLink, shortenAddress } from '../../utils'
+import { getHecoscanLink, shortenAddress } from '../../utils'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -181,8 +181,8 @@ export default function AddressClaimModal({ isOpen, onDismiss }: { isOpen: boole
               <TYPE.subHeader color="black">Confirm this transaction in your wallet</TYPE.subHeader>
             )}
             {attempting && hash && !claimConfirmed && chainId && hash && (
-              <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ zIndex: 99 }}>
-                View transaction on Etherscan
+              <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')} style={{ zIndex: 99 }}>
+                View transaction on Hecoscan
               </ExternalLink>
             )}
           </AutoColumn>

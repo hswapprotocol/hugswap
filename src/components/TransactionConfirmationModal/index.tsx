@@ -12,7 +12,7 @@ import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
 import { ReactComponent as Success } from '../../assets/svg/success.svg'
 
-import { getEtherscanLink } from '../../utils'
+import { getHecoscanLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
 
 const Wrapper = styled.div`
@@ -89,7 +89,7 @@ function TransactionSubmittedContent({
                 Go to Hecoscan to{' '}
               </Text>
 
-              <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
+              <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>
                 <Text fontWeight={500} fontSize={14} color={theme.text11}>
                   &nbsp;view transaction details
                 </Text>
