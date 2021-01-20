@@ -1,4 +1,5 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -146,7 +147,7 @@ const TreeBalls = () => {
 
 export default function Swap() {
   const { t } = useTranslation()
-  console.log(t)
+
   const loadedUrlParams = useDefaultsFromURLSearch()
 
   // token warning stuff
@@ -419,7 +420,8 @@ export default function Swap() {
 
               <AutoColumn gap={'md'}>
                 <CurrencyInputPanel
-                  label={independentField === Field.OUTPUT && !showWrap && trade ? `${t('from')} (${t('estimated')})` : t('from')}
+                  label={independentField === Field.OUTPUT && !showWrap && trade ? t('fromEstimated') : t('from')}
+
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}
@@ -451,7 +453,7 @@ export default function Swap() {
                 <CurrencyInputPanel
                   value={formattedAmounts[Field.OUTPUT]}
                   onUserInput={handleTypeOutput}
-                  label={independentField === Field.INPUT && !showWrap && trade ? `${t('to')} (${t('estimated')})` : t('to')}
+                  label={independentField === Field.INPUT && !showWrap && trade ? t('toEstimated') : t('to2')}
                   showMaxButton={false}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
@@ -512,7 +514,7 @@ export default function Swap() {
                   </ButtonPrimary>
                 ) : noRoute && userHasSpecifiedInputOutput ? (
                   <GreyCard style={{ textAlign: 'center' }}>
-                    <TYPE.main mb="4px">Insufficient liquidity for this trade.</TYPE.main>
+                    <TYPE.main mb="4px">{t('hint4')}</TYPE.main>
                     {singleHopOnly && <TYPE.main mb="4px">Try enabling multi-hop trades.</TYPE.main>}
                   </GreyCard>
                 ) : showApproveFlow ? (

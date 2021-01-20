@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react'
 import { X } from 'react-feather'
 import { Text } from 'rebass'
-// import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import i18n from 'i18next'
 import styled, { ThemeContext } from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
@@ -152,6 +152,7 @@ const Option = styled(FancyButton)<{ active: boolean }>`
 `
 
 export default function SettingsTab() {
+  const { t } = useTranslation()
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.SETTINGS)
   const toggle = useToggleSettingsMenu()
@@ -225,7 +226,7 @@ export default function SettingsTab() {
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
             <Text fontWeight={600} fontSize={18}>
-              Transaction Settings
+                {t('transactionSettings')}
             </Text>
             <TransactionSettings
               rawSlippage={userSlippageTolerance}
@@ -235,7 +236,7 @@ export default function SettingsTab() {
             />
             <div>
               <Text marginBottom={10} fontWeight={400} fontSize={14} color={theme.text4}>
-                Language
+                {t('language')}
               </Text>
               <div>
                 <Option
@@ -258,7 +259,7 @@ export default function SettingsTab() {
             </div>
             <div>
               <Text marginBottom={10} fontWeight={400} fontSize={14} color={theme.text4}>
-                Colour
+              {t('colour')}
               </Text>
               <div>
                 <Option

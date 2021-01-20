@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Code, Twitter, Info, Send } from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
@@ -91,6 +92,8 @@ const CODE_LINK = 'https://github.com/hswapprotocol/hugswap'
 
 export default function Menu() {
 
+  const { t } = useTranslation()
+
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.MENU)
   const toggle = useToggleModal(ApplicationModal.MENU)
@@ -107,19 +110,19 @@ export default function Menu() {
         <MenuFlyout>
           <MenuItem id="link" href="https://hugswap.com/">
             <Info size={14} />
-            About
+            {t('about')}
           </MenuItem>
           <MenuItem id="link" href={CODE_LINK}>
             <Code size={14} />
-            Code
+            {t('code')}
           </MenuItem>
           <MenuItem id="link" href="/#/">
             <Twitter size={14} />
-            Twitter
+            {t('twitter')}
           </MenuItem>
           <MenuItem id="link" href="/#/">
             <Send size={14} />
-            Telegram
+            {t('telegram')}
           </MenuItem>
         </MenuFlyout>
       )}
