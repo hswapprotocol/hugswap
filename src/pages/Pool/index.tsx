@@ -28,7 +28,7 @@ const PageWrapper = styled(AutoColumn)`
   width: 100%;
 `
 
-const HaloWrapper = styled.div`
+export const HaloWrapper = styled.div`
   position: relative;
   &:before,
   &:after,
@@ -191,7 +191,7 @@ export default function Pool() {
               <ButtonRow justify="flex-end">
                 <ResponsiveButtonSecondary as={Link} padding="6px 18px" to="/create/HT">
                   <Text fontWeight={500} fontSize={14}>
-                  {t('createLiquidity')}
+                    {t('createLiquidity')}
                   </Text>
                 </ResponsiveButtonSecondary>
                 <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 18px" to="/add/HT">

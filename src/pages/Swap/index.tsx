@@ -42,111 +42,47 @@ import {
 } from '../../state/swap/hooks'
 import { useExpertModeManager, useUserSlippageTolerance, useUserSingleHopOnly } from '../../state/user/hooks'
 import { LinkStyledButton, TYPE } from '../../theme'
-import { HideMedium } from '../../theme/components'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
-// import AppBody from '../AppBody'
+import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
+import { HaloWrapper } from '../Pool/index'
 
-const SwapFrame = styled.div`
+const SwapBody = styled.div`
   display: grid;
   grid-template-columns: 3fr 2fr;
   align-items: start;
   justify-content: space-between;
+  justify-items: center;
   flex-direction: row;
   width: 100%;
   max-width: 1200px;
   gap: 3rem;
-
-  top: -78px;
-  position: relative;
-  padding: 1rem;
-  z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
   `};
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-        padding: 0.5rem 1rem;
-  `}
 `
-
-const SwapBlock = styled.div`
-  position: relative;
-  max-width: 420px;
-  width: 100%;
-
+const TreeBalls = styled(HaloWrapper)`
   &:before {
-    content: '';
+    left: -20%;
+    right: 60%;
+    top: 60.74%;
+    bottom: 10%;
+    opacity: 0.46;
   }
-  & #swap-page {
-    // opacity: 0;
-  }
-`
-
-const SwapBody = styled.div`
-  width: 100%;
-  background-color: ${({ theme }) => theme.advancedBG};
-  // background: rgba(255,255,255, 1);
-  backdrop-filter: blur(12px);
-  box-shadow: 0px 4px 16px 0px #838ea3 10%;
-  border-radius: 24px;
-  padding: 2rem 1.25rem 0;
-`
-
-const TreeBallsWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-
-  & > div {
-    display: block;
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-  }
-  & > div:first-child {
-    opacity: 0.83;
-    top: -16px;
-    right: -30px;
-    height: 147px;
-    width: 147px;
-    background: #01afa5;
-  }
-  & > div:first-child + div {
-    opacity: 0.57;
-    left: 23px;
-    bottom: 75px;
-    height: 100px;
-    width: 100px;
-    background: #4100ff;
-  }
-  & > div:last-child {
-    opacity: 0.9;
-    right: 16px;
-    bottom: -41px;
-    height: 100px;
-    width: 100px;
-    background: #ff00c7;
+  &:after {
+    left: 75.9%;
+    right: 13.89%;
+    top: -30%;
+    bottom: 100%;
+    opacity: 0.42;
   }
 `
-const TreeBalls = () => {
-  return (
-    <TreeBallsWrapper>
-      <div />
-      <div />
-      <div />
-    </TreeBallsWrapper>
-  )
-}
 
 export default function Swap() {
   const { t } = useTranslation()
@@ -386,23 +322,21 @@ export default function Swap() {
     onCurrencySelection
   ])
   const isHideMedium = useMedia('(max-width: 960px)')
-  console.log({ aToken: currencies[Field.INPUT], bToken: currencies[Field.OUTPUT] })
   return (
     <>
-      <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
-        tokens={urlLoadedTokens}
-        onConfirm={handleConfirmTokenWarning}
-      />
-      <SwapFrame>
-        <HideMedium>
-          {isHideMedium || (
-            <ChartPanel id="main-chart" tokenA={currencies[Field.INPUT]} tokenB={currencies[Field.OUTPUT]} />
-          )}
-        </HideMedium>
-        <SwapBlock>
-          <TreeBalls />
-          <SwapBody>
+      <SwapBody>
+        <TokenWarningModal
+          isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+          tokens={urlLoadedTokens}
+          onConfirm={handleConfirmTokenWarning}
+        />
+
+        {/* <TreeBalls /> */}
+        {isHideMedium || (
+          <ChartPanel id="main-chart" tokenA={currencies[Field.INPUT]} tokenB={currencies[Field.OUTPUT]} />
+        )}
+        <AppBody>
+          <TreeBalls>
             <SwapPoolTabs active={'swap'} />
             <Wrapper id="swap-page">
               <ConfirmSwapModal
@@ -605,10 +539,11 @@ export default function Swap() {
                 ) : null}
               </BottomGrouping>
             </Wrapper>
-            <AdvancedSwapDetailsDropdown trade={trade} />
-          </SwapBody>
-        </SwapBlock>
-      </SwapFrame>
+
+            {Boolean(trade) && <AdvancedSwapDetailsDropdown trade={trade} />}
+          </TreeBalls>
+        </AppBody>
+      </SwapBody>
     </>
   )
 }
