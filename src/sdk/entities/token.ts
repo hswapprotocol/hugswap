@@ -81,5 +81,5 @@ export const WHT = {
     ChainId.HECO_MAINNET, '0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f', 18, 'WHT', 'Wrapped HT'),
   
   [ChainId.HECO_TESTNET]: new Token(
-    ChainId.HECO_TESTNET, '0x4dEEab877Dc0B707a59409E47e8F8366B616b945', 18, 'WHT', 'Wrapped HT')
+    ChainId.HECO_TESTNET, '0x9f138fB59826EDA313895511321175A9aE9bDA18', 18, 'WHT', 'Wrapped HT')
 }
