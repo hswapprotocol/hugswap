@@ -1,17 +1,16 @@
 // ChartPanel
 import { Currency, Pair } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState }  from 'react'
+import React, { useState, useContext }  from 'react'
 import { useMedia } from 'react-use'
-import styled from 'styled-components'
-// import { getTimeframe } from '../../utils'
-import { ResponsiveContainer } from 'recharts'
+import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
-import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
+import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart} from 'recharts'
+import { toK, toNiceDate, toNiceDateYear, formattedNum } from '../../utils'
 
 const ChartWrapper = styled.div``
 const ChartName = styled.div`
@@ -127,7 +126,7 @@ export default function ChartPanel({
 }: ChartPanelProps) {
   // const theme = useContext(ThemeContext)
   currency = Currency.ETHER;
-
+  const theme = useContext(ThemeContext)
  // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
@@ -136,7 +135,7 @@ export default function ChartPanel({
   // const textColor = darkMode ? 'white' : 'black'
   let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
   let chartData = useTokenChartData(address)
-
+  console.log('chartData', chartData)
   const [timeWindow] = useState(timeframeOptions.WEEK)
   // const prevWindow = usePrevious(timeWindow)
 
@@ -162,9 +161,10 @@ export default function ChartPanel({
   const below600 = useMedia('(max-width: 600px)')
 
   // let utcStartTime = getTimeframe(timeWindow)
-  // const domain = [(dataMin) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
+  // const domain = AxisDomain([(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax'])
   const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
-  let width = 600;
+  const color = theme.text6
+  const textColor = theme.text4
   // chartData = chartData?.filter((entry) => entry.date >= utcStartTime)
 
   // update the width on a window resize
@@ -213,15 +213,60 @@ export default function ChartPanel({
       </ChartTools>
       <Chart>
         <ResponsiveContainer aspect={calAspect}>
-          <TradingViewChart
-            data={chartData}
-            base={null}
-            baseChange={null}
-            title="Liquidity"
-            field="totalLiquidityUSD"
-            width={width}
-            type={CHART_TYPES.AREA}
-          />
+         <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={color} stopOpacity={0.35} />
+                <stop offset="95%" stopColor={color} stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis
+              tickLine={false}
+              axisLine={false}
+              interval="preserveEnd"
+              minTickGap={120}
+              tickFormatter={(tick) => toNiceDate(tick)}
+              dataKey="date"
+              tick={{ fill: textColor }}
+              type={'number'}
+            />
+            <YAxis
+              type="number"
+              orientation="left"
+              tickFormatter={(tick) => '$' + toK(tick)}
+              axisLine={false}
+              tickLine={false}
+              interval="preserveEnd"
+              minTickGap={80}
+              yAxisId={0}
+              tick={{ fill: textColor }}
+            />
+            <Tooltip
+              cursor={true}
+              formatter={(val:any) => formattedNum(val, true)}
+              labelFormatter={(label) => toNiceDateYear(label)}
+              labelStyle={{ paddingTop: 4 }}
+              contentStyle={{
+                padding: '10px 14px',
+                borderRadius: 10,
+                borderColor: color,
+                color: 'black',
+              }}
+              wrapperStyle={{ top: -70, left: -10 }}
+            />
+            <Area
+              key={'other'}
+              dataKey={'priceUSD'}
+              stackId="2"
+              strokeWidth={2}
+              dot={false}
+              type="monotone"
+              name={'Price'}
+              yAxisId={0}
+              stroke={color}
+              fill="url(#colorUv)"
+            />
+          </AreaChart>
         </ResponsiveContainer>
       </Chart>
     </ChartWrapper>
