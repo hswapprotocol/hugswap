@@ -1,6 +1,6 @@
 {
   "name": "Chicken List",
-  "timestamp": "2020-08-11T22:55:13.889Z",
+  "timestamp": "2021-01-20T20:50:38.889Z",
   "version": {
     "major": 1,
     "minor": 2,
@@ -8,7 +8,10 @@
   },
   "tags": {},
   "logoURI": "ipfs://QmZgpZq1HkVS7YCThNJeR51KFVo5AL8P3ThA2y9wcw53p9",
-  "keywords": ["Chicken", "default"],
+  "keywords": [
+    "Chicken",
+    "default"
+  ],
   "tokens": [
     {
       "name": "Wrapped HT",
