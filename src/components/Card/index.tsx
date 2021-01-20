@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardProps, Text } from 'rebass'
+import { CardProps } from 'rebass'
 import { Box } from 'rebass/styled-components'
 
 const Card = styled(Box)<{ padding?: string; border?: string; borderRadius?: string }>`
@@ -45,10 +45,11 @@ export const PinkCard = styled(Card)`
 `
 
 const BlueCardStyled = styled(Card)`
-  background-color: ${({ theme }) => theme.primary5};
-  color: ${({ theme }) => theme.primary1};
+  // background-color: ${({ theme }) => theme.primary5};
+  color: ${({ theme }) => theme.text3};
   border-radius: 12px;
   width: fit-content;
+  padding: 0;
 `
 
 export const NoBorderCardStyled = styled(Card)`
@@ -59,11 +60,5 @@ export const NoBorderCardStyled = styled(Card)`
 `
 
 export const BlueCard = ({ children, ...rest }: CardProps) => {
-  return (
-    <BlueCardStyled {...rest}>
-      <Text fontWeight={500} color="#2172E5">
-        {children}
-      </Text>
-    </BlueCardStyled>
-  )
+  return <BlueCardStyled {...rest}>{children}</BlueCardStyled>
 }

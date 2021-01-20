@@ -333,15 +333,9 @@ export default function AddLiquidity({
               (isCreate && (
                 <ColumnCenter>
                   <BlueCard>
-                    <AutoColumn gap="10px">
-                      <TYPE.link fontWeight={600} color={'primaryText1'}>
-                        You are the first liquidity provider.
-                      </TYPE.link>
-                      <TYPE.link fontWeight={400} color={'primaryText1'}>
-                        The ratio of tokens you add will set the price of this pool.
-                      </TYPE.link>
-                      <TYPE.link fontWeight={400} color={'primaryText1'}>
-                        Once you are happy with the rate click supply to review.
+                    <AutoColumn>
+                      <TYPE.link fontWeight={400} color={'text4'}>
+                        您作为该流动性第一个提供者。所添加的币种比例将直接影响到流动性池的价格，请提前预知相关风险性。
                       </TYPE.link>
                     </AutoColumn>
                   </BlueCard>
