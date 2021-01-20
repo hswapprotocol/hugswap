@@ -50,10 +50,12 @@ interface PriceDiffProps {
 const PriceDiff = ({ diff }: PriceDiffProps) => {
   let wapperStyle = diff == 0 ? '' : diff > 0 ? 'up' : 'down'
   return (
-    <PriceDiffWrapper className={wapperStyle}>
-      {diff == 0 ? '' : diff > 0 ? '+' : '-'}
-      {diff}%
-    </PriceDiffWrapper>
+    <>
+      <PriceDiffWrapper className={wapperStyle}>
+        {diff == 0 ? '' : diff > 0 ? '+' : '-'}
+        {diff}%
+      </PriceDiffWrapper>
+    </>
   )
 }
 const PriceDiffWrapper = styled.div<{ diff?: number }>`
@@ -67,7 +69,34 @@ const PriceDiffWrapper = styled.div<{ diff?: number }>`
     color: ${({ theme }) => theme.text9};
   }
 `
+const ResolutionsWrapper = styled.ul`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  
+  li {
+    position: relative;
+    padding: 0 0.625rem;
+    
+    &:after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 10px;
+      width: 1px;
+      background-color: ${({ theme }) => theme.text4};
+    }
+    &:last-child {
+      padding-right: 0;
+      &:after {
+        display: none;
+      }
+    }
+  }
 
+`
 interface ResolutionButtonProps {
   children: any
   active: boolean
@@ -76,17 +105,23 @@ interface ResolutionButtonProps {
 const ResolutionButton = ({ children, active, setActive }: ResolutionButtonProps) => {
   let wapperStyle = active ? 'active' : ''
   return (
-    <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
-      {children}
-    </ResolutionButtonInner>
+    <li>
+      <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
+        {children}
+      </ResolutionButtonInner>
+    </li>
   )
 }
 const ResolutionButtonInner = styled.a`
-  .active {
-    color: red;
+  color: ${({ theme }) => theme.text4}; 
+  cursor: pointer;
+
+  &.active {
+    cursor: default;
+    color: ${({ theme }) => theme.text6};
   }
 `
-const ResolutionsWrapper = styled.div``
+
 
 const Resolutions = () => {
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
