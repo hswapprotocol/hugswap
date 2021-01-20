@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import QuestionHelper from '../QuestionHelper'
 import { TYPE } from '../../theme'
@@ -94,6 +95,7 @@ export interface SlippageTabsProps {
 
 export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, setDeadline }: SlippageTabsProps) {
   const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
 
   const inputRef = useRef<HTMLInputElement>()
 
@@ -149,11 +151,11 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
       <AutoColumn gap="sm">
         <RowFixed>
           <TYPE.black fontWeight={400} fontSize={14} color={theme.text4}>
-            Slippage tolerance
+            {t('tolerance')}
           </TYPE.black>
           <QuestionHelper
             color={theme.text4}
-            text="Your transaction will revert if the price changes unfavorably by more than this percentage."
+            text={t('hint1')}
           />
         </RowFixed>
         <RowBetween>
@@ -218,10 +220,10 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
             }}
           >
             {slippageError === SlippageError.InvalidInput
-              ? 'Enter a valid slippage percentage'
+              ? t('err1')
               : slippageError === SlippageError.RiskyLow
-              ? 'Your transaction may fail'
-              : 'Your transaction may be frontrun'}
+              ? t('err2')
+              : t('err3')}
           </RowBetween>
         )}
       </AutoColumn>
@@ -229,11 +231,11 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
       <AutoColumn gap="sm">
         <RowFixed>
           <TYPE.black fontSize={14} fontWeight={400} color={theme.text4}>
-            Transaction deadline
+            {t('deadline')}
           </TYPE.black>
           <QuestionHelper
             color={theme.text4}
-            text="Your transaction will revert if it is pending for more than this long."
+            text={t('hint2')}
           />
         </RowFixed>
         <RowFixed>
@@ -249,7 +251,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
             />
           </OptionCustom>
           <TYPE.body style={{ paddingLeft: '8px' }} color={theme.text4} fontSize={14}>
-            minutes
+            {t('minutes')}
           </TYPE.body>
         </RowFixed>
       </AutoColumn>
