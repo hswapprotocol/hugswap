@@ -102,8 +102,7 @@ const Resolutions = () => {
     )
 }
 const Chart = styled.div`
-  padding-top: 55%;
-  background-color: red;
+  
 `
 
 // const CHART_VIEW = {
