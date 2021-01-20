@@ -47,7 +47,6 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
-import { useTranslation } from 'react-i18next'
 
 const SwapFrame = styled.div`
   display: grid;
