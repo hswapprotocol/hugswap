@@ -123,13 +123,25 @@ const Chart = styled.div``
 // const DATA_FREQUENCY = {
 //   LINE: 'LINE',
 // }
+const defaultTokens = [
+  {
+    decimals: 18,
+    name: 'HT',
+    symbol: 'HT'
+  },
+  {
+    decimals: 18,
+    name: 'HUSD',
+    symbol: 'HUSD'
+  }
+]
 
 interface ChartPanelProps {
   id: string
   tokenA: Currency | null | undefined
   tokenB: Currency | null | undefined
 }
-export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
+export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
   const currency = tokenA || tokenB || Currency.ETHER
   const theme = useContext(ThemeContext)
   // settings for the window and candle width
