@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
+import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
@@ -41,6 +42,7 @@ import {
 } from '../../state/swap/hooks'
 import { useExpertModeManager, useUserSlippageTolerance, useUserSingleHopOnly } from '../../state/user/hooks'
 import { LinkStyledButton, TYPE } from '../../theme'
+import { HideMedium } from '../../theme/components'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 // import AppBody from '../AppBody'
@@ -74,17 +76,13 @@ const SwapFrame = styled.div`
   `}
 `
 
-const InfoWrapper = styled.div`
-  
-`
-
 const SwapBlock = styled.div`
   position: relative;
   max-width: 420px;
   width: 100%;
 
   &:before {
-    content: "";
+    content: '';
   }
   & #swap-page {
     // opacity: 0;
@@ -96,7 +94,7 @@ const SwapBody = styled.div`
   background-color: ${({ theme }) => theme.advancedBG};
   // background: rgba(255,255,255, 1);
   backdrop-filter: blur(12px);
-  box-shadow: 0px 4px 16px 0px #838EA3 10%;
+  box-shadow: 0px 4px 16px 0px #838ea3 10%;
   border-radius: 24px;
   padding: 1rem;
 `
@@ -121,7 +119,7 @@ const TreeBallsWrapper = styled.div`
     right: -30px;
     height: 147px;
     width: 147px;
-    background: #01AFA5;
+    background: #01afa5;
   }
   & > div:first-child + div {
     opacity: 0.57;
@@ -129,7 +127,7 @@ const TreeBallsWrapper = styled.div`
     bottom: 75px;
     height: 100px;
     width: 100px;
-    background: #4100FF;
+    background: #4100ff;
   }
   & > div:last-child {
     opacity: 0.9;
@@ -137,11 +135,17 @@ const TreeBallsWrapper = styled.div`
     bottom: -41px;
     height: 100px;
     width: 100px;
-    background: #FF00C7;
+    background: #ff00c7;
   }
 `
 const TreeBalls = () => {
-  return <TreeBallsWrapper><div/><div/><div/></TreeBallsWrapper>
+  return (
+    <TreeBallsWrapper>
+      <div />
+      <div />
+      <div />
+    </TreeBallsWrapper>
+  )
 }
 
 export default function Swap() {
@@ -381,7 +385,7 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-
+  const isHideMedium = useMedia('(max-width: 960px)')
   return (
     <>
       <TokenWarningModal
@@ -390,14 +394,9 @@ export default function Swap() {
         onConfirm={handleConfirmTokenWarning}
       />
       <SwapFrame>
-        <InfoWrapper>
-          <ChartPanel 
-            id="main-chart"
-            pair= {null}
-            currency= {null}
-            otherCurrency={null}
-          />
-        </InfoWrapper>
+        <HideMedium>
+          {isHideMedium || <ChartPanel id="main-chart" pair={null} currency={null} otherCurrency={null} />}
+        </HideMedium>
         <SwapBlock>
           <TreeBalls />
           <SwapBody>
@@ -420,7 +419,6 @@ export default function Swap() {
               <AutoColumn gap={'md'}>
                 <CurrencyInputPanel
                   label={independentField === Field.OUTPUT && !showWrap && trade ? t('fromEstimated') : t('from')}
-
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}

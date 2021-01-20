@@ -29,7 +29,7 @@ export enum Rounding {
 // export const INIT_CODE_HASH = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f'
 
 // factory地址
-export const FACTORY_ADDRESS = '0x31c220a57038eD6a22e41798B4CCBC441E450903'
+export const FACTORY_ADDRESS = '0x96B62c4Ed38d50D71C7F2373a394b7a75F3370C6'
 // Pair的init code hash
 export const INIT_CODE_HASH = '0x590000bb401d0d17794a75ad401dc3dddf361891bba58081a4896704d393330b'
 

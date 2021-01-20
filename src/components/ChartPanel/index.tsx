@@ -1,7 +1,7 @@
 // ChartPanel
 import { Currency, Pair } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext }  from 'react'
+import React, { useState, useContext } from 'react'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
@@ -9,7 +9,7 @@ import { timeframeOptions } from '../../constants'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
-import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart} from 'recharts'
+import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart } from 'recharts'
 import { toK, toNiceDate, toNiceDateYear, formattedNum } from '../../utils'
 
 const ChartWrapper = styled.div``
@@ -19,7 +19,8 @@ const ChartName = styled.div`
   justify-content: flex-start;
   margin-bottom: 1rem;
 
-  .token-symbol-container, .pair-name-container{
+  .token-symbol-container,
+  .pair-name-container {
     font-size: 18px;
     margin-left: 0.5rem;
   }
@@ -46,63 +47,74 @@ const Price = styled.div`
 interface PriceDiffProps {
   diff: Number
 }
-const PriceDiff = ({diff}:PriceDiffProps) => {
-  let wapperStyle = diff == 0 ?'' : (diff > 0 ? 'up' : 'down')
-  return <PriceDiffWrapper className={wapperStyle}>{(diff == 0 ?'' : (diff > 0 ? '+' : '-'))}{diff}%</PriceDiffWrapper>
+const PriceDiff = ({ diff }: PriceDiffProps) => {
+  let wapperStyle = diff == 0 ? '' : diff > 0 ? 'up' : 'down'
+  return (
+    <PriceDiffWrapper className={wapperStyle}>
+      {diff == 0 ? '' : diff > 0 ? '+' : '-'}
+      {diff}%
+    </PriceDiffWrapper>
+  )
 }
 const PriceDiffWrapper = styled.div<{ diff?: number }>`
   font-size: 18px;
   margin-left: 0.75rem;
   color: ${({ theme }) => theme.text10};
-  &.up{
+  &.up {
     color: ${({ theme }) => theme.text8};
   }
-  &.down{
+  &.down {
     color: ${({ theme }) => theme.text9};
   }
 `
 
 interface ResolutionButtonProps {
-  children: any,
-  active: boolean,
+  children: any
+  active: boolean
   setActive: () => void
 }
-const ResolutionButton = ({children, active, setActive}:ResolutionButtonProps) => {
+const ResolutionButton = ({ children, active, setActive }: ResolutionButtonProps) => {
   let wapperStyle = active ? 'active' : ''
-  return <ResolutionButtonInner className={wapperStyle} onClick={setActive}>{children}</ResolutionButtonInner>
+  return (
+    <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
+      {children}
+    </ResolutionButtonInner>
+  )
 }
 const ResolutionButtonInner = styled.a`
   .active {
     color: red;
   }
 `
-const ResolutionsWrapper = styled.div`
-  
-`
+const ResolutionsWrapper = styled.div``
 
 const Resolutions = () => {
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
 
   return (
-      <ResolutionsWrapper>
-          <ResolutionButton
-            active={timeWindow === timeframeOptions.DAY}
-            setActive={() => setTimeWindow(timeframeOptions.DAY)}
-          >1D</ResolutionButton>
-          <ResolutionButton
-            active={timeWindow === timeframeOptions.WEEK}
-            setActive={() => setTimeWindow(timeframeOptions.WEEK)}
-          >1W</ResolutionButton>
-          <ResolutionButton
-            active={timeWindow === timeframeOptions.ALL_TIME}
-            setActive={() => setTimeWindow(timeframeOptions.ALL_TIME)}
-          >ALL</ResolutionButton>
-      </ResolutionsWrapper>
-    )
+    <ResolutionsWrapper>
+      <ResolutionButton
+        active={timeWindow === timeframeOptions.DAY}
+        setActive={() => setTimeWindow(timeframeOptions.DAY)}
+      >
+        1D
+      </ResolutionButton>
+      <ResolutionButton
+        active={timeWindow === timeframeOptions.WEEK}
+        setActive={() => setTimeWindow(timeframeOptions.WEEK)}
+      >
+        1W
+      </ResolutionButton>
+      <ResolutionButton
+        active={timeWindow === timeframeOptions.ALL_TIME}
+        setActive={() => setTimeWindow(timeframeOptions.ALL_TIME)}
+      >
+        ALL
+      </ResolutionButton>
+    </ResolutionsWrapper>
+  )
 }
-const Chart = styled.div`
-  
-`
+const Chart = styled.div``
 
 // const CHART_VIEW = {
 //   LINE_PRICE: 'Price (Line)',
@@ -118,15 +130,10 @@ interface ChartPanelProps {
   currency?: Currency | null
   otherCurrency?: Currency | null
 }
-export default function ChartPanel({
-  id,
-  pair,
-  currency,
-  otherCurrency,
-}: ChartPanelProps) {
-  currency = Currency.ETHER;
+export default function ChartPanel({ id, pair, currency, otherCurrency }: ChartPanelProps) {
+  currency = Currency.ETHER
   const theme = useContext(ThemeContext)
- // settings for the window and candle width
+  // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
@@ -134,7 +141,6 @@ export default function ChartPanel({
   // const textColor = darkMode ? 'white' : 'black'
   let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
   let chartData = useTokenChartData(address)
-  console.log('chartData', chartData)
   const [timeWindow] = useState(timeframeOptions.WEEK)
   // const prevWindow = usePrevious(timeWindow)
 
@@ -147,15 +153,15 @@ export default function ChartPanel({
   switch (timeWindow) {
     case timeframeOptions.DAY:
       priceData = dataDay
-      break;
+      break
     case timeframeOptions.WEEK:
       priceData = dataWeek
-      break;
+      break
     case timeframeOptions.ALL_TIME:
       priceData = dataAll
-      break;
+      break
   }
-  console.log(priceData)
+  console.log({ priceData })
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
@@ -182,7 +188,7 @@ export default function ChartPanel({
   // }, [isClient, width]) // Empty array ensures that effect is only run on mount and unmount
 
   return (
-		<ChartWrapper>
+    <ChartWrapper>
       <ChartName>
         {pair ? (
           <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
@@ -212,7 +218,7 @@ export default function ChartPanel({
       </ChartTools>
       <Chart>
         <ResponsiveContainer aspect={calAspect}>
-         <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+          <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={color} stopOpacity={0.35} />
@@ -224,7 +230,7 @@ export default function ChartPanel({
               axisLine={false}
               interval="preserveEnd"
               minTickGap={120}
-              tickFormatter={(tick) => toNiceDate(tick)}
+              tickFormatter={tick => toNiceDate(tick)}
               dataKey="date"
               tick={{ fill: textColor }}
               type={'number'}
@@ -232,7 +238,7 @@ export default function ChartPanel({
             <YAxis
               type="number"
               orientation="left"
-              tickFormatter={(tick) => '$' + toK(tick)}
+              tickFormatter={tick => '$' + toK(tick)}
               axisLine={false}
               tickLine={false}
               interval="preserveEnd"
@@ -242,14 +248,14 @@ export default function ChartPanel({
             />
             <Tooltip
               cursor={true}
-              formatter={(val:any) => formattedNum(val, true)}
-              labelFormatter={(label) => toNiceDateYear(label)}
+              formatter={(val: any) => formattedNum(val, true)}
+              labelFormatter={label => toNiceDateYear(label)}
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{
                 padding: '10px 14px',
                 borderRadius: 10,
                 borderColor: color,
-                color: 'black',
+                color: 'black'
               }}
               wrapperStyle={{ top: -70, left: -10 }}
             />
