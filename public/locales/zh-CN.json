@@ -173,5 +173,9 @@
   "Copied": "复制成功",
   "Confirm Swap": "确认交换",
   "Swap Anyway": "仍要交换",
-  "Swap": "交换"
+  "Swap": "交换",
+  "Slippage Tolerance": "滑点差值",
+  "Price Impact High": "价格影响高",
+  "addSend": "添加发送（可选）",
+  "removeSend": "删除发送"
 }

@@ -172,5 +172,9 @@
   "Copied": "Copied",
   "Confirm Swap": "Confirm Swap",
   "Swap Anyway": "Swap Anyway",
-  "Swap": "Swap"
+  "Swap": "Swap",
+  "Slippage Tolerance": "Slippage Tolerance",
+  "Price Impact High": "Price Impact High",
+  "addSend": "Add a send (optional)",
+  "removeSend": "Remove send"
 }
