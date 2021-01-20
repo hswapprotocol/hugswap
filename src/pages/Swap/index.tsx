@@ -96,7 +96,7 @@ const SwapBody = styled.div`
   backdrop-filter: blur(12px);
   box-shadow: 0px 4px 16px 0px #838ea3 10%;
   border-radius: 24px;
-  padding: 1rem;
+  padding: 2rem 1.25rem 0;
 `
 
 const TreeBallsWrapper = styled.div`
@@ -440,7 +440,7 @@ export default function Swap() {
                           setApprovalSubmitted(false) // reset 2 step UI for approvals
                           onSwitchTokens()
                         }}
-                        color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? theme.primary1 : theme.text2}
+                        color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? theme.primary1 : theme.text4}
                       />
                     </ArrowWrapper>
                     {recipient === null && !showWrap && isExpertMode ? (
@@ -481,7 +481,7 @@ export default function Swap() {
                       {Boolean(trade) && (
                         <RowBetween align="center">
                           <Text fontWeight={500} fontSize={14} color={theme.text2}>
-                            Price
+                            {t('Price')}
                           </Text>
                           <TradePrice
                             price={trade?.executionPrice}
@@ -506,7 +506,7 @@ export default function Swap() {
               </AutoColumn>
               <BottomGrouping>
                 {!account ? (
-                  <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                  <ButtonLight onClick={toggleWalletModal}>{t('connectWallet')}</ButtonLight>
                 ) : showWrap ? (
                   <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                     {wrapInputError ??
@@ -583,12 +583,12 @@ export default function Swap() {
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
                   >
-                    <Text fontSize={20} fontWeight={500}>
+                    <Text fontSize={20} fontWeight={500} color={swapInputError ? theme.text4 : theme.white}>
                       {swapInputError
                         ? swapInputError
                         : priceImpactSeverity > 3 && !isExpertMode
-                        ? `Price Impact Too High`
-                        : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                        ? t('Price Impact Too High')
+                        : `${priceImpactSeverity > 2 ? t('Swap Anyway') : t('Swap')}`}
                     </Text>
                   </ButtonError>
                 )}

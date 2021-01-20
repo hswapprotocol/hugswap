@@ -250,7 +250,7 @@ export function useDerivedStakeInfo(
 
   let error: string | undefined
   if (!account) {
-    error = 'Connect Wallet'
+    error = t('connectWallet')
   }
   if (!parsedAmount) {
     error = error ?? t('enterAmount')
@@ -279,7 +279,7 @@ export function useDerivedUnstakeInfo(
 
   let error: string | undefined
   if (!account) {
-    error = 'Connect Wallet'
+    error = t('connectWallet')
   }
   if (!parsedAmount) {
     error = error ?? t('enterAmount')

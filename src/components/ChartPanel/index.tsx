@@ -1,7 +1,8 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext }  from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
@@ -35,7 +36,7 @@ const ChartTools = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.75rem;
 `
 const PriceBlock = styled.div`
   display: flex;
@@ -52,10 +53,12 @@ interface PriceDiffProps {
 const PriceDiff = ({ diff }: PriceDiffProps) => {
   let wapperStyle = diff == 0 ? '' : diff > 0 ? 'up' : 'down'
   return (
-    <PriceDiffWrapper className={wapperStyle}>
-      {diff == 0 ? '' : diff > 0 ? '+' : '-'}
-      {diff}%
-    </PriceDiffWrapper>
+    <>
+      <PriceDiffWrapper className={wapperStyle}>
+        {diff == 0 ? '' : diff > 0 ? '+' : '-'}
+        {diff}%
+      </PriceDiffWrapper>
+    </>
   )
 }
 const PriceDiffWrapper = styled.div<{ diff?: number }>`
@@ -69,7 +72,34 @@ const PriceDiffWrapper = styled.div<{ diff?: number }>`
     color: ${({ theme }) => theme.text9};
   }
 `
+const ResolutionsWrapper = styled.ul`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  
+  li {
+    position: relative;
+    padding: 0 0.625rem;
+    
+    &:after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 10px;
+      width: 1px;
+      background-color: ${({ theme }) => theme.text4};
+    }
+    &:last-child {
+      padding-right: 0;
+      &:after {
+        display: none;
+      }
+    }
+  }
 
+`
 interface ResolutionButtonProps {
   children: any
   active: boolean
@@ -78,17 +108,23 @@ interface ResolutionButtonProps {
 const ResolutionButton = ({ children, active, setActive }: ResolutionButtonProps) => {
   let wapperStyle = active ? 'active' : ''
   return (
-    <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
-      {children}
-    </ResolutionButtonInner>
+    <li>
+      <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
+        {children}
+      </ResolutionButtonInner>
+    </li>
   )
 }
 const ResolutionButtonInner = styled.a`
-  .active {
-    color: red;
+  color: ${({ theme }) => theme.text4}; 
+  cursor: pointer;
+
+  &.active {
+    cursor: default;
+    color: ${({ theme }) => theme.text6};
   }
 `
-const ResolutionsWrapper = styled.div``
+
 
 const Resolutions = () => {
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
@@ -193,7 +229,8 @@ export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = def
       priceData = dataAll
       break
   }
-  console.log({ priceData })
+  const { t } = useTranslation()
+  console.log(priceData)
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
@@ -298,7 +335,7 @@ export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = def
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={'Price'}
+              name={t('Price')}
               yAxisId={0}
               stroke={color}
               fill="url(#colorUv)"

@@ -76,7 +76,7 @@ export default function PoolFinder() {
   const prerequisiteMessage = (
     <NoBorderCardStyled>
         <Text textAlign="center">
-            {!account ? 'Connect to a wallet to find pools' : 'Select currency to query the liquidity you have added'}
+            {!account ? t('hint10') : t('hint9')}
         </Text>
     </NoBorderCardStyled>
   )
@@ -130,14 +130,14 @@ export default function PoolFinder() {
             style={{ justifyItems: 'center', backgroundColor: '', padding: '12px 0px 8px', borderRadius: '12px' }}
           >
             <Text textAlign="center" fontWeight={500}>
-              Found!
+              {t('Found')}!
             </Text>
             <ButtonPrimary
                 style={{ margin: '2rem auto 0'}}
                 as={Link}
                 to={`/pool`}
             >
-                <Text textAlign="center">Manage this pool</Text>
+                <Text textAlign="center">{t('managePool')}</Text>
             </ButtonPrimary>
           </ColumnCenter>
         )}
@@ -149,35 +149,35 @@ export default function PoolFinder() {
             ) : (
                 <AutoColumn gap="sm" justify="center">
                     <NoBorderCardStyled>
-                        <Text textAlign="center">You have no liquidity in this pool</Text>
+                        <Text textAlign="center">{t('hint11')}</Text>
                     </NoBorderCardStyled>
                     <ButtonPrimary
                         style={{ marginBottom: '1rem'}}
                         as={Link}
                         to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                     >
-                        <Text textAlign="center">Add liquidity</Text>
+                        <Text textAlign="center">{t('addLiquiditys')}</Text>
                     </ButtonPrimary>
                 </AutoColumn>
             )
           ) : validPairNoLiquidity ? (
               <AutoColumn gap="sm" justify="center">
                 <NoBorderCardStyled>      
-                    <Text textAlign="center">No pool found.</Text>
+                    <Text textAlign="center">{t('noPool')}</Text>
                 </NoBorderCardStyled>
                 <ButtonPrimary
                     style={{ marginBottom: '1rem'}}
                     as={Link}
                     to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                 >
-                    <Text textAlign="center">Create pool</Text>
+                    <Text textAlign="center">{t('Create pool')}</Text>
                 </ButtonPrimary>
               </AutoColumn>
           ) : pairState === PairState.INVALID ? (
               <AutoColumn gap="sm" justify="center">
                 <NoBorderCardStyled>      
                     <Text textAlign="center" fontWeight={500}>
-                        Invalid pair.
+                        {t('Invalid pair')}.
                     </Text>
                 </NoBorderCardStyled>
               </AutoColumn>

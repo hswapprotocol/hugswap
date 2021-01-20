@@ -141,7 +141,7 @@ export function CurrencySearch({
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
               {t('selectCurrency')}
-            <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
+            <QuestionHelper text={t('hint7')} />
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
