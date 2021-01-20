@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text } from 'rebass'
 import { ChainId, Currency, currencyEquals, ETHER, Token } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'
@@ -34,13 +35,15 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  const { t } = useTranslation()
+
   return (
     <AutoColumn gap="md">
       <AutoRow>
         <Text fontWeight={500} fontSize={14}>
-          Common bases
+          {t('Common bases')}
         </Text>
-        <QuestionHelper text="These tokens are commonly paired with other tokens." />
+        <QuestionHelper text={t('hint8')} />
       </AutoRow>
       <AutoRow gap="4px">
         <BaseWrapper

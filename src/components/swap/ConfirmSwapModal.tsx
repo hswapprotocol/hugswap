@@ -4,6 +4,7 @@ import TransactionConfirmationModal, {
   ConfirmationModalContent,
   TransactionErrorContent
 } from '../TransactionConfirmationModal'
+import { useTranslation } from 'react-i18next'
 import SwapModalFooter from './SwapModalFooter'
 import SwapModalHeader from './SwapModalHeader'
 
@@ -47,6 +48,7 @@ export default function ConfirmSwapModal({
   swapErrorMessage: string | undefined
   onDismiss: () => void
 }) {
+  const { t } = useTranslation()
   const showAcceptChanges = useMemo(
     () => Boolean(trade && originalTrade && tradeMeaningfullyDiffers(trade, originalTrade)),
     [originalTrade, trade]
@@ -87,7 +89,7 @@ export default function ConfirmSwapModal({
         <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
       ) : (
         <ConfirmationModalContent
-          title="Confirm Swap"
+          title={t('Confirm Swap')}
           onDismiss={onDismiss}
           topContent={modalHeader}
           bottomContent={modalBottom}

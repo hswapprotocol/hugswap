@@ -1,7 +1,8 @@
 // ChartPanel
 import { Currency, Pair } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext }  from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
@@ -161,7 +162,8 @@ export default function ChartPanel({ id, pair, currency, otherCurrency }: ChartP
       priceData = dataAll
       break
   }
-  console.log({ priceData })
+  const { t } = useTranslation()
+  console.log(priceData)
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
@@ -266,7 +268,7 @@ export default function ChartPanel({ id, pair, currency, otherCurrency }: ChartP
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={'Price'}
+              name={t('Price')}
               yAxisId={0}
               stroke={color}
               fill="url(#colorUv)"

@@ -1,9 +1,9 @@
 import { JSBI, Pair, Percent, TokenAmount } from '@src/sdk'
 import { darken } from 'polished'
 import React, { useState, useContext } from 'react'
-import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components'
@@ -76,6 +76,7 @@ interface PositionCardProps {
 }
 
 export function MinimalPositionCard({ pair, showUnwrapped = false, border }: PositionCardProps) {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const htmlTheme = useContext(ThemeContext)
 
@@ -112,7 +113,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <FixedHeightRow>
               <RowFixed>
                 <Text fontWeight={500} fontSize={16}>
-                  I currently hold
+                  {t('myHold')}
                 </Text>
               </RowFixed>
             </FixedHeightRow>
@@ -175,8 +176,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <span role="img" aria-label="wizard-icon">
               ⭐️
             </span>{' '}
-            By adding liquidity you&apos;ll earn 0.3% of all trades on this pair proportional to your share of the pool.
-            Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.
+            {t('hint6')}
           </TYPE.subHeader>
         </LightCard>
       )}
