@@ -174,6 +174,7 @@ export default function Pool() {
         .filter(stakingPair => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
     )
   })
+  console.log({ v2PairsWithoutStakedAmount, stakingPairs, stakingInfosWithBalance })
 
   return (
     <>

@@ -83,7 +83,8 @@ const MenuItem = styled(ExternalLink)`
     cursor: pointer;
     text-decoration: none;
   }
-  > svg, img {
+  > svg,
+  img {
     margin-right: 8px;
   }
 `
@@ -91,7 +92,6 @@ const MenuItem = styled(ExternalLink)`
 const CODE_LINK = 'https://github.com/hswapprotocol/hugswap'
 
 export default function Menu() {
-
   const { t } = useTranslation()
 
   const node = useRef<HTMLDivElement>()
@@ -108,7 +108,7 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://hugswap.com/">
+          <MenuItem id="link" href="/#/">
             <Info size={14} />
             {t('about')}
           </MenuItem>

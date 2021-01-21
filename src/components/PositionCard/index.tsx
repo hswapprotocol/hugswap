@@ -187,10 +187,11 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 export default function FullPositionCard({ pair, border, stakedBalance }: PositionCardProps) {
   const { account } = useActiveWeb3React()
 
-
   const { t } = useTranslation()
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
+
+  console.log({ pair, currency0, currency1 })
 
   const [showMore, setShowMore] = useState(false)
 
@@ -218,7 +219,6 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
       : [undefined, undefined]
 
   const backgroundColor = useColor(pair?.token0)
-
   return (
     <div>
       <StyledPositionCard border={border} bgColor={backgroundColor}>
@@ -269,7 +269,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
         <AutoColumnWrap gap="8px">
           <FixedHeightRow>
             <Text fontSize={16} fontWeight={600}>
-                {t('yourLPToken')}
+              {t('yourLPToken')}
             </Text>
             <Text fontSize={16} fontWeight={600}>
               {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
@@ -323,7 +323,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
 
           <FixedHeightRow>
             <Text3 fontSize={14} fontWeight={400}>
-                {t('LiquidityRatio')}
+              {t('LiquidityRatio')}
             </Text3>
             <Text fontSize={14} fontWeight={400}>
               {poolTokenPercentage
@@ -367,7 +367,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
               to={`/uni/${currencyId(currency0)}/${currencyId(currency1)}`}
               width="100%"
             >
-                {t('manageLiquidity')}
+              {t('manageLiquidity')}
             </ButtonPrimary>
           )}
         </AutoColumnWrap>
