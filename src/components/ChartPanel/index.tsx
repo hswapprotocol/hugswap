@@ -13,7 +13,8 @@ import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
 import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart } from 'recharts'
 import { toK, toNiceDate, toNiceDateYear, formattedNum } from '../../utils'
 import { useSelectedListInfo } from '../../state/lists/hooks'
-import { ZERO_ADDRESS } from '../../constants/index' // HT的地址，是零地址
+import { useDerivedSwapInfo } from '../../state/swap/hooks'
+import { Field } from '../../state/swap/actions'
 
 const ChartWrapper = styled.div``
 const ChartName = styled.div`
@@ -181,14 +182,14 @@ const defaultTokens = [
   }
 ]
 
-const getTokenInfo = (symbol: any = '') => {
+// 只用于画图， HT 地址返回 WHT 地址，用于获取价格
+const getChartTokenInfo = (currency: Currency | undefined) => {
   const allTokens = useSelectedListInfo()
+  let symbol = currency?.symbol
   if (symbol === 'HT') {
-    return {
-      ...Currency.ETHER,
-      address: ZERO_ADDRESS
-    }
+    symbol = 'WHT'
   }
+  console.log('getChartTokenInfo:', symbol, allTokens?.current?.tokens.find(token => token.symbol === symbol))
   return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
 }
 
@@ -197,12 +198,20 @@ interface ChartPanelProps {
   tokenA: Currency | DefaultToken | undefined
   tokenB: Currency | undefined
 }
-export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = defaultTokens[1] }: ChartPanelProps) {
+export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
   const currency = tokenA || tokenB || Currency.ETHER
+  console.log(defaultTokens[0], defaultTokens[1])
+  const { currencies } = useDerivedSwapInfo()
+
+  tokenA = currencies[Field.INPUT]
+  tokenB = currencies[Field.OUTPUT]
+
+  console.log('tokenA:',tokenA)
+  console.log('tokenB:',tokenB)
+
   const theme = useContext(ThemeContext)
-  const [tokenAInfo] = useState(getTokenInfo(tokenA?.symbol))
-  const [tokenBInfo] = useState(getTokenInfo(tokenB?.symbol))
-  console.log('address tokenA:', tokenAInfo?.address)
+  const [tokenAInfo] = useState(getChartTokenInfo(tokenA))
+  const [tokenBInfo] = useState(getChartTokenInfo(tokenB))
   console.log('tokenAInfo:', tokenAInfo)
   console.log('tokenBInfo:', tokenBInfo)
   // settings for the window and candle width
@@ -211,6 +220,7 @@ export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = def
 
   // let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
   let chartData = useTokenChartData(tokenAInfo?.address)
+  console.log('chartData', chartData)
   const [timeWindow] = useState(timeframeOptions.WEEK)
   // const prevWindow = usePrevious(timeWindow)
 
@@ -233,6 +243,9 @@ export default function ChartPanel({ id, tokenA = defaultTokens[0], tokenB = def
   }
   const { t } = useTranslation()
   console.log('priceData', priceData)
+  if (priceData?.length) {
+    // code...
+  }
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 

@@ -1,6 +1,6 @@
 {
   "name": "Chicken List",
-  "timestamp": "2021-01-20T20:50:38.889Z",
+  "timestamp": "2021-01-21T06:50:38.889Z",
   "version": {
     "major": 1,
     "minor": 2,
@@ -76,7 +76,7 @@
     },
     {
       "name": "Wrapped HT",
-      "address": "0x9f138fB59826EDA313895511321175A9aE9bDA18",
+      "address": "0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f",
       "symbol": "WHT",
       "decimals": 18,
       "chainId": 128,
