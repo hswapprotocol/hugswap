@@ -8,7 +8,10 @@
   },
   "tags": {},
   "logoURI": "ipfs://QmZgpZq1HkVS7YCThNJeR51KFVo5AL8P3ThA2y9wcw53p9",
-  "keywords": ["Chicken", "default"],
+  "keywords": [
+    "Chicken",
+    "default"
+  ],
   "tokens": [
     {
       "name": "Wrapped HT",
@@ -76,7 +79,7 @@
     },
     {
       "name": "Wrapped HT",
-      "address": "0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f",
+      "address": "0x9f138fB59826EDA313895511321175A9aE9bDA18",
       "symbol": "WHT",
       "decimals": 18,
       "chainId": 128,

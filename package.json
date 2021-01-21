@@ -1,7 +1,7 @@
 {
   "name": "hugswap",
   "description": "Hugswap",
-  "homepage": "https://swap.hbfile.net/",
+  "homepage": "https://app.hugswap.com",
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
