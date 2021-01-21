@@ -109,6 +109,7 @@
     "build": "node scripts/build.js --env=production",
     "test": "node scripts/test.js --env=jsdom",
     "server": "serve ./build",
+    "remote": "node scripts/phab.js",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'"
   },
   "eslintConfig": {
@@ -157,7 +158,7 @@
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "file-loader": "4.3.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
