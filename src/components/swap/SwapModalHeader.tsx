@@ -87,13 +87,13 @@ export default function SwapModalHeader({
           <RowBetween>
             <RowFixed>
               <AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
-              <TYPE.main color={theme.primary1}> Price Updated</TYPE.main>
+              <TYPE.main color={theme.primary1}> {t('Price Updated')}</TYPE.main>
             </RowFixed>
             <ButtonPrimary
               style={{ padding: '.5rem', width: 'fit-content', fontSize: '0.825rem', borderRadius: '12px' }}
               onClick={onAcceptChanges}
             >
-              Accept
+              {t('Accept')}
             </ButtonPrimary>
           </RowBetween>
         </SwapShowAcceptChanges>
@@ -120,7 +120,7 @@ export default function SwapModalHeader({
       {recipient !== null ? (
         <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
           <TYPE.main>
-            Output will be sent to{' '}
+            {t('Output will be sent to')}{' '}
             <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
           </TYPE.main>
         </AutoColumn>

@@ -444,12 +444,12 @@ export default function Swap() {
                 ) : showWrap ? (
                   <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                     {wrapInputError ??
-                      (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
+                      (wrapType === WrapType.WRAP ? t('Wrap') : wrapType === WrapType.UNWRAP ? t('Unwrap') : null)}
                   </ButtonPrimary>
                 ) : noRoute && userHasSpecifiedInputOutput ? (
                   <GreyCard style={{ textAlign: 'center' }}>
                     <TYPE.main mb="4px">{t('hint4')}</TYPE.main>
-                    {singleHopOnly && <TYPE.main mb="4px">Try enabling multi-hop trades.</TYPE.main>}
+                    {singleHopOnly && <TYPE.main mb="4px">{t('hint20')}</TYPE.main>}
                   </GreyCard>
                 ) : showApproveFlow ? (
                   <RowBetween>
@@ -462,7 +462,7 @@ export default function Swap() {
                     >
                       {approval === ApprovalState.PENDING ? (
                         <AutoRow gap="6px" justify="center">
-                          Approving <Loader stroke="white" />
+                          {t('Approving')} <Loader stroke="white" />
                         </AutoRow>
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                         t('Approved')

@@ -1,6 +1,7 @@
 import { ChainId } from '@src/sdk'
 import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import Modal from '../Modal'
 import { ExternalLink } from '../../theme'
 import { Text, Flex } from 'rebass'
@@ -33,6 +34,7 @@ const ConfirmedIcon = styled(ColumnCenter)`
 `
 
 function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
+  const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   return (
     <Wrapper>
@@ -42,7 +44,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20}>
-            Confirming…
+            {t('Confirming')}…
           </Text>
           <AutoColumn gap="12px" justify={'center'}>
             <Text fontWeight={600} fontSize={14} color={theme.text3} textAlign="center">
@@ -50,7 +52,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
             </Text>
           </AutoColumn>
           <Text fontSize={12} color={theme.text4} textAlign="center">
-            You can confirm the transaction on the wallet
+            {t('You can confirm the transaction on the wallet')}
           </Text>
         </AutoColumn>
       </Section>
@@ -67,6 +69,7 @@ function TransactionSubmittedContent({
   hash: string | undefined
   chainId: ChainId
 }) {
+  const { t } = useTranslation()
   const theme = useContext(ThemeContext)
 
   return (
@@ -81,17 +84,17 @@ function TransactionSubmittedContent({
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20}>
-            Submitted successfully
+            {t('Submitted successfully')}
           </Text>
           {chainId && hash && (
             <Flex alignItems="center">
               <Text fontWeight={500} fontSize={14} color={theme.text3}>
-                Go to Hecoscan to{' '}
+                {t('Go to Hecoscan to')}{' '}
               </Text>
 
               <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>
                 <Text fontWeight={500} fontSize={14} color={theme.text11}>
-                  &nbsp;view transaction details
+                  &nbsp;{t('view transaction details')}
                 </Text>
               </ExternalLink>
             </Flex>
@@ -130,13 +133,14 @@ export function ConfirmationModalContent({
 }
 
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
+  const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   return (
     <Wrapper>
       <Section>
         <RowBetween>
           <Text fontWeight={500} fontSize={20}>
-            Error
+            {t('Error')}
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
@@ -148,7 +152,7 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
         </AutoColumn>
       </Section>
       <BottomSection gap="12px">
-        <ButtonPrimary onClick={onDismiss}>Dismiss</ButtonPrimary>
+        <ButtonPrimary onClick={onDismiss}>{t('Dismiss')}</ButtonPrimary>
       </BottomSection>
     </Wrapper>
   )

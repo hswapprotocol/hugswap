@@ -1,4 +1,5 @@
 import { Currency, Percent, Price } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import React, { useContext } from 'react'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
@@ -19,6 +20,7 @@ export function PoolPriceBar({
   poolTokenPercentage?: Percent
   price?: Price
 }) {
+  const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   return (
     <AutoColumn gap="md">
@@ -43,7 +45,7 @@ export function PoolPriceBar({
             %
           </TYPE.black>
           <Text fontWeight={500} fontSize={14} color={theme.text4} pt={1}>
-            Share of Pool
+            {t('Share of Pool')}
           </Text>
         </AutoColumn>
       </AutoRow>

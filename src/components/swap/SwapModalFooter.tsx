@@ -93,7 +93,7 @@ export default function SwapModalFooter({
             <TYPE.black color={theme.text2} fontSize={14} fontWeight={400}>
               {t('Price Impact')}
             </TYPE.black>
-            <QuestionHelper text="The difference between the market price and your price due to trade size." />
+            <QuestionHelper text={t('hint13')} />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>

@@ -186,11 +186,11 @@ export default function AddLiquidity({
 
           addTransaction(response, {
             summary:
-              'Add ' +
+              `${t('add')} ` +
               parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
               ' ' +
               currencies[Field.CURRENCY_A]?.symbol +
-              ' and ' +
+              ` ${t('and')} ` +
               parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
               ' ' +
               currencies[Field.CURRENCY_B]?.symbol
@@ -248,8 +248,7 @@ export default function AddLiquidity({
           </TokensText>
         </Row>
         <Text fontSize={14} color={theme.text4} lineHeight={1.4} textAlign="left" padding={'2px 0 0 0 '}>
-          {`Output is estimated. If the price changes by more than ${allowedSlippage /
-            100}% your transaction will revert.`}
+          {t('Output', {amount: allowedSlippage / 100})}
         </Text>
       </AutoColumn>
     )
@@ -268,7 +267,7 @@ export default function AddLiquidity({
     )
   }
 
-  const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+  const pendingText = `${t('Supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencies[Field.CURRENCY_A]?.symbol
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
@@ -322,7 +321,7 @@ export default function AddLiquidity({
             hash={txHash}
             content={() => (
               <ConfirmationModalContent
-                title={noLiquidity ? 'You are creating a pool' : 'You will get'}
+                title={noLiquidity ? t('You are creating a pool') : t('You will get')}
                 onDismiss={handleDismissConfirmation}
                 topContent={modalHeader}
                 bottomContent={modalBottom}
@@ -409,7 +408,7 @@ export default function AddLiquidity({
                           {approvalA === ApprovalState.PENDING ? (
                             <Dots>Approving {currencies[Field.CURRENCY_A]?.symbol}</Dots>
                           ) : (
-                            'Approve ' + currencies[Field.CURRENCY_A]?.symbol
+                            `${t('Approve')} ` + currencies[Field.CURRENCY_A]?.symbol
                           )}
                         </ButtonPrimary>
                       )}
@@ -422,7 +421,7 @@ export default function AddLiquidity({
                           {approvalB === ApprovalState.PENDING ? (
                             <Dots>Approving {currencies[Field.CURRENCY_B]?.symbol}</Dots>
                           ) : (
-                            'Approve ' + currencies[Field.CURRENCY_B]?.symbol
+                            `${t('Approve')} ` + currencies[Field.CURRENCY_B]?.symbol
                           )}
                         </ButtonPrimary>
                       )}
@@ -436,7 +435,7 @@ export default function AddLiquidity({
                   error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                 >
                   <Text fontSize={20} fontWeight={500}>
-                    {error ?? 'Supply'}
+                    {error ?? t('Supply')}
                   </Text>
                 </ButtonError>
               </AutoColumn>

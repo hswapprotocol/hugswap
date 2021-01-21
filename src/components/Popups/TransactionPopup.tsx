@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { AlertCircle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 import { TYPE } from '../../theme'
 import { ExternalLink } from '../../theme/components'
@@ -26,6 +27,7 @@ export default function TransactionPopup({
   const { chainId } = useActiveWeb3React()
 
   const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
 
   return (
     <RowNoFlex>
@@ -34,13 +36,13 @@ export default function TransactionPopup({
           {success ? <Success style={{ width: 24, height: 24 }} /> : <AlertCircle color={theme.red1} size={24} />}
           <div style={{ paddingLeft: '10px' }}>
             <TYPE.body fontWeight={500} marginBottom={10}>
-              {summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
+              {summary ?? `${t('Hash')}: ` + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
             </TYPE.body>
             {chainId && (
               <Text fontSize={14} color={theme.text4}>
-                Go to
-                <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>&nbsp;Hecoscan&nbsp;</ExternalLink>
-                to view details
+                {t('Go to')}
+                <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')}>&nbsp;{t('Hecoscan')}&nbsp;</ExternalLink>
+                {t('to view details')}
               </Text>
             )}
           </div>

@@ -99,7 +99,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                    Route
+                    {t('Route')}
                   </TYPE.black>
                   <QuestionHelper text="Routing through these tokens resulted in the best price for your trade." />
                 </RowFixed>

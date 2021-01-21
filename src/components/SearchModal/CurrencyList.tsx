@@ -1,5 +1,6 @@
 import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@src/sdk'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
 import styled from 'styled-components'
@@ -94,6 +95,7 @@ function CurrencyRow({
   style: CSSProperties
 }) {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
   const key = currencyKey(currency)
   const selectedTokenList = useSelectedTokenList()
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
@@ -120,27 +122,27 @@ function CurrencyRow({
         <FadedSpan>
           {!isOnSelectedList && customAdded ? (
             <TYPE.main fontWeight={500}>
-              Added by user
+              {t('Added by user')}
               <LinkStyledButton
                 onClick={event => {
                   event.stopPropagation()
                   if (chainId && currency instanceof Token) removeToken(chainId, currency.address)
                 }}
               >
-                (Remove)
+                ({t('remove')})
               </LinkStyledButton>
             </TYPE.main>
           ) : null}
           {!isOnSelectedList && !customAdded ? (
             <TYPE.main fontWeight={500}>
-              Found by address
+              {t('Found by address')}
               <LinkStyledButton
                 onClick={event => {
                   event.stopPropagation()
                   if (currency instanceof Token) addToken(currency)
                 }}
               >
-                (Add)
+                ({t('add')})
               </LinkStyledButton>
             </TYPE.main>
           ) : null}

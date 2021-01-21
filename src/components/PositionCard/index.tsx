@@ -232,7 +232,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
               </Text>
               {!!stakedBalance && (
                 <ButtonUNIGradient as={Link} to={`/uni/${currencyId(currency0)}/${currencyId(currency1)}`}>
-                  <HideExtraSmall>Earning UNI</HideExtraSmall>
+                  <HideExtraSmall>{t('Earning')} UNI</HideExtraSmall>
                   <ExtraSmallOnly>
                     <span role="img" aria-label="bolt">
                       ⚡
@@ -288,7 +288,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
           <FixedHeightRow>
             <RowFixed>
               <Text3 fontSize={14} fontWeight={400}>
-                {t('Invested')} {currency0.symbol}:
+                {t('Pooled')} {currency0.symbol}:
               </Text3>
             </RowFixed>
             {token0Deposited ? (
@@ -306,7 +306,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
           <FixedHeightRow>
             <RowFixed>
               <Text3 fontSize={14} fontWeight={400}>
-                {t('Invested')} {currency1.symbol}:
+                {t('Pooled')} {currency1.symbol}:
               </Text3>
             </RowFixed>
             {token1Deposited ? (

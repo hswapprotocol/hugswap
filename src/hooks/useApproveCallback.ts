@@ -1,5 +1,6 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
+import { useTranslation } from 'react-i18next'
 import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@src/sdk'
 import { useCallback, useMemo } from 'react'
 import { ROUTER_ADDRESS } from '../constants'
@@ -45,6 +46,7 @@ export function useApproveCallback(
       : ApprovalState.APPROVED
   }, [amountToApprove, currentAllowance, pendingApproval, spender])
 
+  const { t } = useTranslation()
   const tokenContract = useTokenContract(token?.address)
   const addTransaction = useTransactionAdder()
 
@@ -86,7 +88,7 @@ export function useApproveCallback(
       })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: 'Approve ' + amountToApprove.currency.symbol,
+          summary: `${t('Approve')} ` + amountToApprove.currency.symbol,
           approval: { tokenAddress: token.address, spender: spender }
         })
       })

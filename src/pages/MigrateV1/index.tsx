@@ -1,6 +1,7 @@
 import { JSBI, Token } from '@src/sdk'
 import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { AutoColumn } from '../../components/Column'
 import { AutoRow } from '../../components/Row'
 import { SearchInput } from '../../components/SearchModal/styleds'
@@ -30,6 +31,7 @@ export default function MigrateV1() {
   const token = useToken(tokenSearch)
   const selectedTokenListTokens = useSelectedTokenList()
   const isOnSelectedList = isTokenOnList(selectedTokenListTokens, token ?? undefined)
+  const { t } = useTranslation()
   const allTokens = useAllTokens()
   const addToken = useAddUserToken()
   useEffect(() => {
@@ -71,21 +73,20 @@ export default function MigrateV1() {
       <AutoColumn gap="16px">
         <AutoRow style={{ alignItems: 'center', justifyContent: 'space-between' }} gap="8px">
           <BackArrow to="/pool" />
-          <TYPE.mediumHeader>Migrate V1 Liquidity</TYPE.mediumHeader>
+          <TYPE.mediumHeader>{t('Migrate V1 Liquidity')}</TYPE.mediumHeader>
           <div>
-            <QuestionHelper text="Migrate your liquidity tokens from Uniswap V1 to Uniswap V2." />
+            <QuestionHelper text={t('hint24')} />
           </div>
         </AutoRow>
 
         <TYPE.body style={{ marginBottom: 8, fontWeight: 400 }}>
-          For each pool shown below, click migrate to remove your liquidity from Uniswap V1 and deposit it into Uniswap
-          V2.
+          {t('hint25')}
         </TYPE.body>
 
         {!account ? (
           <LightCard padding="40px">
             <TYPE.body color={theme.text3} textAlign="center">
-              Connect to a wallet to view your V1 liquidity.
+              {t('hint27')}
             </TYPE.body>
           </LightCard>
         ) : isLoading ? (
@@ -100,13 +101,13 @@ export default function MigrateV1() {
               <SearchInput
                 value={tokenSearch}
                 onChange={handleTokenSearchChange}
-                placeholder="Enter a token address to find liquidity"
+                placeholder={t('hint28')}
               />
             </AutoRow>
             {allV1PairsWithLiquidity?.length > 0 ? (
               <>{allV1PairsWithLiquidity}</>
             ) : (
-              <EmptyState message="No V1 Liquidity found." />
+              <EmptyState message={t('hint29')} />
             )}
           </>
         )}

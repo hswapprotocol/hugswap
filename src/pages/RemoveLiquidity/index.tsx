@@ -291,7 +291,7 @@ export default function RemoveLiquidity({
         ]
       }
     } else {
-      throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
+      throw new Error(t('hint30'))
     }
 
     const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
@@ -299,7 +299,7 @@ export default function RemoveLiquidity({
         router.estimateGas[methodName](...args)
           .then(calculateGasMargin)
           .catch(error => {
-            console.error(`estimateGas failed`, methodName, args, error)
+            console.error(t(`estimateGas failed`), methodName, args, error)
             return undefined
           })
       )
@@ -325,11 +325,11 @@ export default function RemoveLiquidity({
 
           addTransaction(response, {
             summary:
-              'Remove ' +
+              `${t('remove')} ` +
               parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
               ' ' +
               currencyA?.symbol +
-              ' and ' +
+              ` ${t('and')} ` +
               parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
               ' ' +
               currencyB?.symbol
@@ -381,8 +381,7 @@ export default function RemoveLiquidity({
         </RowBetween>
 
         <TYPE.italic fontSize={12} color={theme.text2} textAlign="left" padding={'12px 0 0 0'}>
-          {`Output is estimated. If the price changes by more than ${allowedSlippage /
-            100}% your transaction will revert.`}
+          {t('Output', {amount: allowedSlippage / 100})}
         </TYPE.italic>
       </AutoColumn>
     )
@@ -422,7 +421,7 @@ export default function RemoveLiquidity({
         )}
         <ButtonPrimary disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)} onClick={onRemove}>
           <Text fontWeight={500} fontSize={20}>
-            Confirm
+            {t('Confirm')}
           </Text>
         </ButtonPrimary>
       </>
@@ -494,7 +493,7 @@ export default function RemoveLiquidity({
             hash={txHash ? txHash : ''}
             content={() => (
               <ConfirmationModalContent
-                title={'You will receive'}
+                title={t('You will receive')}
                 onDismiss={handleDismissConfirmation}
                 topContent={modalHeader}
                 bottomContent={modalBottom}
@@ -670,7 +669,7 @@ export default function RemoveLiquidity({
                     fontSize={16}
                   >
                     {approval === ApprovalState.PENDING ? (
-                      <Dots>Approving</Dots>
+                      <Dots>{t('Approving')}</Dots>
                     ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
                       t('Approved')
                     ) : (

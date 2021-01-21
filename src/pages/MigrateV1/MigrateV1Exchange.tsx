@@ -2,6 +2,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { AddressZero } from '@ethersproject/constants'
 import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Token, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { Text } from 'rebass'
@@ -46,6 +47,7 @@ export function V1LiquidityInfo({
   tokenWorth: TokenAmount
   ethWorth: CurrencyAmount
 }) {
+  const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
 
   return (
@@ -62,7 +64,7 @@ export function V1LiquidityInfo({
 
       <RowBetween my="1rem">
         <Text fontSize={16} fontWeight={500}>
-          Pooled {chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol}:
+          {t('Pooled')} {chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol}:
         </Text>
         <RowFixed>
           <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
@@ -73,7 +75,7 @@ export function V1LiquidityInfo({
       </RowBetween>
       <RowBetween mb="1rem">
         <Text fontSize={16} fontWeight={500}>
-          Pooled HT:
+        {t('Pooled')} HT:
         </Text>
         <RowFixed>
           <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
@@ -87,6 +89,7 @@ export function V1LiquidityInfo({
 }
 
 function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount: TokenAmount; token: Token }) {
+  const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
   const totalSupply = useTotalSupply(liquidityTokenAmount.token)
   const exchangeHTBalance = useHTBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
@@ -169,7 +172,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
         })
 
         addTransaction(response, {
-          summary: `Migrate ${token.symbol} liquidity to V2`
+          summary: t('Migrate to', {symbol: token.symbol})
         })
         setPendingMigrationHash(response.hash)
       })
@@ -187,11 +190,10 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
   return (
     <AutoColumn gap="20px">
       <TYPE.body my={9} style={{ fontWeight: 400 }}>
-        This tool will safely migrate your V1 liquidity to V2 with minimal price risk. The process is completely
-        trustless thanks to the{' '}
+        {t('This tool will safely migrate your V1 liquidity to V2 with minimal price risk. The process is completely trustless thanks to the')}{' '}
         {chainId && (
           <ExternalLink href={getHecoscanLink(chainId, MIGRATOR_ADDRESS, 'address')}>
-            <TYPE.blue display="inline">Uniswap migration contract↗</TYPE.blue>
+            <TYPE.blue display="inline">{t('Uniswap migration contract')}↗</TYPE.blue>
           </ExternalLink>
         )}
         .
@@ -200,12 +202,11 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
       {!isFirstLiquidityProvider && largePriceDifference ? (
         <YellowCard>
           <TYPE.body style={{ marginBottom: 8, fontWeight: 400 }}>
-            It{"'"}s best to deposit liquidity into Uniswap V2 at a price you believe is correct. If the V2 price seems
-            incorrect, you can either make a swap to move the price or wait for someone else to do so.
+            {t('hint21')}
           </TYPE.body>
           <AutoColumn gap="8px">
             <RowBetween>
-              <TYPE.body>V1 Price:</TYPE.body>
+              <TYPE.body>V1 {t('Price')}:</TYPE.body>
               <TYPE.black>
                 {v1SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
@@ -218,7 +219,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
             </RowBetween>
 
             <RowBetween>
-              <TYPE.body>V2 Price:</TYPE.body>
+              <TYPE.body>V2 {t('Price')}:</TYPE.body>
               <TYPE.black>
                 {v2SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
@@ -231,7 +232,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
             </RowBetween>
 
             <RowBetween>
-              <TYPE.body color="inherit">Price Difference:</TYPE.body>
+              <TYPE.body color="inherit">{t('Price Difference')}:</TYPE.body>
               <TYPE.black color="inherit">{priceDifferenceAbs?.toSignificant(4)}%</TYPE.black>
             </RowBetween>
           </AutoColumn>
@@ -241,13 +242,12 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
       {isFirstLiquidityProvider && (
         <PinkCard>
           <TYPE.body style={{ marginBottom: 8, fontWeight: 400 }}>
-            You are the first liquidity provider for this pair on Uniswap V2. Your liquidity will be migrated at the
-            current V1 price. Your transaction cost also includes the gas to create the pool.
+            {t('hint22')}
           </TYPE.body>
 
           <AutoColumn gap="8px">
             <RowBetween>
-              <TYPE.body>V1 Price:</TYPE.body>
+              <TYPE.body>V1 {t('Price')}:</TYPE.body>
               <TYPE.black>
                 {v1SpotPrice?.toSignificant(6)} {token.symbol}/HT
               </TYPE.black>
@@ -278,11 +278,11 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
               onClick={approve}
             >
               {approval === ApprovalState.PENDING ? (
-                <Dots>Approving</Dots>
+                <Dots>{t('Approving')}</Dots>
               ) : approval === ApprovalState.APPROVED ? (
-                'Approved'
+                t('Approved')
               ) : (
-                'Approve'
+                t('Approve')
               )}
             </ButtonConfirmed>
           </AutoColumn>
@@ -298,13 +298,13 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
               }
               onClick={migrate}
             >
-              {isSuccessfullyMigrated ? 'Success' : isMigrationPending ? <Dots>Migrating</Dots> : 'Migrate'}
+              {isSuccessfullyMigrated ? t('Success') : isMigrationPending ? <Dots>{t('Migrating')}</Dots> : t('Migrate')}
             </ButtonConfirmed>
           </AutoColumn>
         </div>
       </LightCard>
       <TYPE.darkGray style={{ textAlign: 'center' }}>
-        {`Your Uniswap V1 ${token.symbol}/HT liquidity will become Uniswap V2 ${token.symbol}/HT liquidity.`}
+        {t('hint23', {symbol: token.symbol})}
       </TYPE.darkGray>
     </AutoColumn>
   )
@@ -317,6 +317,7 @@ export default function MigrateV1Exchange({
   }
 }: RouteComponentProps<{ address: string }>) {
   const validatedAddress = isAddress(address)
+  const { t } = useTranslation()
   const { chainId, account } = useActiveWeb3React()
 
   const exchangeContract = useV1ExchangeContract(validatedAddress ? validatedAddress : undefined)
@@ -335,7 +336,7 @@ export default function MigrateV1Exchange({
 
   // redirect for invalid url params
   if (!validatedAddress || tokenAddress === AddressZero) {
-    console.error('Invalid address in path', address)
+    console.error(t('Invalid address in path'), address)
     return <Redirect to="/migrate/v1" />
   }
 
@@ -344,19 +345,18 @@ export default function MigrateV1Exchange({
       <AutoColumn gap="16px">
         <AutoRow style={{ alignItems: 'center', justifyContent: 'space-between' }} gap="8px">
           <BackArrow to="/migrate/v1" />
-          <TYPE.mediumHeader>Migrate V1 Liquidity</TYPE.mediumHeader>
+          <TYPE.mediumHeader>{t('Migrate V1 Liquidity')}</TYPE.mediumHeader>
           <div>
-            <QuestionHelper text="Migrate your liquidity tokens from Uniswap V1 to Uniswap V2." />
+            <QuestionHelper text={t('hint24')} />
           </div>
         </AutoRow>
 
         {!account ? (
-          <TYPE.largeHeader>You must connect an account.</TYPE.largeHeader>
+          <TYPE.largeHeader>{t('You must connect an account.')}</TYPE.largeHeader>
         ) : validatedAddress && chainId && token?.equals(WHT[chainId]) ? (
           <>
             <TYPE.body my={9} style={{ fontWeight: 400 }}>
-              Because Uniswap V2 uses WHT under the hood, your Uniswap V1 WHT/HT liquidity cannot be migrated. You may
-              want to remove your liquidity instead.
+              {t('hint25')}
             </TYPE.body>
 
             <ButtonConfirmed
@@ -364,7 +364,7 @@ export default function MigrateV1Exchange({
                 history.push(`/remove/v1/${validatedAddress}`)
               }}
             >
-              Remove
+              {t('remove')}
             </ButtonConfirmed>
           </>
         ) : userLiquidityBalance && token ? (
