@@ -246,7 +246,7 @@ export default function Pool() {
                 <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0', marginTop: 20 }}>
                   {hasV1Liquidity ? t('foundLiquidity') : t('noLiquidityHint')}{' '}
                   <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
-                    {hasV1Liquidity ? t('migrate') : t('import')}
+                    {hasV1Liquidity ? t('migrate') : t('Import')}
                   </StyledInternalLink>
                 </Text>
               </AutoColumn>

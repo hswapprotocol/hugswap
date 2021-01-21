@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 
 import { AutoColumn, ColumnCenter } from '../Column'
@@ -21,6 +22,8 @@ const ConfirmedIcon = styled(ColumnCenter)`
 `
 
 export function LoadingView({ children, onDismiss }: { children: any; onDismiss: () => void }) {
+  const { t } = useTranslation()
+
   return (
     <ConfirmOrLoadingWrapper>
       <RowBetween>
@@ -32,7 +35,7 @@ export function LoadingView({ children, onDismiss }: { children: any; onDismiss:
       </ConfirmedIcon>
       <AutoColumn gap="100px" justify={'center'}>
         {children}
-        <TYPE.subHeader>Confirm this transaction in your wallet</TYPE.subHeader>
+        <TYPE.subHeader>{t('hint48')}</TYPE.subHeader>
       </AutoColumn>
     </ConfirmOrLoadingWrapper>
   )
@@ -48,6 +51,7 @@ export function SubmittedView({
   hash: string | undefined
 }) {
   const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
 
   return (
@@ -63,7 +67,7 @@ export function SubmittedView({
         {children}
         {chainId && hash && (
           <ExternalLink href={getHecoscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-            <TYPE.subHeader>View transaction on Hecoscan</TYPE.subHeader>
+            <TYPE.subHeader>{t('View transaction on Hecoscan')}</TYPE.subHeader>
           </ExternalLink>
         )}
       </AutoColumn>

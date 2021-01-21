@@ -1,4 +1,5 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
+import { useTranslation } from 'react-i18next'
 import React, { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { useDispatch } from 'react-redux'
@@ -34,6 +35,7 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   const dispatch = useDispatch<AppDispatch>()
+  const { t } = useTranslation()
 
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
@@ -90,18 +92,18 @@ export default function ListUpdatePopup({
                         {i === tokensRemoved.length - 1 ? null : ', '}
                       </React.Fragment>
                     ))}{' '}
-                    removed
+                    {t('removed')}
                   </li>
                 ) : null}
-                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
+                {numTokensChanged > 0 ? <li>{numTokensChanged} {t('tokens updated')}</li> : null}
               </ChangesList>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>
-                <ButtonSecondary onClick={handleAcceptUpdate}>Accept update</ButtonSecondary>
+                <ButtonSecondary onClick={handleAcceptUpdate}>{t('Accept update')}</ButtonSecondary>
               </div>
               <div style={{ flexGrow: 1 }}>
-                <ButtonSecondary onClick={removeThisPopup}>Dismiss</ButtonSecondary>
+                <ButtonSecondary onClick={removeThisPopup}>{t('Dismiss')}</ButtonSecondary>
               </div>
             </AutoRow>
           </>

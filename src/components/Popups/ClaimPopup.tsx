@@ -1,4 +1,5 @@
 import { TokenAmount } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import React, { useEffect } from 'react'
 import { X } from 'react-feather'
 import styled, { keyframes } from 'styled-components'
@@ -62,6 +63,7 @@ export default function ClaimPopup() {
   // toggle for showing this modal
   const showClaimModal = useModalOpen(ApplicationModal.SELF_CLAIM)
   const toggleSelfClaimModal = useToggleSelfClaimModal()
+  const { t } = useTranslation()
 
   // const userHasAvailableclaim = useUserHasAvailableClaim()
   const userHasAvailableclaim: boolean = useUserHasAvailableClaim(account)
@@ -92,18 +94,18 @@ export default function ClaimPopup() {
               <span role="img" aria-label="party">
                 🎉
               </span>{' '}
-              UNI has arrived{' '}
+              {t('UNI has arrived')}{' '}
               <span role="img" aria-label="party">
                 🎉
               </span>
             </TYPE.white>
             <TYPE.subHeader style={{ paddingTop: '0.5rem', textAlign: 'center' }} color="white">
-              {`Thanks for being part of the Uniswap community <3`}
+              {`${t('Thanks for being part of the Uniswap community')} <3`}
             </TYPE.subHeader>
           </AutoColumn>
           <AutoColumn style={{ zIndex: 10 }} justify="center">
             <ButtonPrimary padding="8px" borderRadius="8px" width={'fit-content'} onClick={toggleSelfClaimModal}>
-              Claim your UNI tokens
+              {t('Claim your UNI tokens')}
             </ButtonPrimary>
           </AutoColumn>
         </StyledClaimPopup>

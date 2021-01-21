@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { AutoColumn } from '../../components/Column'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { RouteComponentProps } from 'react-router-dom'
@@ -109,6 +110,7 @@ export default function VotePage({
   }
 }: RouteComponentProps<{ id: string }>) {
   const { chainId, account } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   // get data for this specific proposal
   const proposalData: ProposalData | undefined = useProposalData(id)
@@ -179,7 +181,7 @@ export default function VotePage({
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
           <ArrowWrapper to="/vote">
-            <ArrowLeft size={20} /> All Proposals
+            <ArrowLeft size={20} /> {t('All Proposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
         </RowBetween>
@@ -188,20 +190,19 @@ export default function VotePage({
           <RowBetween>
             <TYPE.main>
               {endDate && endDate < now
-                ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? `${t('Voting ended')} ` + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting ends approximately ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? `${t('Voting ends approximately')} ` + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
           </RowBetween>
           {proposalData && proposalData.status === 'active' && !showVotingButtons && (
             <GreyCard>
               <TYPE.black>
-                Only UNI votes that were self delegated or delegated to another address before block{' '}
-                {proposalData.startBlock} are eligible for voting.{' '}
+                {t('hint42', {block: proposalData.startBlock})}
                 {showLinkForUnlock && (
                   <span>
-                    <StyledInternalLink to="/vote">Unlock voting</StyledInternalLink> to prepare for the next proposal.
+                    <StyledInternalLink to="/vote">{t('Unlock voting')}</StyledInternalLink> {t('to prepare for the next proposal.')}
                   </span>
                 )}
               </TYPE.black>
@@ -218,7 +219,7 @@ export default function VotePage({
                 toggleVoteModal()
               }}
             >
-              Vote For
+              {t('Vote For')}
             </ButtonPrimary>
             <ButtonPrimary
               padding="8px"
@@ -228,7 +229,7 @@ export default function VotePage({
                 toggleVoteModal()
               }}
             >
-              Vote Against
+              {t('Vote Against')}
             </ButtonPrimary>
           </RowFixed>
         ) : (
@@ -239,7 +240,7 @@ export default function VotePage({
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>For</TYPE.black>
+                  <TYPE.black fontWeight={600}>{t('For')}</TYPE.black>
                   <TYPE.black fontWeight={600}>
                     {' '}
                     {proposalData?.forCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
@@ -255,7 +256,7 @@ export default function VotePage({
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>Against</TYPE.black>
+                  <TYPE.black fontWeight={600}>{t('Against')}</TYPE.black>
                   <TYPE.black fontWeight={600}>
                     {proposalData?.againstCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </TYPE.black>
@@ -268,7 +269,7 @@ export default function VotePage({
           </StyledDataCard>
         </CardWrapper>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Details</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('Details')}</TYPE.mediumHeader>
           {proposalData?.details?.map((d, i) => {
             return (
               <DetailText key={i}>
@@ -287,13 +288,13 @@ export default function VotePage({
           })}
         </AutoColumn>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Description</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('Description')}</TYPE.mediumHeader>
           <MarkDownWrapper>
             <ReactMarkdown source={proposalData?.description} />
           </MarkDownWrapper>
         </AutoColumn>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Proposer</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('Proposer')}</TYPE.mediumHeader>
           <ProposerAddressLink
             href={proposalData?.proposer && chainId ? getHecoscanLink(chainId, proposalData?.proposer, 'address') : ''}
           >

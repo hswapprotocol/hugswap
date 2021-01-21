@@ -1,5 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { JSBI, Token, TokenAmount, WHT, Fraction, Percent, CurrencyAmount } from '@src/sdk'
+import { useTranslation } from 'react-i18next'
 import React, { useCallback, useMemo, useState } from 'react'
 import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
@@ -39,6 +40,7 @@ function V1PairRemoval({
   liquidityTokenAmount: TokenAmount
   token: Token
 }) {
+  const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const totalSupply = useTotalSupply(liquidityTokenAmount.token)
   const exchangeHTBalance = useHTBalances([liquidityTokenAmount.token.address])?.[liquidityTokenAmount.token.address]
@@ -96,7 +98,7 @@ function V1PairRemoval({
   return (
     <AutoColumn gap="20px">
       <TYPE.body my={9} style={{ fontWeight: 400 }}>
-        This tool will remove your V1 liquidity and send the underlying assets to your wallet.
+        {t('hint40')}
       </TYPE.body>
 
       <LightCard>
@@ -113,14 +115,12 @@ function V1PairRemoval({
             disabled={isSuccessfullyRemoved || noLiquidityTokens || isRemovalPending || confirmingRemoval}
             onClick={remove}
           >
-            {isSuccessfullyRemoved ? 'Success' : isRemovalPending ? <Dots>Removing</Dots> : 'Remove'}
+            {isSuccessfullyRemoved ? t('Success') : isRemovalPending ? <Dots>{t('Removing')}</Dots> : t('remove')}
           </ButtonConfirmed>
         </div>
       </LightCard>
       <TYPE.darkGray style={{ textAlign: 'center' }}>
-        {`Your Uniswap V1 ${
-          chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol
-        }/HT liquidity will be redeemed for underlying assets.`}
+        {t('UniswapAssets', {symbol: chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol})}
       </TYPE.darkGray>
     </AutoColumn>
   )
@@ -132,6 +132,7 @@ export default function RemoveV1Exchange({
   }
 }: RouteComponentProps<{ address: string }>) {
   const validatedAddress = isAddress(address)
+  const { t } = useTranslation()
   const { chainId, account } = useActiveWeb3React()
 
   const exchangeContract = useV1ExchangeContract(validatedAddress ? validatedAddress : undefined, true)
@@ -149,7 +150,7 @@ export default function RemoveV1Exchange({
 
   // redirect for invalid url params
   if (!validatedAddress || tokenAddress === AddressZero) {
-    console.error('Invalid address in path', address)
+    console.error(t('Invalid address in path'), address)
     return <Redirect to="/migrate/v1" />
   }
 
@@ -158,14 +159,14 @@ export default function RemoveV1Exchange({
       <AutoColumn gap="16px">
         <AutoRow style={{ alignItems: 'center', justifyContent: 'space-between' }} gap="8px">
           <BackArrow to="/migrate/v1" />
-          <TYPE.mediumHeader>Remove V1 Liquidity</TYPE.mediumHeader>
+          <TYPE.mediumHeader>{t('Remove V1 Liquidity')}</TYPE.mediumHeader>
           <div>
-            <QuestionHelper text="Remove your Uniswap V1 liquidity tokens." />
+            <QuestionHelper text={t('hint41')} />
           </div>
         </AutoRow>
 
         {!account ? (
-          <TYPE.largeHeader>You must connect an account.</TYPE.largeHeader>
+          <TYPE.largeHeader>{t('You must connect an account.')}</TYPE.largeHeader>
         ) : userLiquidityBalance && token && exchangeContract ? (
           <V1PairRemoval
             exchangeContract={exchangeContract}

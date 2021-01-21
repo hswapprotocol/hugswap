@@ -1,6 +1,7 @@
 import { JSBI, TokenAmount } from '@src/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Text } from 'rebass'
 import styled from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
@@ -49,6 +50,7 @@ export default function ClaimModal() {
   const isOpen = useModalOpen(ApplicationModal.SELF_CLAIM)
   const toggleClaimModal = useToggleSelfClaimModal()
 
+  const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
 
   // used for UI loading states
@@ -128,7 +130,7 @@ export default function ClaimModal() {
                 )}
               {userClaimData?.flags?.isUser && (
                 <RowBetween>
-                  <TYPE.subHeader color="white">User</TYPE.subHeader>
+                  <TYPE.subHeader color="white">{t('User')}</TYPE.subHeader>
                   <TYPE.subHeader color="white">{USER_AMOUNT} UNI</TYPE.subHeader>
                 </RowBetween>
               )}
@@ -136,8 +138,8 @@ export default function ClaimModal() {
           </ModalUpper>
           <AutoColumn gap="md" style={{ padding: '1rem', paddingTop: '0' }} justify="center">
             <TYPE.subHeader fontWeight={500}>
-              As a member of the Uniswap community you may claim UNI to be used for voting and governance. <br /> <br />
-              <ExternalLink href="https://hugswap.com/blog/uni">Read more about UNI</ExternalLink>
+              {t('hint37')} <br /> <br />
+              <ExternalLink href="https://hugswap.com/blog/uni">{t('Read more about UNI')}</ExternalLink>
             </TYPE.subHeader>
             <ButtonPrimary
               disabled={!isAddress(account ?? '')}
@@ -147,7 +149,7 @@ export default function ClaimModal() {
               mt="1rem"
               onClick={onClaim}
             >
-              Claim UNI
+             {t('Claim UNI')} 
             </ButtonPrimary>
           </AutoColumn>
         </ContentWrapper>
@@ -184,7 +186,7 @@ export default function ClaimModal() {
                   <span role="img" aria-label="party-hat">
                     🎉{' '}
                   </span>
-                  Welcome to team Unicorn :){' '}
+                  {t('Welcome to team Unicorn')} :){' '}
                   <span role="img" aria-label="party-hat">
                     🎉
                   </span>
@@ -192,11 +194,11 @@ export default function ClaimModal() {
               </>
             )}
             {attempting && !claimSubmitted && (
-              <TYPE.subHeader color="black">Confirm this transaction in your wallet</TYPE.subHeader>
+              <TYPE.subHeader color="black">{t('hint38')}</TYPE.subHeader>
             )}
             {attempting && claimSubmitted && !claimConfirmed && chainId && claimTxn?.hash && (
               <ExternalLink href={getHecoscanLink(chainId, claimTxn?.hash, 'transaction')} style={{ zIndex: 99 }}>
-                View transaction on Hecoscan
+                {t('View transaction on Hecoscan')}
               </ExternalLink>
             )}
           </AutoColumn>

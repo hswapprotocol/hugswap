@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import { JSBI, TokenAmount, ETHER } from '@src/sdk'
@@ -93,6 +94,7 @@ export default function Manage({
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   // get currencies and pair
   const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]
@@ -156,7 +158,7 @@ export default function Manage({
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
         <TYPE.mediumHeader style={{ margin: 0 }}>
-          {currencyA?.symbol}-{currencyB?.symbol} Liquidity Mining
+          {currencyA?.symbol}-{currencyB?.symbol} {t('Liquidity Mining')}
         </TYPE.mediumHeader>
         <DoubleCurrencyLogo currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} size={24} />
       </RowBetween>
@@ -164,7 +166,7 @@ export default function Manage({
       <DataRow style={{ gap: '24px' }}>
         <PoolData>
           <AutoColumn gap="sm">
-            <TYPE.body style={{ margin: 0 }}>Total deposits</TYPE.body>
+            <TYPE.body style={{ margin: 0 }}>{t('Total deposits')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
               {valueOfTotalStakedAmountInUSDC
                 ? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
@@ -174,14 +176,14 @@ export default function Manage({
         </PoolData>
         <PoolData>
           <AutoColumn gap="sm">
-            <TYPE.body style={{ margin: 0 }}>Pool Rate</TYPE.body>
+            <TYPE.body style={{ margin: 0 }}>{t('Pool Rate')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
               {stakingInfo?.active
                 ? stakingInfo?.totalRewardRate
                     ?.multiply(BIG_INT_SECONDS_IN_WEEK)
                     ?.toFixed(0, { groupSeparator: ',' }) ?? '-'
                 : '0'}
-              {' UNI / week'}
+              {` UNI / ${t('week')}`}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -246,7 +248,7 @@ export default function Manage({
               <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white fontWeight={600}>Your liquidity deposits</TYPE.white>
+                  <TYPE.white fontWeight={600}>{t('Your liquidity deposits')}</TYPE.white>
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
@@ -265,7 +267,7 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>Your unclaimed UNI</TYPE.black>
+                  <TYPE.black>{t('Your unclaimed UNI')}</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonEmpty
@@ -274,7 +276,7 @@ export default function Manage({
                     width="fit-content"
                     onClick={() => setShowClaimRewardModal(true)}
                   >
-                    Claim
+                    {t('Claim')}
                   </ButtonEmpty>
                 )}
               </RowBetween>
@@ -299,7 +301,7 @@ export default function Manage({
                         ?.multiply(BIG_INT_SECONDS_IN_WEEK)
                         ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
                     : '0'}
-                  {' UNI / week'}
+                  {` UNI / ${t('week')}`}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -309,14 +311,14 @@ export default function Manage({
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          When you withdraw, the contract will automagically claim UNI on your behalf!
+          {t('hint47')}
         </TYPE.main>
 
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
             {stakingInfo && stakingInfo.active && (
               <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-                {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit UNI-V2 LP Tokens'}
+                {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? t('Deposit') : t('Deposit UNI-V2 LP Tokens')}
               </ButtonPrimary>
             )}
 
@@ -328,14 +330,14 @@ export default function Manage({
                   width="160px"
                   onClick={() => setShowUnstakingModal(true)}
                 >
-                  Withdraw
+                  {t('Withdraw')}
                 </ButtonPrimary>
               </>
             )}
           </DataRow>
         )}
         {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : !stakingInfo?.active ? null : (
-          <TYPE.main>{userLiquidityUnstaked.toSignificant(6)} UNI-V2 LP tokens available</TYPE.main>
+          <TYPE.main>{userLiquidityUnstaked.toSignificant(6)} {t('UNI-V2 LP tokens available')}</TYPE.main>
         )}
       </PositionInfo>
     </PageWrapper>
