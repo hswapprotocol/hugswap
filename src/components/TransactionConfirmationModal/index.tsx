@@ -20,10 +20,14 @@ const Wrapper = styled.div`
   width: 100%;
 `
 const Section = styled(AutoColumn)`
-  padding: 24px 24px 60px 24px;
+  padding: 24px 24px 32px 24px;
+`
+const TopSection = styled(AutoColumn)`
+  padding: 24px 24px 20px 24px;
 `
 
 const BottomSection = styled(Section)`
+  padding-top: 0;
   // background-color: ${({ theme }) => theme.bg2};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -118,7 +122,7 @@ export function ConfirmationModalContent({
 }) {
   return (
     <Wrapper>
-      <Section>
+      <TopSection>
         <RowBetween>
           <Text fontWeight={500} fontSize={20}>
             {title}
@@ -126,7 +130,7 @@ export function ConfirmationModalContent({
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         {topContent()}
-      </Section>
+      </TopSection>
       <BottomSection gap="12px">{bottomContent()}</BottomSection>
     </Wrapper>
   )

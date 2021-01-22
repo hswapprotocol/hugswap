@@ -45,13 +45,13 @@ export default function SwapModalHeader({
           <TruncatedText
             fontSize={24}
             fontWeight={500}
-            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? theme.primary1 : ''}
+            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? theme.primary1 : theme.text2}
           >
             {trade.inputAmount.toSignificant(6)}
           </TruncatedText>
         </RowFixed>
         <RowFixed gap={'0px'}>
-          <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
+          <Text fontSize={24} fontWeight={500} color={theme.text4} style={{ marginLeft: '10px' }}>
             {trade.inputAmount.currency.symbol}
           </Text>
         </RowFixed>
@@ -70,14 +70,14 @@ export default function SwapModalHeader({
                 ? theme.red1
                 : showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT
                 ? theme.primary1
-                : ''
+                : theme.text2
             }
           >
             {trade.outputAmount.toSignificant(6)}
           </TruncatedText>
         </RowFixed>
         <RowFixed gap={'0px'}>
-          <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
+          <Text fontSize={24} fontWeight={500} color={theme.text4} style={{ marginLeft: '10px' }}>
             {trade.outputAmount.currency.symbol}
           </Text>
         </RowFixed>
@@ -100,21 +100,21 @@ export default function SwapModalHeader({
       ) : null}
       <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
         {trade.tradeType === TradeType.EXACT_INPUT ? (
-          <TYPE.italic textAlign="left" style={{ width: '100%' }}>
+          <TYPE.body fontSize={14} color={theme.text4} textAlign="left" style={{ width: '100%' }}>
             {t('hint19')}
             <b>
               {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
             </b>
             {t('hint18')}
-          </TYPE.italic>
+          </TYPE.body>
         ) : (
-          <TYPE.italic textAlign="left" style={{ width: '100%' }}>
+          <TYPE.body fontSize={14} color={theme.text4} textAlign="left" style={{ width: '100%' }}>
             {t('hint17')}
             <b>
               {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)} {trade.inputAmount.currency.symbol}
             </b>
             {t('hint18')}
-          </TYPE.italic>
+          </TYPE.body>
         )}
       </AutoColumn>
       {recipient !== null ? (

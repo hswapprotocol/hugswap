@@ -58,6 +58,11 @@ export const NoBorderCardStyled = styled(Card)`
   padding: 0;
   max-width: 17.5rem;
 `
+export const DialogCardStyled = styled(Card)`
+  background-color: ${({ theme }) => theme.bg3};
+  color: ${({ theme }) => theme.text4};
+  padding: 1.25rem 1rem;
+`
 
 export const BlueCard = ({ children, ...rest }: CardProps) => {
   return <BlueCardStyled {...rest}>{children}</BlueCardStyled>
