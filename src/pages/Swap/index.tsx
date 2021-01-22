@@ -85,10 +85,10 @@ const TreeBalls = styled(HaloWrapper)`
   }
   @-moz-document url-prefix() {
     &:before {
-      opacity: 0.26;
+      opacity: 0.16;
     }
     &:after {
-      opacity: 0.22;
+      opacity: 0.09;
     }
   }
 `
