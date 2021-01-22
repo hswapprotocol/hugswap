@@ -305,6 +305,70 @@
       "decimals": 18,
       "chainId": 128,
       "logoURI": "https://swap.hbfile.net/images/Hicon/UBS.png"
+    },
+    {
+      "name": "Channels",
+      "address": "0x1e6395e6b059fc97a4dda925b6c5ebf19e05c69f",
+      "symbol": "CAN",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/CAN.png"
+    },
+    {
+      "name": "BXC",
+      "address": "0x15f4c382926f8a083bc924abd3aa84ce3982caa9",
+      "symbol": "BXC",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/BXC.png"
+    },
+    {
+      "name": "BXS",
+      "address": "0xbe0e001a5553f4421dc250a20bbdab0e735495e3",
+      "symbol": "BXS",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/BXS.png"
+    },
+    {
+      "name": "Themis Token",
+      "address": "0x73e96392a4dacb04726bc4dcac2dea2ba6b4ae82",
+      "symbol": "MIS",
+      "decimals": 8,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/MIS.png"
+    },
+    {
+      "name": "MOKA",
+      "address": "0x973845a963d4fcde86b1c4e6077e619c8b5c171e",
+      "symbol": "MOKA",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/MOKA1.png"
+    },
+    {
+      "name": "SASHIMI Token",
+      "address": "0xc2037c1c13dd589e0c14c699dd2498227d2172cc",
+      "symbol": "SASHIMI",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/SASHIMI.png"
+    },
+    {
+      "name": "ARK",
+      "address": "0x51e4fb9f905a7bad3d8d56da40da1b07e4da1dde",
+      "symbol": "ARK",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/ARK.png"
+    },
+    {
+      "name": "DaoSwapToken",
+      "address": "0xd3e68b6c54b11c2a7353e9cc0a754dde5cfce15a",
+      "symbol": "DST",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://swap.hbfile.net/images/Hicon/DST.png"
     }
   ]
 }
