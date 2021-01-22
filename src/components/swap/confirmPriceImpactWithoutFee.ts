@@ -1,4 +1,5 @@
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import { Percent } from '@src/sdk'
 import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from '../../constants'
 
@@ -8,7 +9,7 @@ import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from 
  * @param priceImpactWithoutFee price impact of the trade without the fee.
  */
 export default function confirmPriceImpactWithoutFee(priceImpactWithoutFee: Percent): boolean {
-  const { t } = useTranslation()
+  const t = i18next.t
 
   if (!priceImpactWithoutFee.lessThan(PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN)) {
     return (

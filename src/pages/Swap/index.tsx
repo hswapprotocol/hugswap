@@ -83,6 +83,14 @@ const TreeBalls = styled(HaloWrapper)`
     bottom: 100%;
     opacity: 0.42;
   }
+  @-moz-document url-prefix() {
+    &:before {
+      opacity: 0.26;
+    }
+    &:after {
+      opacity: 0.22;
+    }
+  }
 `
 
 export default function Swap() {
