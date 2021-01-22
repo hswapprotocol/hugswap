@@ -381,7 +381,7 @@ export default function RemoveLiquidity({
         </RowBetween>
 
         <TYPE.italic fontSize={12} color={theme.text2} textAlign="left" padding={'12px 0 0 0'}>
-          {t('Output', {amount: allowedSlippage / 100})}
+          {t('Output', { amount: allowedSlippage / 100 })}
         </TYPE.italic>
       </AutoColumn>
     )
@@ -392,7 +392,7 @@ export default function RemoveLiquidity({
       <>
         <RowBetween>
           <Text color={theme.text2} fontWeight={500} fontSize={16}>
-            {'UNI ' + currencyA?.symbol + '/' + currencyB?.symbol} {t('Burned')}
+            {currencyA?.symbol + '/' + currencyB?.symbol} {t('Burned')}
           </Text>
           <RowFixed>
             <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin={true} />
