@@ -116,11 +116,11 @@ export default function Menu() {
             <Code size={14} />
             {t('code')}
           </MenuItem>
-          <MenuItem id="link" href="/#/">
+          <MenuItem id="link" href="https://twitter.com/hugswap">
             <Twitter size={14} />
             {t('twitter')}
           </MenuItem>
-          <MenuItem id="link" href="/#/">
+          <MenuItem id="link" href="https://t.me/hugswap">
             <Send size={14} />
             {t('telegram')}
           </MenuItem>
