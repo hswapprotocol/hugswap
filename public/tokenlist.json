@@ -8,7 +8,9 @@
   },
   "tags": {},
   "logoURI": "ipfs://QmZgpZq1HkVS7YCThNJeR51KFVo5AL8P3ThA2y9wcw53p9",
-  "keywords": ["default"],
+  "keywords": [
+    "default"
+  ],
   "tokens": [
     {
       "name": "Wrapped HT",
@@ -167,7 +169,7 @@
       "address": "0xf0e406c49c63abf358030a299c0e00118c4c6ba5",
       "symbol": "NVT",
       "decimals": 8,
-      "chainId": 128,
+      "chainId": 1280,
       "logoURI": "https://swap.hbfile.net/images/Hicon/NVT.png"
     },
     {
@@ -207,7 +209,7 @@
       "address": "0xd938e45680da19ad36646ae8d4c671b2b1270f39",
       "symbol": "NULS",
       "decimals": 8,
-      "chainId": 128,
+      "chainId": 1280,
       "logoURI": "https://swap.hbfile.net/images/Hicon/NULS.png"
     },
     {
@@ -255,7 +257,7 @@
       "address": "0x68a0a1fef18dfcc422db8be6f0f486dea1999edc",
       "symbol": "EDC",
       "decimals": 9,
-      "chainId": 128,
+      "chainId": 1280,
       "logoURI": "https://swap.hbfile.net/images/Hicon/EDC.png"
     },
     {
@@ -335,7 +337,7 @@
       "address": "0x73e96392a4dacb04726bc4dcac2dea2ba6b4ae82",
       "symbol": "MIS",
       "decimals": 8,
-      "chainId": 128,
+      "chainId": 1280,
       "logoURI": "https://swap.hbfile.net/images/Hicon/MIS.png"
     },
     {
