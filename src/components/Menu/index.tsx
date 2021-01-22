@@ -89,7 +89,7 @@ const MenuItem = styled(ExternalLink)`
   }
 `
 
-const CODE_LINK = 'https://github.com/hswapprotocol/hugswap'
+const CODE_LINK = 'https://github.com/hswapprotocol'
 
 export default function Menu() {
   const { t } = useTranslation()
