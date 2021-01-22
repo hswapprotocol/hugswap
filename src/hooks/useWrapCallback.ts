@@ -4,6 +4,7 @@ import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
+import { useTranslation } from 'react-i18next'
 import { useWHTContract } from './useContract'
 
 export enum WrapType {
@@ -26,6 +27,7 @@ export default function useWrapCallback(
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWHTContract()
+  const { t } = useTranslation()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
@@ -44,13 +46,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} HT to WHT` })
+                  addTransaction(txReceipt, { summary: t('WrapTo', {amount: inputAmount.toSignificant(6)}) })
                 } catch (error) {
-                  console.error('Could not deposit', error)
+                  console.error(t('Could not deposit'), error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient HT balance'
+        inputError: sufficientBalance ? undefined : t('Insufficient HT balance')
       }
     } else if (currencyEquals(WHT[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
@@ -60,13 +62,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WHT to HT` })
+                  addTransaction(txReceipt, { summary: t('UnwrapTo',{amount: inputAmount.toSignificant(6)}) })
                 } catch (error) {
-                  console.error('Could not withdraw', error)
+                  console.error(t('Could not withdraw'), error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WHT balance'
+        inputError: sufficientBalance ? undefined : t('Insufficient WHT balance')
       }
     } else {
       return NOT_APPLICABLE

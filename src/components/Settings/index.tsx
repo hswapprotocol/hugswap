@@ -268,7 +268,7 @@ export default function SettingsTab() {
                   }}
                   active={darkMode}
                 >
-                  Dark
+                  {t('Dark')}
                 </Option>
                 <Option
                   onClick={() => {
@@ -276,7 +276,7 @@ export default function SettingsTab() {
                   }}
                   active={!darkMode}
                 >
-                  Light
+                  {t('Light')}
                 </Option>
               </div>
             </div>

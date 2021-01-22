@@ -264,5 +264,15 @@
   "Claim your UNI tokens": "Claim your UNI tokens",
   "Accept update": "Accept update",
   "tokens updated": "tokens updated",
-  "removed": "removed"
+  "removed": "removed",
+  "Outputs": "Output",
+  "Input": "Input",
+  "Dark": "Dark",
+  "Light": "Light",
+  "WrapTo": "Wrap {{amount}} HT to WHT",
+  "Could not deposit": "Could not deposit",
+  "Insufficient HT balance": "Insufficient HT balance",
+  "Could not withdraw": "Could not withdraw",
+  "Insufficient WHT balance": "Insufficient WHT balance",
+  "UnwrapTo": "Unwrap {{amount}} WHT to HT"
 }
