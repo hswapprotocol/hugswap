@@ -44,10 +44,8 @@ export const HaloWrapper = styled.div`
     height: 150px;
   }
   &:before {
-    left: 16.32%;
-    right: 56.74%;
-    top: 30.74%;
-    bottom: 60%;
+    left: 0.32%;
+    top: 50.74%;
     opacity: 0.36;
     border: 50px solid #4100ff;
     box-sizing: border-box;
@@ -73,6 +71,11 @@ export const HaloWrapper = styled.div`
     border: 50px solid #ff00c7;
     box-sizing: border-box;
     filter: blur(120px);
+  }
+  @-moz-document url-prefix() {
+    &:before {
+      opacity: 0.13;
+    }
   }
 `
 
