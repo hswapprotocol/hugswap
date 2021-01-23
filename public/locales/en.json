@@ -280,5 +280,13 @@
   "connect Heco network": "Please connect to the appropriate Heco network.",
   "Error connecting info": "Error connecting. Try refreshing the page.",
   "Wrong Network": "Wrong Network",
-  "Error connecting": "Error connecting"
+  "Error connecting": "Error connecting",
+  "Try Again": "Try Again",
+  "Initializing": "Initializing...",
+  "Injected web3 provider": "Injected web3 provider.",
+  "Easy-to-use browser extension": "Easy-to-use browser extension.",
+  "How to switch heco main network on metamask": "如何在 metamask 上切换 Heco 主网？",
+  "Connect to Trust Wallet": "Connect to Trust Wallet, Rainbow Wallet and more...",
+  "Heco recommended Wallet": "Heco 推荐钱包",
+  "Open in Huobi Wallet app": "Open in Huobi Wallet app."
 }

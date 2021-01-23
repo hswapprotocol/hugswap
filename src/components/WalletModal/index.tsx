@@ -229,7 +229,6 @@ export default function WalletModal({
       // check for mobile options
       if (isMobile) {
         //disable portis on mobile for now
-        console.log({ connector: option.connector, option })
         if (option.connector === portis) {
           return null
         }
@@ -246,7 +245,7 @@ export default function WalletModal({
               color={option.color}
               link={option.href}
               header={option.name}
-              subheader={option.subheader}
+              subheader={t(option.subheader)}
               subheaderLink={option.subheaderLink}
               size={32}
               icon={require('../../assets/images/' + option.iconName)}
@@ -267,7 +266,7 @@ export default function WalletModal({
                 key={key}
                 color={'#E8831D'}
                 header={'Install Metamask'}
-                subheader={option.subheader}
+                subheader={t(option.subheader)}
                 subheaderLink={option.subheaderLink}
                 link={'https://metamask.io/'}
                 size={32}
@@ -304,7 +303,7 @@ export default function WalletModal({
             color={option.color}
             link={option.href}
             header={option.name}
-            subheader={option.subheader} //use option.descriptio to bring back multi-line
+            subheader={t(option.subheader)} //use option.descriptio to bring back multi-line
             subheaderLink={option.subheaderLink}
             size={32}
             icon={require('../../assets/images/' + option.iconName)}

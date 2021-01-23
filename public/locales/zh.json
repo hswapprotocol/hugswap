@@ -276,9 +276,17 @@
   "Could not withdraw": "无法提出",
   "Insufficient WHT balance": "WHT余额不足",
   "UnwrapTo": "兑换 {{amount}} WHT到HT",
-  "Swap input to output": "兑换 {{inputAmount}} 得到 {{output}}",
+  "Swap input to output": "兑换 {{input}} 得到 {{output}}",
   "connect Heco network": "请连接至可用的Heco网络。",
   "Error connecting info": "连接错误，请刷新页面。",
   "Wrong Network": "网络错误",
-  "Error connecting": "连接错误"
+  "Error connecting": "连接错误",
+  "Try Again": "Try Again",
+  "Initializing": "Initializing...",
+  "Injected web3 provider": "Injected web3 provider.",
+  "Easy-to-use browser extension": "Easy-to-use browser extension.",
+  "How to switch heco main network on metamask": "如何在 metamask 上切换 Heco 主网？",
+  "Connect to Trust Wallet": "Connect to Trust Wallet, Rainbow Wallet and more...",
+  "Heco recommended Wallet": "Heco 推荐钱包",
+  "Open in Huobi Wallet app": "Open in Huobi Wallet app."
 }
