@@ -36,7 +36,7 @@ const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  // overflow-x: hidden;
+  overflow-x: hidden;
 `
 
 const HeaderWrapper = styled.div`
@@ -52,8 +52,8 @@ const BodyWrapper = styled.div`
   padding-top: 100px;
   align-items: center;
   flex: 1;
-  // overflow-y: auto;
-  // overflow-x: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 10;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`

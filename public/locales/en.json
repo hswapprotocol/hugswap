@@ -1,6 +1,7 @@
 {
   "swap": "Swap",
   "pool": "Pool",
+  "Info": "Info",
   "selectToken": "Select a token",
   "selectCurrency": "Choose currency",
   "tokenSearchPlaceholder": "Search name or paste address",

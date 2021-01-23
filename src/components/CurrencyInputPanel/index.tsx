@@ -25,7 +25,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   height: 2.2rem;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ selected, theme }) => (selected ? theme.bg1 : theme.primary1)};
+  background-color: ${({ selected, theme }) => (selected ? 'transparent' : theme.primary1)};
   color: ${({ selected, theme }) => (selected ? theme.text2 : theme.white)};
   border-radius: 8px;
   box-shadow: ${({ selected }) => (selected ? 'none' : '0px 6px 10px rgba(0, 0, 0, 0.075)')};
@@ -37,7 +37,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
 
   :focus,
   :hover {
-    background-color: ${({ selected, theme }) => (selected ? theme.bg2 : darken(0.05, theme.primary1))};
+    background-color: ${({ selected, theme }) => (selected ? 'transparent' : darken(0.05, theme.primary1))};
   }
 `
 
@@ -73,15 +73,15 @@ const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
 const InputPanel = styled.div<{ hideInput?: boolean }>`
   ${({ theme }) => theme.flexColumnNoWrap}
   position: relative;
-  border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  background-color: ${({ theme }) => theme.bg2};
+  // border-radius: ${({ hideInput }) => (hideInput ? '8px' : '12px')};
+  background-color: transparent;
   z-index: 1;
 `
 
 const Container = styled.div<{ hideInput: boolean }>`
-  border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
+  border-radius: ${({ hideInput }) => (hideInput ? '8px' : '12px')};
   border: 1px solid ${({ theme }) => theme.bg6};
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: transparent;
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`

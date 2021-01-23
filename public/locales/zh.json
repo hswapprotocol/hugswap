@@ -1,6 +1,7 @@
 {
   "swap": "兑换",
   "pool": "资金池",
+  "Info": "信息",
   "selectToken": "选择币种",
   "selectCurrency": "选择币种",
   "tokenSearchPlaceholder": "搜索币种名称或粘贴该币种合约地址",

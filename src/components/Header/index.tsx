@@ -71,7 +71,7 @@ const HeaderControls = styled.div`
     position: fixed;
     bottom: 0px;
     left: 0px;
-    width: 100%;
+    width: 100vw;
     z-index: 99;
     height: 72px;
     border-radius: 12px 12px 0 0;
@@ -318,7 +318,7 @@ export default function Header() {
             {t('pool')}
           </StyledNavLink>
           <StyledExternalLink id={`stake-nav-link`} href={'https://info.hugswap.com'}>
-            Info
+            {t('Info')}
           </StyledExternalLink>
         </HeaderLinks>
       </HeaderRow>
