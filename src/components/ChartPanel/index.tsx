@@ -1,18 +1,19 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext, useEffect }  from 'react'
+import React, { useState, useEffect, useRef, RefObject }  from 'react'
 // import { useTranslation } from 'react-i18next'
-import { useMedia, usePrevious } from 'react-use'
-import styled, { ThemeContext } from 'styled-components'
+import { usePrevious } from 'react-use'
+import styled from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData } from '../../contexts/TokenData'
 // import { useTokenPriceData } from '../../contexts/TokenData'
-import { XAxis, YAxis, Area, ResponsiveContainer, AreaChart } from 'recharts'
-import { toK, toNiceDate, getTimeframe } from '../../utils'
+// import { XAxis, YAxis, Area, ResponsiveContainer, AreaChart } from 'recharts'
+import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
+import { getTimeframe } from '../../utils'
 // import { useSelectedListInfo } from '../../state/lists/hooks'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
 import { useTokenBySymbol } from '../../hooks/Tokens'
@@ -194,6 +195,7 @@ interface ChartData {
   dailyVolumeUSD: number | undefined,
   totalLiquidityUSD: number | undefined,
   priceUSD: number | undefined
+  priceChangeUSD: number | undefined
   mostLiquidPairs: undefined
 }
 
@@ -207,18 +209,18 @@ const getChartTokenInfo = (currency: Currency | undefined) => {
 }
 
 interface ChartPanelProps {
-  id: string
+  id: string,
 }
 export default function ChartPanel({ id }: ChartPanelProps) {
   // const currency = tokenA || tokenB || Currency.ETHER
+  const ref = useRef<HTMLDivElement>()
+  console.log('ref',ref)
   const { currencies } = useDerivedSwapInfo()
 
   const tokenA = currencies[Field.INPUT]
   const tokenB = currencies[Field.OUTPUT]
 
-
-
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
   const tokenAInfo = getChartTokenInfo(tokenA)
   let tokenBInfo = undefined
   if (tokenB) {
@@ -237,53 +239,49 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   const prevWindow = usePrevious(timeWindow)
 
   // hourly and daily price data based on the current time window
-  let price:any, priceDiff:any = 0
-  if (chartData?.length) {
-    price = chartData[chartData.length - 1]?.priceUSD || 0
-    if (chartData.length >= 2) {
-      priceDiff = price - (chartData ? chartData[chartData.length - 2]?.priceUSD || price : price)
-    }
-    price = toK(price)
-    priceDiff = toK(priceDiff)
-  }
+  // let price:number, priceDiff:number = 0.00
+  // if (chartData?.length) {
+  //   price = chartData[chartData.length - 1]?.priceUSD || 0
+  //   if (chartData.length >= 2) {
+  //     priceDiff = price - (chartData ? chartData[chartData.length - 2]?.priceUSD || price : price)
+  //   }
+  // }
   // const { t } = useTranslation()
 
-  const below1080 = useMedia('(max-width: 1080px)')
-  const below600 = useMedia('(max-width: 600px)')
 
   let utcStartTime = getTimeframe(timeWindow)
   // const domain = [(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
-  const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
+  // const below1080 = useMedia('(max-width: 1080px)')
+  // const below600 = useMedia('(max-width: 600px)')
+  // const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
 
   let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
-  console.log(useEffect,prevWindow)
-  // useEffect(() => {
-  //   console.log('timeWindow', timeWindow)
-  //   let utcStartTime = getTimeframe(timeWindow)
-  //   chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
-  //   console.log('filtered chartData', chartDataFiltered)
-  // }, [prevWindow, timeWindow])
 
-  if (chartDataFiltered?.length) {
-    console.log('chartDataFiltered', chartDataFiltered)
-    for (var i = 0; i < chartData.length; ++i) {
-      chartDataFiltered[i]?.priceUSD && console.log(toNiceDate(chartDataFiltered[i].date), chartDataFiltered[i].priceUSD)
-    }
-  }
+  useEffect(() => {
+    let utcStartTime = getTimeframe(timeWindow)
+    chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+    setChartDataState(chartDataFiltered)
+    console.log('filtered chartData', chartDataFiltered)
+  }, [prevWindow, timeWindow, chartData])
+
+  const [chartDataState, setChartDataState] = useState(chartDataFiltered)
+
   // update the width on a window resize
-  // const ref = useRef()
-  // const isClient = typeof window === 'object'
-  // const [width, setWidth] = useState(ref?.current?.container?.clientWidth)
-  // useEffect(() => {
-  //   if (!isClient) {
-  //     return false
-  //   }
-  //   function handleResize() {
-  //     setWidth(ref?.current?.container?.clientWidth ?? width)
-  //   }
-  //   window.addEventListener('resize', handleResize)
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [isClient, width]) // Empty array ensures that effect is only run on mount and unmount
+  // const ref = ref.current
+  const isClient = typeof window === 'object'
+  const [width, setWidth] = useState(ref?.current?.clientWidth || 600)
+
+  useEffect(() => {
+    if (!isClient) {
+      return
+    }
+    function handleResize() {
+      setWidth(ref?.current?.clientWidth ?? width)
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    // return () => window.removeEventListener('resize', handleResize)
+  }, [isClient, width]) // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <ChartWrapper>
@@ -308,57 +306,22 @@ export default function ChartPanel({ id }: ChartPanelProps) {
         )}
       </ChartName>
       <ChartTools>
-        <PriceBlock>
-          <Price>{price}</Price>
-          <PriceDiff diff={priceDiff} />
+        <PriceBlock id="chart-tooltip">
+          <Price>--</Price>
+          <PriceDiff diff={0} />
         </PriceBlock>
         <Resolutions active={timeWindow} setActive={setTimeWindow} />
       </ChartTools>
-      <Chart>
-        <ResponsiveContainer aspect={calAspect}>
-            <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartDataFiltered}>
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={'#BA40F3'} stopOpacity={0.17} />
-                  <stop offset="95%" stopColor={'#171426'} stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <XAxis
-                tickLine={false}
-                axisLine={false}
-                interval="preserveEnd"
-                minTickGap={120}
-                tickFormatter={(tick) => toNiceDate(tick)}
-                dataKey="date"
-                tick={{ fill: theme.text4 }}
-                type={'number'}
-                domain={['dataMin', 'dataMax']}
-              />
-              <YAxis
-                type="number"
-                orientation="right"
-                tickFormatter={(tick) => '$' + toK(tick)}
-                axisLine={false}
-                tickLine={false}
-                interval="preserveEnd"
-                minTickGap={80}
-                yAxisId={0}
-                tick={{ fill: theme.text4 }}
-              />
-              <Area
-                key={'other'}
-                dataKey={'priceUSD'}
-                stackId="2"
-                strokeWidth={2}
-                dot={false}
-                type="monotone"
-                name={'Price'}
-                yAxisId={0}
-                stroke="#BA40F3"
-                fill="url(#colorUv)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+      <Chart ref={ref as RefObject<HTMLDivElement>}>
+        <TradingViewChart
+          toolTipSelector="#chart-tooltip"
+          data={chartDataState}
+          base={0}
+          baseChange={0}
+          field="priceUSD"
+          width={width}
+          type={CHART_TYPES.AREA}
+        />
       </Chart>
     </ChartWrapper>
   )
