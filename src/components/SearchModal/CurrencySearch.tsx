@@ -1,6 +1,5 @@
 import { Currency, ETHER, Token } from '@src/sdk'
 import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -56,11 +55,13 @@ export function CurrencySearch({
 
   useEffect(() => {
     if (isAddressSearch) {
-      ReactGA.event({
-        category: 'Currency Select',
-        action: 'Search by address',
-        label: isAddressSearch
-      })
+      // ReactGA.event({
+      //   category: 'Currency Select',
+      //   action: 'Search by address',
+      //   label: isAddressSearch
+      // })
+      //remove ReactGA, extract the inner logic
+      //TODO: integrate with woodpecker
     }
   }, [isAddressSearch])
 
