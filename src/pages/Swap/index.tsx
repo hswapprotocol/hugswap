@@ -342,7 +342,7 @@ export default function Swap() {
 
         {/* <TreeBalls /> */}
         {isHideMedium || (
-          <ChartPanel id="main-chart" tokenA={currencies[Field.INPUT]} tokenB={currencies[Field.OUTPUT]} />
+          <ChartPanel id="main-chart"/>
         )}
         <AppBody>
           <TreeBalls>

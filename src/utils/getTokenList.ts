@@ -35,7 +35,8 @@ export default async function getTokenList(
     }
     urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`)
   } else {
-    urls = uriToHttp(listUrl)
+    // urls = uriToHttp(listUrl)
+    urls = [listUrl]
   }
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
@@ -63,6 +64,7 @@ export default async function getTokenList(
         }, '') ?? 'unknown error'
       throw new Error(`Token list failed validation: ${validationErrors}`)
     }
+    console.log('tokenList loaded', json)
     return json
   }
   throw new Error('Unrecognized list URL protocol.')

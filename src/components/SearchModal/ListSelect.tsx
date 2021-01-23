@@ -17,7 +17,7 @@ import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import listVersionLabel from '../../utils/listVersionLabel'
 import { parseENSAddress } from '../../utils/parseENSAddress'
-// import uriToHttp from '../../utils/uriToHttp'
+import uriToHttp from '../../utils/uriToHttp'
 import { ButtonOutlined, ButtonPrimary, ButtonSecondary } from '../Button'
 
 import Column from '../Column'
@@ -287,8 +287,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
   }, [adding, dispatch, fetchList, listUrlInput])
 
   const validUrl: boolean = useMemo(() => {
-    // return uriToHttp(listUrlInput).length > 0 || Boolean(parseENSAddress(listUrlInput))
-    return listUrlInput?.length > 0 || Boolean(parseENSAddress(listUrlInput))
+    return uriToHttp(listUrlInput).length > 0 || Boolean(parseENSAddress(listUrlInput))
   }, [listUrlInput])
 
   const handleEnterKey = useCallback(

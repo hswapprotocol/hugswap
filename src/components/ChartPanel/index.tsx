@@ -1,24 +1,26 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext }  from 'react'
+import React, { useState, useContext, useEffect }  from 'react'
 // import { useTranslation } from 'react-i18next'
-import { useMedia } from 'react-use'
+import { useMedia, usePrevious } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
-// import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
-import { useTokenPriceData } from '../../contexts/TokenData'
+import { useTokenChartData } from '../../contexts/TokenData'
+// import { useTokenPriceData } from '../../contexts/TokenData'
 import { XAxis, YAxis, Area, ResponsiveContainer, AreaChart } from 'recharts'
-import { toK, toNiceDate } from '../../utils'
+import { toK, toNiceDate, getTimeframe } from '../../utils'
 // import { useSelectedListInfo } from '../../state/lists/hooks'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
-import { useCurrency, useAllTokens } from '../../hooks/Tokens'
+import { useTokenBySymbol } from '../../hooks/Tokens'
 import { Field } from '../../state/swap/actions'
 
-const ChartWrapper = styled.div``
+const ChartWrapper = styled.div`
+  width: 100%;
+`
 const ChartName = styled.div`
   display: flex;
   align-items: center;
@@ -104,16 +106,16 @@ const ResolutionsWrapper = styled.ul`
   }
 
 `
-interface ResolutionButtonProps {
-  children: any
-  active: boolean
-  setActive: () => void
+interface ResolutionBottonProps {
+  children: any | undefined
+  isActive: boolean
+  setActiveFn: () => void
 }
-const ResolutionButton = ({ children, active, setActive }: ResolutionButtonProps) => {
-  let wapperStyle = active ? 'active' : ''
+const ResolutionButton = ({ children, isActive, setActiveFn }: ResolutionBottonProps) => {
+  let wapperStyle = isActive ? 'active' : ''
   return (
     <li>
-      <ResolutionButtonInner className={wapperStyle} onClick={setActive}>
+      <ResolutionButtonInner className={wapperStyle} onClick={setActiveFn}>
         {children}
       </ResolutionButtonInner>
     </li>
@@ -129,27 +131,28 @@ const ResolutionButtonInner = styled.a`
   }
 `
 
-
-const Resolutions = () => {
-  const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
-
+interface ResolutionProps {
+  active: string
+  setActive: (timeWindow:string) => void
+}
+const Resolutions = ({ active, setActive }: ResolutionProps) => {
   return (
     <ResolutionsWrapper>
       <ResolutionButton
-        active={timeWindow === timeframeOptions.DAY}
-        setActive={() => setTimeWindow(timeframeOptions.DAY)}
+        isActive={active === timeframeOptions.DAY}
+        setActiveFn={() => setActive(timeframeOptions.DAY)}
       >
         1D
       </ResolutionButton>
       <ResolutionButton
-        active={timeWindow === timeframeOptions.WEEK}
-        setActive={() => setTimeWindow(timeframeOptions.WEEK)}
+        isActive={active === timeframeOptions.WEEK}
+        setActiveFn={() => setActive(timeframeOptions.WEEK)}
       >
         1W
       </ResolutionButton>
       <ResolutionButton
-        active={timeWindow === timeframeOptions.ALL_TIME}
-        setActive={() => setTimeWindow(timeframeOptions.ALL_TIME)}
+        isActive={active === timeframeOptions.ALL_TIME}
+        setActiveFn={() => setActive(timeframeOptions.ALL_TIME)}
       >
         ALL
       </ResolutionButton>
@@ -165,106 +168,108 @@ const Chart = styled.div``
 // const DATA_FREQUENCY = {
 //   LINE: 'LINE',
 // }
-interface DefaultToken {
-  decimals: number
-  name: string
-  symbol: string
-}
+// interface DefaultToken {
+//   decimals: number
+//   name: string
+//   symbol: string
+// }
 
-const defaultTokens = [
-  {
-    decimals: 18,
-    name: 'HT',
-    symbol: 'HT'
-  },
-  {
-    decimals: 18,
-    name: 'HUSD',
-    symbol: 'HUSD'
-  }
-]
+// const defaultTokens = [
+//   {
+//     decimals: 18,
+//     name: 'HT',
+//     symbol: 'HT'
+//   },
+//   {
+//     decimals: 18,
+//     name: 'HUSD',
+//     symbol: 'HUSD'
+//   }
+// ]
+
+interface ChartData {
+  id: number,
+  date: number,
+  dayString: number,
+  dailyVolumeUSD: number | undefined,
+  totalLiquidityUSD: number | undefined,
+  priceUSD: number | undefined
+  mostLiquidPairs: undefined
+}
 
 // 只用于画图， HT 地址返回 WHT 地址，用于获取价格
 const getChartTokenInfo = (currency: Currency | undefined) => {
-  // const allTokens = useSelectedListInfo()
   let symbol = currency?.symbol
   if (symbol === 'HT') {
     symbol = 'WHT'
   }
-  const ttToken=useCurrency(symbol)
-  const ttTokens=useAllTokens()
-  console.log('getChartTokenInfo:', ttToken, ttTokens)
-  return {address: '0x9f138fB59826EDA313895511321175A9aE9bDA18'}
-  // return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
+  return useTokenBySymbol(symbol)
 }
 
 interface ChartPanelProps {
   id: string
-  tokenA: Currency | DefaultToken | undefined
-  tokenB: Currency | undefined
 }
-export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
-  const currency = tokenA || tokenB || Currency.ETHER
-  console.log(defaultTokens[0], defaultTokens[1])
+export default function ChartPanel({ id }: ChartPanelProps) {
+  // const currency = tokenA || tokenB || Currency.ETHER
   const { currencies } = useDerivedSwapInfo()
 
-  tokenA = currencies[Field.INPUT]
-  tokenB = currencies[Field.OUTPUT]
+  const tokenA = currencies[Field.INPUT]
+  const tokenB = currencies[Field.OUTPUT]
 
-  console.log('tokenA:',tokenA)
-  console.log('tokenB:',tokenB)
+
 
   const theme = useContext(ThemeContext)
-  const [tokenAInfo] = useState(getChartTokenInfo(tokenA))
-  const [tokenBInfo] = useState(getChartTokenInfo(tokenB))
+  const tokenAInfo = getChartTokenInfo(tokenA)
+  let tokenBInfo = undefined
+  if (tokenB) {
+    tokenBInfo = getChartTokenInfo(tokenB)
+    console.log('tokenBInfo:', tokenBInfo)
+  }
+  
   console.log('tokenAInfo:', tokenAInfo)
-  console.log('tokenBInfo:', tokenBInfo)
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
-  // let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
-  // let chartData = useTokenChartData(tokenAInfo?.address)
-  // console.log('chartData', chartData)
-  const [timeWindow] = useState(timeframeOptions.WEEK)
-  // const prevWindow = usePrevious(timeWindow)
+  let chartData:ChartData[] = useTokenChartData(tokenAInfo?.address.toLowerCase())
+  console.log('chartData', chartData)
+  const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
+  const prevWindow = usePrevious(timeWindow)
 
   // hourly and daily price data based on the current time window
-  const dataDay = useTokenPriceData(tokenAInfo?.address, timeframeOptions.DAY, 900)
-  const dataWeek = useTokenPriceData(tokenAInfo?.address, timeframeOptions.WEEK, 3600)
-  const dataAll = useTokenPriceData(tokenAInfo?.address, timeframeOptions.ALL_TIME, 3600)
-
-  let priceData = dataDay
-  switch (timeWindow) {
-    case timeframeOptions.DAY:
-      priceData = dataDay
-      break
-    case timeframeOptions.WEEK:
-      priceData = dataWeek
-      break
-    case timeframeOptions.ALL_TIME:
-      priceData = dataAll
-      break
+  let price:any, priceDiff:any = 0
+  if (chartData?.length) {
+    price = chartData[chartData.length - 1]?.priceUSD || 0
+    if (chartData.length >= 2) {
+      priceDiff = price - (chartData ? chartData[chartData.length - 2]?.priceUSD || price : price)
+    }
+    price = toK(price)
+    priceDiff = toK(priceDiff)
   }
   // const { t } = useTranslation()
-  console.log('priceData', priceData)
 
-  if (priceData?.length) {
-    for (var i = 0; priceData < length; ++i) {
-      if (!isNaN(priceData[i].close)) {
-        console.log(priceData[i].timestamp, priceData[i].close)
-      }
-    }
-  }
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
-  // let utcStartTime (timeWindow)
-  // const domain = [(dataMin:date) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
+  let utcStartTime = getTimeframe(timeWindow)
+  // const domain = [(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
   const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
 
-  // chartData = chartData?.filter((entry) => entry.date >= utcStartTime)
+  let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+  console.log(useEffect,prevWindow)
+  // useEffect(() => {
+  //   console.log('timeWindow', timeWindow)
+  //   let utcStartTime = getTimeframe(timeWindow)
+  //   chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+  //   console.log('filtered chartData', chartDataFiltered)
+  // }, [prevWindow, timeWindow])
 
+  if (chartDataFiltered?.length) {
+    console.log('chartDataFiltered', chartDataFiltered)
+    for (var i = 0; i < chartData.length; ++i) {
+      chartDataFiltered[i]?.priceUSD && console.log(toNiceDate(chartDataFiltered[i].date), chartDataFiltered[i].priceUSD)
+    }
+  }
   // update the width on a window resize
   // const ref = useRef()
   // const isClient = typeof window === 'object'
@@ -285,33 +290,33 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
       <ChartName>
         {tokenA && tokenB ? (
           <DoubleCurrencyLogo currency0={tokenA} currency1={tokenB} size={24} margin={true} />
-        ) : currency ? (
-          <CurrencyLogo currency={currency} size={'24px'} />
+        ) : tokenA ? (
+          <CurrencyLogo currency={tokenA} size={'24px'} />
         ) : null}
         {tokenA && tokenB ? (
           <StyledTokenName className="pair-name-container">
             {tokenA.symbol}:{tokenB.symbol}
           </StyledTokenName>
         ) : (
-          <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-            {(currency && currency.symbol && currency.symbol.length > 20
-              ? currency.symbol.slice(0, 4) +
+          <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
+            {(tokenA && tokenA.symbol && tokenA.symbol.length > 20
+              ? tokenA.symbol.slice(0, 4) +
                 '...' +
-                currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-              : currency?.symbol) || '--'}
+                tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
+              : tokenA?.symbol) || '--'}
           </StyledTokenName>
         )}
       </ChartName>
       <ChartTools>
         <PriceBlock>
-          <Price>6.83777</Price>
-          <PriceDiff diff={3.744} />
+          <Price>{price}</Price>
+          <PriceDiff diff={priceDiff} />
         </PriceBlock>
-        <Resolutions />
+        <Resolutions active={timeWindow} setActive={setTimeWindow} />
       </ChartTools>
       <Chart>
         <ResponsiveContainer aspect={calAspect}>
-            <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={priceData}>
+            <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartDataFiltered}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={'#BA40F3'} stopOpacity={0.17} />
@@ -324,9 +329,10 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
                 interval="preserveEnd"
                 minTickGap={120}
                 tickFormatter={(tick) => toNiceDate(tick)}
-                dataKey="timestamp"
+                dataKey="date"
                 tick={{ fill: theme.text4 }}
                 type={'number'}
+                domain={['dataMin', 'dataMax']}
               />
               <YAxis
                 type="number"
@@ -341,7 +347,7 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
               />
               <Area
                 key={'other'}
-                dataKey={'close'}
+                dataKey={'priceUSD'}
                 stackId="2"
                 strokeWidth={2}
                 dot={false}
