@@ -36,7 +36,7 @@ export const HaloWrapper = styled.div`
     content: '';
     display: block;
     position: absolute;
-    z-index: 2;
+    z-index: -1;
     pointer-events: none;
 
     border-radius: 50%;
