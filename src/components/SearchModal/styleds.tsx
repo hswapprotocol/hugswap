@@ -46,13 +46,13 @@ export const SearchInput = styled.input`
   background: none;
   border: none;
   outline: none;
-  border-radius: 20px;
+  border-radius: 12px;
   color: ${({ theme }) => theme.text1};
   border-style: solid;
   border: 1px solid ${({ theme }) => theme.bg3};
   -webkit-appearance: none;
 
-  font-size: 18px;
+  font-size: 14px;
 
   ::placeholder {
     color: ${({ theme }) => theme.text3};

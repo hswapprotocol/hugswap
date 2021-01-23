@@ -275,5 +275,10 @@
   "Insufficient HT balance": "HT余额不足",
   "Could not withdraw": "无法提出",
   "Insufficient WHT balance": "WHT余额不足",
-  "UnwrapTo": "兑换 {{amount}} WHT到HT"
+  "UnwrapTo": "兑换 {{amount}} WHT到HT",
+  "Swap input to output": "Swap {{inputAmount}} for {{output}}",
+  "connect Heco network": "Please connect to the appropriate Heco network.",
+  "Error connecting info": "Error connecting. Try refreshing the page.",
+  "Wrong Network": "Wrong Network",
+  "Error connecting": "Error connecting"
 }
