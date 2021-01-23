@@ -4,6 +4,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { ReactComponent as Back } from '../../assets/images/back.svg'
@@ -151,7 +152,7 @@ export default function WalletModal({
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
-
+  const { t } = useTranslation()
   const previousAccount = usePrevious(account)
 
   // close on connection, when logged out before
@@ -228,6 +229,7 @@ export default function WalletModal({
       // check for mobile options
       if (isMobile) {
         //disable portis on mobile for now
+        console.log({ connector: option.connector, option })
         if (option.connector === portis) {
           return null
         }
@@ -359,7 +361,7 @@ export default function WalletModal({
           </HeaderRow>
         ) : (
           <HeaderRow>
-            <HoverText>连接钱包</HoverText>
+            <HoverText>{t('connectWallet')}</HoverText>
           </HeaderRow>
         )}
         <ContentWrapper>
