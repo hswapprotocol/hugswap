@@ -1,6 +1,5 @@
 import { ChainId, JSBI, Percent, Token, WHT } from '@src/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import i18next from 'i18next'
 import { injected, walletconnect } from '../connectors'
 
 // uniswap地址
@@ -154,7 +153,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     connector: walletconnect,
     name: 'WalletConnect',
     iconName: 'walletConnectIcon.svg',
-    description: i18next.t('Connect to Trust Wallet'),
+    description: 'Connect to Trust Wallet',
     href: null,
     color: '#4196FC',
     subheader: 'Heco recommended Wallet',

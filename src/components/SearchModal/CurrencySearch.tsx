@@ -20,7 +20,6 @@ import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
-// const tokenList = require('../../tokenlist.json')
 interface CurrencySearchProps {
   isOpen: boolean
   onDismiss: () => void
@@ -141,7 +140,7 @@ export function CurrencySearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-              {t('selectCurrency')}
+            {t('selectCurrency')}
             <QuestionHelper text={t('hint7')} />
           </Text>
           <CloseIcon onClick={onDismiss} />

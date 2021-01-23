@@ -274,15 +274,13 @@ const StyledExternalLink = styled(ExternalLink).attrs({
 `}
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.HECO_MAINNET]: 'Heco',
-  [ChainId.HECO_TESTNET]: 'Test Heco'
-}
-
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-
+  const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
+    [ChainId.HECO_MAINNET]: t('Heco mainnet'),
+    [ChainId.HECO_TESTNET]: t('Heco testnet')
+  }
   const userEthBalance = useHTBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
