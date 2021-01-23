@@ -5,15 +5,15 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-import Blocklist from './components/Blocklist'
+// import Blocklist from './components/Blocklist'
 import { NetworkContextName } from './constants'
 import './i18n'
 import App from './pages/App'
 import store from './state'
-// import ApplicationContextProvider from './contexts/Application'
-// import GlobalDataContextProvider from './contexts/GlobalData'
-// import { /*TokenDataContextProvider, */ Updater as TokenDataContextUpdater } from './contexts/TokenData'
-// import { /*PairDataContextProvider, */ Updater as PairDataContextUpdater } from './contexts/PairData'
+import ApplicationContextProvider from './contexts/Application'
+import GlobalDataContextProvider from './contexts/GlobalData'
+import TokenDataContextProvider, { Updater as TokenDataContextUpdater } from './contexts/TokenData'
+import PairDataContextProvider, { Updater as PairDataContextUpdater } from './contexts/PairData'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
@@ -33,11 +33,11 @@ function Updaters() {
     <>
       {/* <ListsUpdater />
       <UserUpdater />
+      <MulticallUpdater /> */}
       <ApplicationUpdater />
       <TransactionUpdater />
       <TokenDataContextUpdater />
       <PairDataContextUpdater />
-      <MulticallUpdater /> */}
       <ListsUpdater />
       <UserUpdater />
       <ApplicationUpdater />
@@ -48,49 +48,49 @@ function Updaters() {
 }
 
 ReactDOM.render(
-  // <StrictMode>
-  //   <FixedGlobalStyle />
-  //   <Web3ReactProvider getLibrary={getLibrary}>
-  //     <Web3ProviderNetwork getLibrary={getLibrary}>
-  //       <ApplicationContextProvider>
-  //         <TokenDataContextProvider>
-  //           <GlobalDataContextProvider>
-  //             <PairDataContextProvider>
-  //               {/* <Blocklist> */}
-  //                 <Provider store={store}>
-  //                   <Updaters />
-  //                   <ThemeProvider>
-  //                     <ThemedGlobalStyle />
-  //                     <HashRouter>
-  //                       <App />
-  //                     </HashRouter>
-  //                   </ThemeProvider>
-  //                 </Provider>
-  //               {/* </Blocklist> */}
-  //             </PairDataContextProvider>
-  //           </GlobalDataContextProvider>
-  //         </TokenDataContextProvider>
-  //       </ApplicationContextProvider>
-  //     </Web3ProviderNetwork>
-  //   </Web3ReactProvider>
-  // </StrictMode>,
   <StrictMode>
     <FixedGlobalStyle />
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Blocklist>
-          <Provider store={store}>
-            <Updaters />
-            <ThemeProvider>
-              <ThemedGlobalStyle />
-              <HashRouter>
-                <App />
-              </HashRouter>
-            </ThemeProvider>
-          </Provider>
-        </Blocklist>
+        <ApplicationContextProvider>
+          <TokenDataContextProvider>
+            <GlobalDataContextProvider>
+              <PairDataContextProvider>
+                {/* <Blocklist> */}
+                  <Provider store={store}>
+                    <Updaters />
+                    <ThemeProvider>
+                      <ThemedGlobalStyle />
+                      <HashRouter>
+                        <App />
+                      </HashRouter>
+                    </ThemeProvider>
+                  </Provider>
+                {/* </Blocklist> */}
+              </PairDataContextProvider>
+            </GlobalDataContextProvider>
+          </TokenDataContextProvider>
+        </ApplicationContextProvider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
   </StrictMode>,
+  // <StrictMode>
+  //   <FixedGlobalStyle />
+  //   <Web3ReactProvider getLibrary={getLibrary}>
+  //     <Web3ProviderNetwork getLibrary={getLibrary}>
+  //       <Blocklist>
+  //         <Provider store={store}>
+  //           <Updaters />
+  //           <ThemeProvider>
+  //             <ThemedGlobalStyle />
+  //             <HashRouter>
+  //               <App />
+  //             </HashRouter>
+  //           </ThemeProvider>
+  //         </Provider>
+  //       </Blocklist>
+  //     </Web3ProviderNetwork>
+  //   </Web3ReactProvider>
+  // </StrictMode>,
   document.getElementById('root')
 )

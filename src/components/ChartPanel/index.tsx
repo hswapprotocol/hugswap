@@ -2,18 +2,20 @@
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
 import React, { useState, useContext }  from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
-import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
-import { XAxis, YAxis, Area, ResponsiveContainer, Tooltip, AreaChart } from 'recharts'
-import { toK, toNiceDate, toNiceDateYear, formattedNum } from '../../utils'
-import { useSelectedListInfo } from '../../state/lists/hooks'
+// import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
+import { useTokenPriceData } from '../../contexts/TokenData'
+import { XAxis, YAxis, Area, ResponsiveContainer, AreaChart } from 'recharts'
+import { toK, toNiceDate } from '../../utils'
+// import { useSelectedListInfo } from '../../state/lists/hooks'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
+import { useCurrency, useAllTokens } from '../../hooks/Tokens'
 import { Field } from '../../state/swap/actions'
 
 const ChartWrapper = styled.div``
@@ -184,13 +186,16 @@ const defaultTokens = [
 
 // 只用于画图， HT 地址返回 WHT 地址，用于获取价格
 const getChartTokenInfo = (currency: Currency | undefined) => {
-  const allTokens = useSelectedListInfo()
+  // const allTokens = useSelectedListInfo()
   let symbol = currency?.symbol
   if (symbol === 'HT') {
     symbol = 'WHT'
   }
-  console.log('getChartTokenInfo:', symbol, allTokens?.current?.tokens.find(token => token.symbol === symbol))
-  return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
+  const ttToken=useCurrency(symbol)
+  const ttTokens=useAllTokens()
+  console.log('getChartTokenInfo:', ttToken, ttTokens)
+  return {address: '0x9f138fB59826EDA313895511321175A9aE9bDA18'}
+  // return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
 }
 
 interface ChartPanelProps {
@@ -219,8 +224,8 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
   // let address = '0x74600730ae6dd1E8745A996F176b8d2D29257090'
-  let chartData = useTokenChartData(tokenAInfo?.address)
-  console.log('chartData', chartData)
+  // let chartData = useTokenChartData(tokenAInfo?.address)
+  // console.log('chartData', chartData)
   const [timeWindow] = useState(timeframeOptions.WEEK)
   // const prevWindow = usePrevious(timeWindow)
 
@@ -241,19 +246,23 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
       priceData = dataAll
       break
   }
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   console.log('priceData', priceData)
+
   if (priceData?.length) {
-    // code...
+    for (var i = 0; priceData < length; ++i) {
+      if (!isNaN(priceData[i].close)) {
+        console.log(priceData[i].timestamp, priceData[i].close)
+      }
+    }
   }
   const below1080 = useMedia('(max-width: 1080px)')
   const below600 = useMedia('(max-width: 600px)')
 
-  // let utcStartTime = getTimeframe(timeWindow)
-  // const domain = AxisDomain([(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax'])
+  // let utcStartTime (timeWindow)
+  // const domain = [(dataMin:date) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
   const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
-  const color = theme.text6
-  const textColor = theme.text4
+
   // chartData = chartData?.filter((entry) => entry.date >= utcStartTime)
 
   // update the width on a window resize
@@ -302,61 +311,48 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
       </ChartTools>
       <Chart>
         <ResponsiveContainer aspect={calAspect}>
-          <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={color} stopOpacity={0.35} />
-                <stop offset="95%" stopColor={color} stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis
-              tickLine={false}
-              axisLine={false}
-              interval="preserveEnd"
-              minTickGap={120}
-              tickFormatter={tick => toNiceDate(tick)}
-              dataKey="date"
-              tick={{ fill: textColor }}
-              type={'number'}
-            />
-            <YAxis
-              type="number"
-              orientation="left"
-              tickFormatter={tick => '$' + toK(tick)}
-              axisLine={false}
-              tickLine={false}
-              interval="preserveEnd"
-              minTickGap={80}
-              yAxisId={0}
-              tick={{ fill: textColor }}
-            />
-            <Tooltip
-              cursor={true}
-              formatter={(val: any) => formattedNum(val, true)}
-              labelFormatter={label => toNiceDateYear(label)}
-              labelStyle={{ paddingTop: 4 }}
-              contentStyle={{
-                padding: '10px 14px',
-                borderRadius: 10,
-                borderColor: color,
-                color: 'black'
-              }}
-              wrapperStyle={{ top: -70, left: -10 }}
-            />
-            <Area
-              key={'other'}
-              dataKey={'priceUSD'}
-              stackId="2"
-              strokeWidth={2}
-              dot={false}
-              type="monotone"
-              name={t('Price')}
-              yAxisId={0}
-              stroke={color}
-              fill="url(#colorUv)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+            <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={priceData}>
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={'#BA40F3'} stopOpacity={0.17} />
+                  <stop offset="95%" stopColor={'#171426'} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis
+                tickLine={false}
+                axisLine={false}
+                interval="preserveEnd"
+                minTickGap={120}
+                tickFormatter={(tick) => toNiceDate(tick)}
+                dataKey="timestamp"
+                tick={{ fill: theme.text4 }}
+                type={'number'}
+              />
+              <YAxis
+                type="number"
+                orientation="right"
+                tickFormatter={(tick) => '$' + toK(tick)}
+                axisLine={false}
+                tickLine={false}
+                interval="preserveEnd"
+                minTickGap={80}
+                yAxisId={0}
+                tick={{ fill: theme.text4 }}
+              />
+              <Area
+                key={'other'}
+                dataKey={'close'}
+                stackId="2"
+                strokeWidth={2}
+                dot={false}
+                type="monotone"
+                name={'Price'}
+                yAxisId={0}
+                stroke="#BA40F3"
+                fill="url(#colorUv)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
       </Chart>
     </ChartWrapper>
   )
