@@ -2,7 +2,6 @@ import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import ReactGA from 'react-ga'
 // import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
@@ -24,7 +23,7 @@ import ProgressSteps from '../../components/ProgressSteps'
 // import ChartPanel from '../../components/ChartPanel'
 
 import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
-import { getTradeVersion } from '../../data/V1'
+// import { getTradeVersion } from '../../data/V1'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -247,25 +246,28 @@ export default function Swap() {
       .then(hash => {
         setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
 
-        ReactGA.event({
-          category: 'Swap',
-          action:
-            recipient === null
-              ? 'Swap w/o Send'
-              : (recipientAddress ?? recipient) === account
-              ? 'Swap w/o Send + recipient'
-              : 'Swap w/ Send',
-          label: [
-            trade?.inputAmount?.currency?.symbol,
-            trade?.outputAmount?.currency?.symbol,
-            getTradeVersion(trade)
-          ].join('/')
-        })
+        // ReactGA.event({
+        //   category: 'Swap',
+        //   action:
+        //     recipient === null
+        //       ? 'Swap w/o Send'
+        //       : (recipientAddress ?? recipient) === account
+        //       ? 'Swap w/o Send + recipient'
+        //       : 'Swap w/ Send',
+        //   label: [
+        //     trade?.inputAmount?.currency?.symbol,
+        //     trade?.outputAmount?.currency?.symbol,
+        //     getTradeVersion(trade)
+        //   ].join('/')
+        // })
 
-        ReactGA.event({
-          category: 'Routing',
-          action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
-        })
+        // ReactGA.event({
+        //   category: 'Routing',
+        //   action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
+        // })
+
+        //remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
       })
       .catch(error => {
         setSwapState({

@@ -3,7 +3,6 @@ import { AddressZero } from '@ethersproject/constants'
 import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Token, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { Text } from 'rebass'
 import { ButtonConfirmed } from '../../components/Button'
@@ -165,11 +164,13 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
         Math.floor(new Date().getTime() / 1000) + DEFAULT_DEADLINE_FROM_NOW
       )
       .then((response: TransactionResponse) => {
-        ReactGA.event({
-          category: 'Migrate',
-          action: 'V1->V2',
-          label: token?.symbol
-        })
+        // ReactGA.event({
+        //   category: 'Migrate',
+        //   action: 'V1->V2',
+        //   label: token?.symbol
+        // })
+        //remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
 
         addTransaction(response, {
           summary: t('Migrate to', {symbol: token.symbol})

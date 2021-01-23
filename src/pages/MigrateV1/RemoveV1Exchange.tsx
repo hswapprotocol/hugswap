@@ -2,7 +2,6 @@ import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { JSBI, Token, TokenAmount, WHT, Fraction, Percent, CurrencyAmount } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useMemo, useState } from 'react'
-import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { ButtonConfirmed } from '../../components/Button'
 import { LightCard } from '../../components/Card'
@@ -74,11 +73,13 @@ function V1PairRemoval({
         Math.floor(new Date().getTime() / 1000) + DEFAULT_DEADLINE_FROM_NOW
       )
       .then((response: TransactionResponse) => {
-        ReactGA.event({
-          category: 'Remove',
-          action: 'V1',
-          label: token?.symbol
-        })
+        // ReactGA.event({
+        //   category: 'Remove',
+        //   action: 'V1',
+        //   label: token?.symbol
+        // })
+        //remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
 
         addTransaction(response, {
           summary: `Remove ${chainId && token.equals(WHT[chainId]) ? 'WHT' : token.symbol}/HT V1 liquidity`

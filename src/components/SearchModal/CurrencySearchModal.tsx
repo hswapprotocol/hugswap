@@ -1,6 +1,5 @@
 import { Currency } from '@src/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
-import ReactGA from 'react-ga'
 import useLast from '../../hooks/useLast'
 import Modal from '../Modal'
 import { CurrencySearch } from './CurrencySearch'
@@ -41,17 +40,21 @@ export default function CurrencySearchModal({
   )
 
   const handleClickChangeList = useCallback(() => {
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Change Lists'
-    })
+    // ReactGA.event({
+    //   category: 'Lists',
+    //   action: 'Change Lists'
+    // })
+    //remove ReactGA, extract the inner logic
+    //TODO: integrate with woodpecker
     setListView(true)
   }, [])
   const handleClickBack = useCallback(() => {
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Back'
-    })
+    // ReactGA.event({
+    //   category: 'Lists',
+    //   action: 'Back'
+    // })
+    //remove ReactGA, extract the inner logic
+    //TODO: integrate with woodpecker
     setListView(false)
   }, [])
 

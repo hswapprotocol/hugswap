@@ -1,7 +1,6 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useMemo } from 'react'
-import ReactGA from 'react-ga'
 import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
 import styled from 'styled-components'
@@ -39,11 +38,13 @@ export default function ListUpdatePopup({
 
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Update List from Popup',
-      label: listUrl
-    })
+    // ReactGA.event({
+    //   category: 'Lists',
+    //   action: 'Update List from Popup',
+    //   label: listUrl
+    // })
+    //remove ReactGA, extract the inner logic
+    //TODO: integrate with woodpecker
     dispatch(acceptListUpdate(listUrl))
     removeThisPopup()
   }, [auto, dispatch, listUrl, removeThisPopup])
