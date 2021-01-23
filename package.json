@@ -1,6 +1,7 @@
 {
   "name": "hugswap",
   "description": "Hugswap",
+  "version": "1.0.0",
   "homepage": "https://app.hugswap.com",
   "private": true,
   "devDependencies": {
