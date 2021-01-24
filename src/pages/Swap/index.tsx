@@ -330,7 +330,7 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-  const isHideMedium = false && useMedia('(max-width: 960px)')
+  const isHideMedium = useMedia('(max-width: 960px)')
   return (
     <>
       <SwapBody>

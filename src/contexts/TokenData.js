@@ -549,11 +549,13 @@ const getIntervalTokenData = async (tokenAddress, startTime, interval = 3600, la
 
 const getTokenChartData = async (tokenAddress) => {
   let data = []
+  if (!tokenAddress) {
+    return data
+  }
   const utcEndTime = dayjs.utc()
   let utcStartTime = utcEndTime.subtract(1, 'year')
   let startTime = utcStartTime.startOf('minute').unix() - 1
 
-  console.log('getTokenChartData', tokenAddress, data)
   try {
     let allFound = false
     let skip = 0

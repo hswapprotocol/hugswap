@@ -39,6 +39,8 @@ const TradingViewChart = ({
 
   // pointer to the chart object
   const [chartCreated, setChartCreated] = useState(false)
+  const [seriesCreated, setSeriesCreated] = useState(false)
+  const [diffSeriesCreated, setDiffSeriesCreated] = useState(false)
   const dataPrev = usePrevious(data)
 
   console.log('chart got', data)
@@ -59,6 +61,19 @@ const TradingViewChart = ({
       value: parseFloat(entry[field]),
     }
   })
+  let diffData
+  if (formattedData) {
+    diffData = formattedData.map((item, i, a) => {
+      let diff = 0;
+      if (i > 0) {
+        diff = ((item.value - a[i-1].value) / a[i-1].value) * 100
+      }
+      return {
+        time: item.time,
+        value: diff
+      }
+    })
+  }
 
   // adjust the scale based on the type of chart
   const topScale = type === CHART_TYPES.AREA ? 0.32 : 0.2
@@ -80,14 +95,11 @@ const TradingViewChart = ({
   }, [chartCreated, darkMode, previousTheme, type])
 
   // if no chart created yet, create one with options and add to DOM manually
-  var chart
+  let chart
+  let series
+  let diffSeries
   useEffect(() => {
-    if (data !== dataPrev && formattedData) {
-      console.log('recreat chart')
-      let chartEle = document.querySelector('.tv-lightweight-charts')
-      if (chartEle) {
-        document.querySelector('#test-idAREA').removeChild(chartEle)
-      }
+    if (!chartCreated && formattedData) {
       chart = createChart(ref.current, {
         width: width,
         height: HEIGHT,
@@ -133,8 +145,8 @@ const TradingViewChart = ({
         },
       })
 
-      var series =
-        type === CHART_TYPES.BAR
+      series =
+        (type === CHART_TYPES.BAR
           ? chart.addHistogramSeries({
               color: '#BA40F3',
               priceFormat: {
@@ -157,22 +169,13 @@ const TradingViewChart = ({
                 bottom: 0.1,
               },
             })
+        )
 
       series.setData(formattedData)
-      var diffSeries = chart.addLineSeries({
+      
+      diffSeries = chart.addLineSeries({
         visible: false,
         priceScaleId: 'left'
-      })
-
-      var diffData = formattedData.map((item, i, a) => {
-        let diff = 0;
-        if (i > 0) {
-          diff = ((item.value - a[i-1].value) / a[i-1].value) * 100
-        }
-        return {
-          time: item.time,
-          value: diff
-        }
       })
 
       diffSeries.setData(diffData)
@@ -238,6 +241,8 @@ const TradingViewChart = ({
       chart.timeScale().fitContent()
 
       setChartCreated(chart)
+      setSeriesCreated(series)
+      setDiffSeriesCreated(diffSeries)
     }
   }, [
     base,
@@ -245,8 +250,8 @@ const TradingViewChart = ({
     chartCreated,
     darkMode,
     data,
-    dataPrev,
     formattedData,
+    diffData,
     textColor,
     toolTipSelector,
     topScale,
@@ -262,6 +267,14 @@ const TradingViewChart = ({
       chartCreated && chartCreated.timeScale().scrollToPosition(0)
     }
   }, [chartCreated, width])
+  // data change
+  useEffect(() => {
+    if (chartCreated && data !== dataPrev && formattedData) {
+      seriesCreated?.setData(formattedData)
+      diffSeriesCreated?.setData(diffData)
+      chartCreated.timeScale().fitContent()
+    }
+  }, [chartCreated, data, dataPrev, formattedData, diffData, seriesCreated, diffSeriesCreated])
 
   return (
     <Wrapper>

@@ -10,6 +10,7 @@ import { timeframeOptions } from '../../constants'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData } from '../../contexts/TokenData'
+// import { usePairData } from '../../contexts/PairData'
 // import { useTokenPriceData } from '../../contexts/TokenData'
 // import { XAxis, YAxis, Area, ResponsiveContainer, AreaChart } from 'recharts'
 import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
@@ -17,6 +18,7 @@ import { getTimeframe } from '../../utils'
 // import { useSelectedListInfo } from '../../state/lists/hooks'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
 import { useTokenBySymbol } from '../../hooks/Tokens'
+import { TokenAmount, Pair, Token } from '@src/sdk'
 import { Field } from '../../state/swap/actions'
 
 const ChartWrapper = styled.div`
@@ -78,7 +80,7 @@ const PriceDiffWrapper = styled.div<{ diff?: number }>`
     color: ${({ theme }) => theme.text9};
   }
 `
-const ResolutionsWrapper = styled.ul`
+const Resolutions = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
@@ -131,35 +133,6 @@ const ResolutionButtonInner = styled.a`
     color: ${({ theme }) => theme.text6};
   }
 `
-
-interface ResolutionProps {
-  active: string
-  setActive: (timeWindow:string) => void
-}
-const Resolutions = ({ active, setActive }: ResolutionProps) => {
-  return (
-    <ResolutionsWrapper>
-      <ResolutionButton
-        isActive={active === timeframeOptions.DAY}
-        setActiveFn={() => setActive(timeframeOptions.DAY)}
-      >
-        1D
-      </ResolutionButton>
-      <ResolutionButton
-        isActive={active === timeframeOptions.WEEK}
-        setActiveFn={() => setActive(timeframeOptions.WEEK)}
-      >
-        1W
-      </ResolutionButton>
-      <ResolutionButton
-        isActive={active === timeframeOptions.ALL_TIME}
-        setActiveFn={() => setActive(timeframeOptions.ALL_TIME)}
-      >
-        ALL
-      </ResolutionButton>
-    </ResolutionsWrapper>
-  )
-}
 const Chart = styled.div``
 
 // const CHART_VIEW = {
@@ -214,18 +187,27 @@ interface ChartPanelProps {
 export default function ChartPanel({ id }: ChartPanelProps) {
   // const currency = tokenA || tokenB || Currency.ETHER
   const ref = useRef<HTMLDivElement>()
-  console.log('ref',ref)
+
   const { currencies } = useDerivedSwapInfo()
 
   const tokenA = currencies[Field.INPUT]
   const tokenB = currencies[Field.OUTPUT]
 
   // const theme = useContext(ThemeContext)
+  let chartData:ChartData[] = []
   const tokenAInfo = getChartTokenInfo(tokenA)
-  let tokenBInfo = undefined
+  let tokenBInfo
   if (tokenB) {
+    // console.log(tokenB)
     tokenBInfo = getChartTokenInfo(tokenB)
-    console.log('tokenBInfo:', tokenBInfo)
+  }
+
+  let dummyPair
+  if (tokenAInfo && tokenBInfo) {
+    dummyPair = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
+    console.log('tokenBInfo:', dummyPair)
+  } else {
+    chartData = useTokenChartData(tokenAInfo?.address.toLowerCase())
   }
   
   console.log('tokenAInfo:', tokenAInfo)
@@ -233,10 +215,6 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
-  let chartData:ChartData[] = useTokenChartData(tokenAInfo?.address.toLowerCase())
-  console.log('chartData', chartData)
-  const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
-  const prevWindow = usePrevious(timeWindow)
 
   // hourly and daily price data based on the current time window
   // let price:number, priceDiff:number = 0.00
@@ -248,23 +226,25 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   // }
   // const { t } = useTranslation()
 
+  const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
+  const prevWindow = usePrevious(timeWindow)
+  console.log('prevWindow', prevWindow, '-->',timeWindow)
 
   let utcStartTime = getTimeframe(timeWindow)
+  let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+  // useEffect(() => {
+  //   if (prevWindow !== timeWindow) {
+  //     console.log('timeWindow change',prevWindow !== timeWindow, prevWindow, timeWindow)
+  //     let utcStartTime = getTimeframe(timeWindow)
+  //     chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+  //     console.log('filtered chartData', chartDataFiltered)
+  //   }
+  // }, [prevWindow, timeWindow])
   // const domain = [(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
   // const below1080 = useMedia('(max-width: 1080px)')
   // const below600 = useMedia('(max-width: 600px)')
   // const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
-
-  let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
-
-  useEffect(() => {
-    let utcStartTime = getTimeframe(timeWindow)
-    chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
-    setChartDataState(chartDataFiltered)
-    console.log('filtered chartData', chartDataFiltered)
-  }, [prevWindow, timeWindow, chartData])
-
-  const [chartDataState, setChartDataState] = useState(chartDataFiltered)
+  
 
   // update the width on a window resize
   // const ref = ref.current
@@ -310,12 +290,31 @@ export default function ChartPanel({ id }: ChartPanelProps) {
           <Price>--</Price>
           <PriceDiff diff={0} />
         </PriceBlock>
-        <Resolutions active={timeWindow} setActive={setTimeWindow} />
+        <Resolutions>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.DAY}
+            setActiveFn={() => setTimeWindow(timeframeOptions.DAY)}
+          >
+            1D
+          </ResolutionButton>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.WEEK}
+            setActiveFn={() => setTimeWindow(timeframeOptions.WEEK)}
+          >
+            1W
+          </ResolutionButton>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.ALL_TIME}
+            setActiveFn={() => setTimeWindow(timeframeOptions.ALL_TIME)}
+          >
+            ALL
+          </ResolutionButton>
+        </Resolutions>
       </ChartTools>
       <Chart ref={ref as RefObject<HTMLDivElement>}>
         <TradingViewChart
           toolTipSelector="#chart-tooltip"
-          data={chartDataState}
+          data={chartDataFiltered}
           base={0}
           baseChange={0}
           field="priceUSD"
