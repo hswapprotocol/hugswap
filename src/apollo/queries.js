@@ -734,20 +734,20 @@ export const TOKEN_CHART = gql`
       dailyVolumeETH
       dailyVolumeToken
       dailyVolumeUSD
-      mostLiquidPairs {
-        id
-        token0 {
-          id
-          derivedETH
-        }
-        token1 {
-          id
-          derivedETH
-        }
-      }
     }
   }
 `
+      // mostLiquidPairs {
+      //   id
+      //   token0 {
+      //     id
+      //     derivedETH
+      //   }
+      //   token1 {
+      //     id
+      //     derivedETH
+      //   }
+      // }
 
 const TokenFields = `
   fragment TokenFields on Token {

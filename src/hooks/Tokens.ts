@@ -109,3 +109,20 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   const token = useToken(isHT ? undefined : currencyId)
   return isHT ? ETHER : token
 }
+
+let allTokens:{[address: string]:Token} = {}
+export function useTokenBySymbol(symbol: string | undefined): Token | null | undefined {
+  let keys = Object.keys(allTokens)
+  //use cache first
+  if (!keys?.length) {
+    allTokens = useAllTokens()
+    keys = Object.keys(allTokens)
+  }
+  for (var i = 0; i < keys.length; ++i) {
+    if (allTokens.hasOwnProperty(keys[i]) && allTokens[keys[i]].symbol === symbol) {
+      return allTokens[keys[i]]
+    }
+  }
+  return undefined
+  // return isHT ? ETHER : tokens.find(token => token.symbol === symbol)
+}

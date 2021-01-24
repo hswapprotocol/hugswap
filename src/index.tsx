@@ -10,10 +10,10 @@ import { NetworkContextName } from './constants'
 import './i18n'
 import App from './pages/App'
 import store from './state'
-// import ApplicationContextProvider from './contexts/Application'
-// import GlobalDataContextProvider from './contexts/GlobalData'
-// import { /*TokenDataContextProvider, */ Updater as TokenDataContextUpdater } from './contexts/TokenData'
-// import { /*PairDataContextProvider, */ Updater as PairDataContextUpdater } from './contexts/PairData'
+import ApplicationContextProvider from './contexts/Application'
+import GlobalDataContextProvider from './contexts/GlobalData'
+import TokenDataContextProvider, { Updater as TokenDataContextUpdater } from './contexts/TokenData'
+import PairDataContextProvider, { Updater as PairDataContextUpdater } from './contexts/PairData'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
@@ -42,6 +42,8 @@ function Updaters() {
       <UserUpdater />
       <ApplicationUpdater />
       <TransactionUpdater />
+      <TokenDataContextUpdater />
+      <PairDataContextUpdater />
       <MulticallUpdater />
     </>
   )
@@ -78,17 +80,25 @@ ReactDOM.render(
     <FixedGlobalStyle />
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Blocklist>
-          <Provider store={store}>
-            <Updaters />
-            <ThemeProvider>
-              <ThemedGlobalStyle />
-              <HashRouter>
-                <App />
-              </HashRouter>
-            </ThemeProvider>
-          </Provider>
-        </Blocklist>
+        <ApplicationContextProvider>
+          <TokenDataContextProvider>
+            <GlobalDataContextProvider>
+              <PairDataContextProvider>
+                <Blocklist>
+                  <Provider store={store}>
+                    <Updaters />
+                    <ThemeProvider>
+                      <ThemedGlobalStyle />
+                      <HashRouter>
+                        <App />
+                      </HashRouter>
+                    </ThemeProvider>
+                  </Provider>
+                </Blocklist>
+              </PairDataContextProvider>
+            </GlobalDataContextProvider>
+          </TokenDataContextProvider>
+        </ApplicationContextProvider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
   </StrictMode>,

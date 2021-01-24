@@ -2,7 +2,7 @@ import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-// import { useMedia } from 'react-use'
+import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
@@ -20,7 +20,7 @@ import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../
 import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
-// import ChartPanel from '../../components/ChartPanel'
+import ChartPanel from '../../components/ChartPanel'
 
 import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 // import { getTradeVersion } from '../../data/V1'
@@ -51,8 +51,8 @@ import { isTradeBetter } from 'utils/trades'
 
 const SwapBody = styled.div`
   display: grid;
-  // grid-template-columns: 3fr 2fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: 3fr 2fr;
+  // grid-template-columns: 1fr;
   align-items: start;
   justify-content: space-between;
   justify-items: center;
@@ -332,7 +332,7 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-  // const isHideMedium = false && useMedia('(max-width: 960px)')
+  const isHideMedium = useMedia('(max-width: 960px)')
   return (
     <>
       <SwapBody>
@@ -343,9 +343,9 @@ export default function Swap() {
         />
 
         {/* <TreeBalls /> */}
-        {/* {isHideMedium || (
-          <ChartPanel id="main-chart" tokenA={currencies[Field.INPUT]} tokenB={currencies[Field.OUTPUT]} />
-        )} */}
+        {isHideMedium || (
+          <ChartPanel id="main-chart"/>
+        )}
         <AppBody>
           <TreeBalls>
             <SwapPoolTabs active={'swap'} />

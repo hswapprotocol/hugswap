@@ -523,7 +523,7 @@ const getIntervalTokenData = async (tokenAddress, startTime, interval = 3600, la
     for (var brow in result) {
       let timestamp = brow.split('b')[1]
       if (timestamp) {
-        values[index].priceUSD = result[brow].ethPrice * values[index].derivedETH
+        values[index].priceUSD = result[brow]?.ethPrice * values[index].derivedETH
         index += 1
       }
     }
@@ -549,6 +549,9 @@ const getIntervalTokenData = async (tokenAddress, startTime, interval = 3600, la
 
 const getTokenChartData = async (tokenAddress) => {
   let data = []
+  if (!tokenAddress) {
+    return data
+  }
   const utcEndTime = dayjs.utc()
   let utcStartTime = utcEndTime.subtract(1, 'year')
   let startTime = utcStartTime.startOf('minute').unix() - 1
