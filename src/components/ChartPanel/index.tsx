@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import DoubleCurrencyLogo from '../../components/DoubleLogo'
+// import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useTokenChartData } from '../../contexts/TokenData'
 // import { usePairData } from '../../contexts/PairData'
 // import { useTokenPriceData } from '../../contexts/TokenData'
@@ -261,6 +261,15 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   return (
     <ChartWrapper>
       <ChartName>
+        <CurrencyLogo currency={tokenA} size={'24px'} />
+        <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
+          {(tokenA && tokenA.symbol && tokenA.symbol.length > 20
+            ? tokenA.symbol.slice(0, 4) +
+              '...' +
+              tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
+            : tokenA?.symbol) || '--'}
+        </StyledTokenName>
+        {/*
         {tokenA && tokenB ? (
           <DoubleCurrencyLogo currency0={tokenA} currency1={tokenB} size={24} margin={true} />
         ) : tokenA ? (
@@ -279,6 +288,7 @@ export default function ChartPanel({ id }: ChartPanelProps) {
               : tokenA?.symbol) || '--'}
           </StyledTokenName>
         )}
+        */}
       </ChartName>
       <ChartTools>
         <PriceBlock id="chart-tooltip">
