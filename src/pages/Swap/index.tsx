@@ -55,14 +55,13 @@ const SwapBody = styled.div`
   grid-template-columns: 3fr 2fr;
   // grid-template-columns: 1fr;
   align-items: start;
-  justify-content: space-between;
-  justify-items: center;
   flex-direction: row;
   width: 100%;
   max-width: 1200px;
   gap: 3rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
+    justify-items: space-between;
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
