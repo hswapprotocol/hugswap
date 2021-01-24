@@ -3,7 +3,7 @@ import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
 import React, { useState, useEffect, useRef, RefObject }  from 'react'
 // import { useTranslation } from 'react-i18next'
-import { usePrevious } from 'react-use'
+// import { usePrevious } from 'react-use'
 import styled from 'styled-components'
 import { timeframeOptions } from '../../constants'
 // import { useDarkModeManager } from '../../state/user/hooks'
@@ -18,7 +18,7 @@ import { getTimeframe } from '../../utils'
 // import { useSelectedListInfo } from '../../state/lists/hooks'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
 import { useTokenBySymbol } from '../../hooks/Tokens'
-import { TokenAmount, Pair, Token } from '@src/sdk'
+// import { TokenAmount, Pair, Token } from '@src/sdk'
 import { Field } from '../../state/swap/actions'
 
 const ChartWrapper = styled.div`
@@ -192,23 +192,23 @@ export default function ChartPanel({ id }: ChartPanelProps) {
 
   const tokenA = currencies[Field.INPUT]
   const tokenB = currencies[Field.OUTPUT]
-
+  
   // const theme = useContext(ThemeContext)
   let chartData:ChartData[] = []
   const tokenAInfo = getChartTokenInfo(tokenA)
-  let tokenBInfo
+  // let tokenBInfo
   if (tokenB) {
     // console.log(tokenB)
-    tokenBInfo = getChartTokenInfo(tokenB)
+    // tokenBInfo = getChartTokenInfo(tokenB)
   }
 
-  let dummyPair
-  if (tokenAInfo && tokenBInfo) {
-    dummyPair = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
-    console.log('tokenBInfo:', dummyPair)
-  } else {
+  // let dummyPair
+  // if (tokenAInfo && tokenBInfo) {
+  //   dummyPair = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
+  //   console.log('tokenBInfo:', dummyPair)
+  // } else {
     chartData = useTokenChartData(tokenAInfo?.address.toLowerCase())
-  }
+  // }
   
   console.log('tokenAInfo:', tokenAInfo)
   // settings for the window and candle width
@@ -227,8 +227,8 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   // const { t } = useTranslation()
 
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
-  const prevWindow = usePrevious(timeWindow)
-  console.log('prevWindow', prevWindow, '-->',timeWindow)
+  // const prevWindow = usePrevious(timeWindow)
+  // console.log('prevWindow', prevWindow, '-->',timeWindow)
 
   let utcStartTime = getTimeframe(timeWindow)
   let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
@@ -240,11 +240,6 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   //     console.log('filtered chartData', chartDataFiltered)
   //   }
   // }, [prevWindow, timeWindow])
-  // const domain = [(dataMin:any) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
-  // const below1080 = useMedia('(max-width: 1080px)')
-  // const below600 = useMedia('(max-width: 600px)')
-  // const calAspect = below1080 ? 60 / 32 : below600 ? 60 / 42 : 60 / 22
-  
 
   // update the width on a window resize
   // const ref = ref.current
