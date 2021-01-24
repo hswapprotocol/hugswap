@@ -3,16 +3,16 @@ import styled from 'styled-components'
 import { ExternalLink } from '../../theme'
 
 const InfoCard = styled.button<{ active?: boolean }>`
-  background-color: ${({ theme, active }) => (active ? theme.bg3 : 'transparent')};
+  background-color: transparent;
   padding: 1rem;
   outline: none;
   border: 1px solid;
   border-radius: 12px;
   width: 100% !important;
   &:focus {
-    background-color: ${({ theme }) => theme.bg3};
+    background-color: transparent;
   }
-  border-color: ${({ theme, active }) => (active ? 'transparent' : 'transparent')};
+  border-color: transparent;
 `
 
 const OptionCard = styled(InfoCard as any)`
@@ -29,9 +29,9 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
   flex-wrap: wrap;
   padding: 2rem 0;
   &:hover {
-    cursor: ${({ clickable }) => (clickable ? 'pointer' : '')};
-    border: ${({ clickable, theme }) => (clickable ? `1px solid ${theme.primary1}` : ``)};
+    background-color: ${({ theme }) => theme.bg3};
   }
+  cursor: ${({ clickable }) => (clickable ? 'pointer' : '')};
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
 

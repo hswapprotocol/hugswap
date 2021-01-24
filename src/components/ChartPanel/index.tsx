@@ -1,7 +1,7 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useEffect, useRef, RefObject }  from 'react'
+import React, { useState, useEffect, useRef, RefObject } from 'react'
 // import { useTranslation } from 'react-i18next'
 // import { usePrevious } from 'react-use'
 import styled from 'styled-components'
@@ -85,13 +85,13 @@ const Resolutions = styled.ul`
   display: flex;
   align-items: center;
   user-select: none;
-  
+
   li {
     position: relative;
     padding: 0 0.625rem;
-    
+
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       right: -1px;
       top: 50%;
@@ -107,7 +107,6 @@ const Resolutions = styled.ul`
       }
     }
   }
-
 `
 interface ResolutionBottonProps {
   children: any | undefined
@@ -125,7 +124,7 @@ const ResolutionButton = ({ children, isActive, setActiveFn }: ResolutionBottonP
   )
 }
 const ResolutionButtonInner = styled.a`
-  color: ${({ theme }) => theme.text4}; 
+  color: ${({ theme }) => theme.text4};
   cursor: pointer;
 
   &.active {
@@ -162,11 +161,11 @@ const Chart = styled.div``
 // ]
 
 interface ChartData {
-  id: number,
-  date: number,
-  dayString: number,
-  dailyVolumeUSD: number | undefined,
-  totalLiquidityUSD: number | undefined,
+  id: number
+  date: number
+  dayString: number
+  dailyVolumeUSD: number | undefined
+  totalLiquidityUSD: number | undefined
   priceUSD: number | undefined
   priceChangeUSD: number | undefined
   mostLiquidPairs: undefined
@@ -182,7 +181,7 @@ const getChartTokenInfo = (currency: Currency | undefined) => {
 }
 
 interface ChartPanelProps {
-  id: string,
+  id: string
 }
 export default function ChartPanel({ id }: ChartPanelProps) {
   // const currency = tokenA || tokenB || Currency.ETHER
@@ -192,9 +191,9 @@ export default function ChartPanel({ id }: ChartPanelProps) {
 
   const tokenA = currencies[Field.INPUT]
   const tokenB = currencies[Field.OUTPUT]
-  
+
   // const theme = useContext(ThemeContext)
-  let chartData:ChartData[] = []
+  let chartData: ChartData[] = []
   const tokenAInfo = getChartTokenInfo(tokenA)
   // let tokenBInfo
   if (tokenB) {
@@ -207,14 +206,13 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   //   dummyPair = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
   //   console.log('tokenBInfo:', dummyPair)
   // } else {
-    chartData = useTokenChartData(tokenAInfo?.address.toLowerCase())
+  chartData = useTokenChartData(tokenAInfo?.address.toLowerCase())
   // }
-  
+
   console.log('tokenAInfo:', tokenAInfo)
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
-
 
   // hourly and daily price data based on the current time window
   // let price:number, priceDiff:number = 0.00
@@ -231,7 +229,7 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   // console.log('prevWindow', prevWindow, '-->',timeWindow)
 
   let utcStartTime = getTimeframe(timeWindow)
-  let chartDataFiltered = chartData?.filter((entry:ChartData):boolean => entry.date >= utcStartTime)
+  let chartDataFiltered = chartData?.filter((entry: ChartData): boolean => entry.date >= utcStartTime)
   // useEffect(() => {
   //   if (prevWindow !== timeWindow) {
   //     console.log('timeWindow change',prevWindow !== timeWindow, prevWindow, timeWindow)
@@ -282,9 +280,7 @@ export default function ChartPanel({ id }: ChartPanelProps) {
         ) : (
           <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
             {(tokenA && tokenA.symbol && tokenA.symbol.length > 20
-              ? tokenA.symbol.slice(0, 4) +
-                '...' +
-                tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
+              ? tokenA.symbol.slice(0, 4) + '...' + tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
               : tokenA?.symbol) || '--'}
           </StyledTokenName>
         )}

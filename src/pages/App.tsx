@@ -28,7 +28,7 @@ import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-import bgPc from '@src/assets/images/bg-pc.png'
+import bgPc from '@src/assets/images/bg-pc.svg'
 import bgM from '@src/assets/images/bg-m.png'
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
@@ -55,7 +55,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 100px;
+  padding-top: 40px;
   align-items: center;
   flex: 1;
   overflow-y: auto;
