@@ -47,7 +47,7 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
-import { HaloWrapper } from '../Pool/index'
+// import { HaloWrapper } from '../Pool/index'
 
 const SwapBody = styled.div`
   display: grid;
@@ -67,29 +67,29 @@ const SwapBody = styled.div`
     position: relative;
   `};
 `
-const TreeBalls = styled(HaloWrapper)`
-  &:before {
-    left: -20%;
-    right: 60%;
-    top: 60.74%;
-    bottom: 10%;
-    opacity: 0.46;
-  }
-  &:after {
-    left: 75.9%;
-    right: 13.89%;
-    top: -30%;
-    bottom: 100%;
-    opacity: 0.42;
-  }
-  @-moz-document url-prefix() {
-    &:before {
-      opacity: 0.16;
-    }
-    &:after {
-      opacity: 0.09;
-    }
-  }
+const TreeBalls = styled.div`
+  // &:before {
+  //   left: -20%;
+  //   right: 60%;
+  //   top: 60.74%;
+  //   bottom: 10%;
+  //   opacity: 0.46;
+  // }
+  // &:after {
+  //   left: 75.9%;
+  //   right: 13.89%;
+  //   top: -30%;
+  //   bottom: 100%;
+  //   opacity: 0.42;
+  // }
+  // @-moz-document url-prefix() {
+  //   &:before {
+  //     opacity: 0.16;
+  //   }
+  //   &:after {
+  //     opacity: 0.09;
+  //   }
+  // }
 `
 
 export default function Swap() {

@@ -28,7 +28,8 @@ import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-
+import bgPc from '@src/assets/images/bg-pc.png'
+import bgM from '@src/assets/images/bg-m.png'
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -37,6 +38,11 @@ const AppWrapper = styled.div`
   flex-flow: column;
   align-items: flex-start;
   overflow-x: hidden;
+  height: 100vh;
+  background: ${({ theme: { darkMode } }) => (darkMode ? 'none' : `url(${bgPc}) center top no-repeat`)};
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    background: ${({ theme: { darkMode } }) => (darkMode ? 'none' : `url(${bgM}) center top no-repeat`)};
+  `};
 `
 
 const HeaderWrapper = styled.div`
