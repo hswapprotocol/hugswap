@@ -29,7 +29,7 @@ const StyledMenuButton = styled.button`
   padding: 0;
   height: 35px;
 
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.5rem 0.15rem 16px;
 
   :hover,
   :focus {
@@ -43,7 +43,6 @@ const StyledMenuButton = styled.button`
 `
 
 const StyledMenu = styled.div`
-  margin-left: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;

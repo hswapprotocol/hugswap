@@ -56,7 +56,7 @@ const StyledMenuButton = styled.button`
   padding: 0;
   height: 35px;
 
-  padding: 0.15rem 0 0.15rem 1rem;
+  padding: 0.15rem 0 0.15rem 16px;
 
   :hover,
   :focus {
@@ -76,7 +76,6 @@ const EmojiWrapper = styled.div`
 `
 
 const StyledMenu = styled.div`
-  margin-left: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -226,7 +225,7 @@ export default function SettingsTab() {
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
             <Text fontWeight={600} fontSize={18}>
-                {t('transactionSettings')}
+              {t('transactionSettings')}
             </Text>
             <TransactionSettings
               rawSlippage={userSlippageTolerance}
@@ -259,7 +258,7 @@ export default function SettingsTab() {
             </div>
             <div>
               <Text marginBottom={10} fontWeight={400} fontSize={14} color={theme.text4}>
-              {t('colour')}
+                {t('colour')}
               </Text>
               <div>
                 <Option

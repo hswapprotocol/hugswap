@@ -1,7 +1,7 @@
 // ChartPanel
 import { Currency } from '@src/sdk'
 // import React, { useState, useEffect, useRef }  from 'react'
-import React, { useState, useContext }  from 'react'
+import React, { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled, { ThemeContext } from 'styled-components'
@@ -78,13 +78,13 @@ const ResolutionsWrapper = styled.ul`
   display: flex;
   align-items: center;
   user-select: none;
-  
+
   li {
     position: relative;
     padding: 0 0.625rem;
-    
+
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       right: -1px;
       top: 50%;
@@ -100,7 +100,6 @@ const ResolutionsWrapper = styled.ul`
       }
     }
   }
-
 `
 interface ResolutionButtonProps {
   children: any
@@ -118,7 +117,7 @@ const ResolutionButton = ({ children, active, setActive }: ResolutionButtonProps
   )
 }
 const ResolutionButtonInner = styled.a`
-  color: ${({ theme }) => theme.text4}; 
+  color: ${({ theme }) => theme.text4};
   cursor: pointer;
 
   &.active {
@@ -126,7 +125,6 @@ const ResolutionButtonInner = styled.a`
     color: ${({ theme }) => theme.text6};
   }
 `
-
 
 const Resolutions = () => {
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
@@ -189,7 +187,11 @@ const getChartTokenInfo = (currency: Currency | undefined) => {
   if (symbol === 'HT') {
     symbol = 'WHT'
   }
-  console.log('getChartTokenInfo:', symbol, allTokens?.current?.tokens.find(token => token.symbol === symbol))
+  console.log(
+    'getChartTokenInfo:',
+    symbol,
+    allTokens?.current?.tokens.find(token => token.symbol === symbol)
+  )
   return allTokens?.current?.tokens?.find(token => token.symbol === symbol)
 }
 
@@ -206,8 +208,8 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
   tokenA = currencies[Field.INPUT]
   tokenB = currencies[Field.OUTPUT]
 
-  console.log('tokenA:',tokenA)
-  console.log('tokenB:',tokenB)
+  console.log('tokenA:', tokenA)
+  console.log('tokenB:', tokenB)
 
   const theme = useContext(ThemeContext)
   const [tokenAInfo] = useState(getChartTokenInfo(tokenA))
@@ -242,7 +244,6 @@ export default function ChartPanel({ id, tokenA, tokenB }: ChartPanelProps) {
       break
   }
   const { t } = useTranslation()
-  console.log('priceData', priceData)
   if (priceData?.length) {
     // code...
   }

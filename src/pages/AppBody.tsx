@@ -7,8 +7,7 @@ export const BodyWrapper = styled.div`
   max-width: 420px;
   width: 100%;
   background: ${({ theme }) => rgba(theme.bg1, 0.7)};
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
-    0px 24px 32px rgba(0, 0, 0, 0.01);
+  filter: drop-shadow(0px 4px 16px rgba(131, 142, 163, 0.1));
   border-radius: 24px;
   padding: 1.5rem;
   backdrop-filter: blur(12px);

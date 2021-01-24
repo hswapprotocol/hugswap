@@ -2,13 +2,14 @@ import { ChainId } from '@src/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
-import { darken } from 'polished'
+// import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
-
+import { useMedia } from 'react-use'
 import styled from 'styled-components'
 
 import LogoDark from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo_white.svg'
+import LogoMin from '../../assets/svg/logo-min.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useHTBalances } from '../../state/wallet/hooks'
@@ -41,7 +42,7 @@ const HeaderFrame = styled.div`
   width: 100%;
   top: 0;
   position: relative;
-  padding: 1rem;
+  padding: 20px 64px;
   z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
@@ -67,14 +68,13 @@ const HeaderControls = styled.div`
     justify-self: center;
     width: 100%;
     max-width: 960px;
-    padding: 1rem;
+    padding: 12px 16px;
     position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100vw;
     z-index: 99;
     height: 72px;
-    border-radius: 12px 12px 0 0;
     background-color: ${({ theme }) => theme.bg1};
   `};
 `
@@ -82,7 +82,7 @@ const HeaderControls = styled.div`
 const HeaderElement = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
    flex-direction: row-reverse;
@@ -155,7 +155,7 @@ const HideSmall = styled.span`
 
 const NetworkCard = styled(bg6Card)`
   border-radius: 40px;
-  padding: 8px 12px;
+  padding: 8px;
   white-space: nowrap;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
@@ -178,14 +178,14 @@ const VersionText = styled(Text)`
   padding: 0 5px;
   min-width: 50px !important;
   text-align: center;
-  margin-right: 12px;
+  margin-right: 16px !important;
 `
 
 const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
   `};
-  color: ${({ theme }) => theme.text6};
+  color: ${({ theme }) => theme.text7};
 `
 
 const Title = styled.a`
@@ -220,25 +220,27 @@ const StyledNavLink = styled(NavLink).attrs({
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text4};
   font-size: 1rem;
   width: fit-content;
-  margin: 0 12px;
+  margin-left: 40px;
   font-weight: 500;
 
   &.${activeClassName} {
     border-radius: 12px;
     font-weight: 600;
-    color: ${({ theme }) => theme.text6};
+    color: ${({ theme }) => theme.text7};
     :hover,
     :focus {
-      color: ${({ theme }) => darken(-0.1, theme.text6)};
+      color: ${({ theme }) => theme.text6};
     }
   }
-
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+      margin-left: 32px;
+`}
   :hover,
   :focus {
-    color: ${({ theme }) => darken(0.1, theme.text2)};
+    color: ${({ theme }) => theme.text3};
   }
 `
 
@@ -251,26 +253,26 @@ const StyledExternalLink = styled(ExternalLink).attrs({
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text4};
   font-size: 1rem;
   width: fit-content;
-  margin: 0 12px;
+  margin-left: 40px;
   font-weight: 500;
 
   &.${activeClassName} {
     border-radius: 12px;
     font-weight: 600;
-    color: ${({ theme }) => theme.text3};
+    color: ${({ theme }) => theme.text4};
   }
 
   :hover,
   :focus {
-    color: ${({ theme }) => darken(0.1, theme.text2)};
+    color: ${({ theme }) => theme.text3};
     text-decoration: none;
   }
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-      display: none;
+      margin-left: 32px;
 `}
 `
 
@@ -283,6 +285,7 @@ export default function Header() {
   }
   const userEthBalance = useHTBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
+  const belowM = useMedia('(max-width: 500px)')
 
   // const toggleClaimModal = useToggleSelfClaimModal()
 
@@ -306,7 +309,11 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <UniIcon>
-            <img width={'105px'} src={isDark ? LogoDark : Logo} alt="logo" />
+            {belowM ? (
+              <img width={'20px'} src={LogoMin} alt="logo" />
+            ) : (
+              <img width={'105px'} src={isDark ? LogoDark : Logo} alt="logo" />
+            )}
           </UniIcon>
         </Title>
         <VersionText>v{process.env.version}</VersionText>

@@ -30,53 +30,53 @@ const PageWrapper = styled(AutoColumn)`
 
 export const HaloWrapper = styled.div`
   position: relative;
-  &:before,
-  &:after,
-  & > div:first-child:after {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: -1;
-    pointer-events: none;
+  // &:before,
+  // &:after,
+  // & > div:first-child:after {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   z-index: -1;
+  //   pointer-events: none;
 
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-  }
-  &:before {
-    left: 0.32%;
-    top: 50.74%;
-    opacity: 0.36;
-    border: 50px solid #4100ff;
-    box-sizing: border-box;
-    filter: blur(111px);
-  }
-  &:after {
-    left: 55.9%;
-    right: 33.89%;
-    top: -10%;
-    bottom: 80%;
-    background: #000aff;
-    opacity: 0.12;
-    border: 50px solid #000aff;
-    box-sizing: border-box;
-    filter: blur(120px);
-  }
-  & > div:first-child::after {
-    left: 57.22%;
-    right: 32.85%;
-    top: 43.98%;
-    bottom: 42.78%;
-    opacity: 0.09;
-    border: 50px solid #ff00c7;
-    box-sizing: border-box;
-    filter: blur(120px);
-  }
-  @-moz-document url-prefix() {
-    &:before {
-      opacity: 0.13;
-    }
-  }
+  //   border-radius: 50%;
+  //   width: 150px;
+  //   height: 150px;
+  // }
+  // &:before {
+  //   left: 0.32%;
+  //   top: 50.74%;
+  //   opacity: 0.36;
+  //   border: 50px solid #4100ff;
+  //   box-sizing: border-box;
+  //   filter: blur(111px);
+  // }
+  // &:after {
+  //   left: 55.9%;
+  //   right: 33.89%;
+  //   top: -10%;
+  //   bottom: 80%;
+  //   background: #000aff;
+  //   opacity: 0.12;
+  //   border: 50px solid #000aff;
+  //   box-sizing: border-box;
+  //   filter: blur(120px);
+  // }
+  // & > div:first-child::after {
+  //   left: 57.22%;
+  //   right: 32.85%;
+  //   top: 43.98%;
+  //   bottom: 42.78%;
+  //   opacity: 0.09;
+  //   border: 50px solid #ff00c7;
+  //   box-sizing: border-box;
+  //   filter: blur(120px);
+  // }
+  // @-moz-document url-prefix() {
+  //   &:before {
+  //     opacity: 0.13;
+  //   }
+  // }
 `
 
 const AppBodyWrapper = styled(BodyWrapper)`
@@ -211,7 +211,7 @@ export default function Pool() {
                 {t('myLiquidity')}
               </TYPE.mediumHeader>
               {!account ? (
-                <Card padding="40px">
+                <Card padding="40px 0 20px 0">
                   <TYPE.body color={theme.text3} textAlign="center">
                     {t('connectHint')}
                   </TYPE.body>
