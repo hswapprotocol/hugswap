@@ -60,7 +60,7 @@ const BlueCardStyled = styled(Card)`
 
 export const NoBorderCardStyled = styled(Card)`
   color: ${({ theme }) => theme.text4};
-  margin: 2rem auto 1.5rem;
+  margin: 16px auto 0;
   padding: 0;
   max-width: 17.5rem;
 `

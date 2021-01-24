@@ -30,18 +30,18 @@ export const SectionBreak = styled.div`
 `
 
 export const BottomGrouping = styled.div`
-  margin-top: 1rem;
+  margin-top: 20px;
 `
 
 export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
   color: ${({ theme, severity }) =>
     severity === 3 || severity === 4
-      ? theme.red1
+      ? theme.text9
       : severity === 2
       ? theme.yellow2
       : severity === 1
-      ? theme.text1
-      : theme.green1};
+      ? theme.text3
+      : theme.text8};
 `
 
 export const StyledBalanceMaxMini = styled.button`

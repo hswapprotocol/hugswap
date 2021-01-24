@@ -206,7 +206,7 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   //   dummyPair = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
   //   console.log('tokenBInfo:', dummyPair)
   // } else {
-  chartData = useTokenChartData(tokenAInfo?.address.toLowerCase())
+  chartData = useTokenChartData(tokenAInfo?.address?.toLowerCase())
   // }
 
   console.log('tokenAInfo:', tokenAInfo)
@@ -262,9 +262,7 @@ export default function ChartPanel({ id }: ChartPanelProps) {
         <CurrencyLogo currency={tokenA} size={'24px'} />
         <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
           {(tokenA && tokenA.symbol && tokenA.symbol.length > 20
-            ? tokenA.symbol.slice(0, 4) +
-              '...' +
-              tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
+            ? tokenA.symbol.slice(0, 4) + '...' + tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
             : tokenA?.symbol) || '--'}
         </StyledTokenName>
         {/*

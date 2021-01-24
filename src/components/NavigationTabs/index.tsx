@@ -51,13 +51,13 @@ const ActiveText = styled.div`
 
 const StyledArrowLeft = styled(Back)`
   path {
-    stroke: ${({ theme }) => theme.text3};
+    stroke: ${({ theme }) => theme.text4};
   }
   width: 9px;
   height: 15px
   &:hover {
     path {
-      stroke: ${({ theme }) => theme.text2};
+      stroke: ${({ theme }) => theme.text3};
     }
   }
 `
@@ -80,7 +80,7 @@ export function FindPoolTabs() {
   const { t } = useTranslation()
   return (
     <Tabs>
-      <AutoRow style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
+      <AutoRow style={{ padding: '7px 0.5rem 27px' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
@@ -95,18 +95,14 @@ export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating:
 
   return (
     <Tabs>
-      <RowBetween style={{ padding: '0.6875rem 0.5rem 1.6875rem' }}>
+      <RowBetween style={{ padding: '7px 0.5rem 27px' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText style={adding ? {} : { textAlign: 'center', flex: 1, }}>{creating ? t('createLiquidity') : adding ? t('addLiquiditys') : t('removeLiquiditys')}</ActiveText>
-        {
-            adding ?
-                (<QuestionHelper
-                text={t('hint5')}
-            />) : ''
-        }
-        
+        <ActiveText style={adding ? {} : { textAlign: 'center', flex: 1 }}>
+          {creating ? t('createLiquidity') : adding ? t('addLiquiditys') : t('removeLiquiditys')}
+        </ActiveText>
+        {adding ? <QuestionHelper text={t('hint5')} /> : ''}
       </RowBetween>
     </Tabs>
   )

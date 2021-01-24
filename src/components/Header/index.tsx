@@ -9,7 +9,8 @@ import styled from 'styled-components'
 
 import LogoDark from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo_white.svg'
-import LogoMin from '../../assets/svg/logo-min.svg'
+import LogoDarkMin from '../../assets/svg/logo-min.svg'
+import LogoMin from '../../assets/svg/logo-white-min.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useHTBalances } from '../../state/wallet/hooks'
@@ -17,7 +18,7 @@ import { useHTBalances } from '../../state/wallet/hooks'
 // import { CountUp } from 'use-count-up'
 import { ExternalLink } from '../../theme'
 
-import { bg6Card } from '../Card'
+// import { bg6Card } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
 
@@ -44,6 +45,7 @@ const HeaderFrame = styled.div`
   position: relative;
   padding: 20px 64px;
   z-index: 2;
+  font-size: 16px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
@@ -114,14 +116,11 @@ const AccountElement = styled.div<{ active: boolean }>`
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bgTagS)};
+  border: 1px solid ${({ theme }) => theme.bg4};
   border-radius: 20px;
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
-
-  :focus {
-    border: 1px solid blue;
-  }
 `
 
 // const UNIAmount = styled(AccountElement)`
@@ -153,10 +152,13 @@ const HideSmall = styled.span`
   `};
 `
 
-const NetworkCard = styled(bg6Card)`
+const NetworkCard = styled.div`
   border-radius: 40px;
   padding: 8px;
   white-space: nowrap;
+  background-color: ${({ theme }) => theme.bg4};
+  color: ${({ theme }) => theme.text7};
+  font-weight: 500;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;
@@ -310,7 +312,7 @@ export default function Header() {
         <Title href=".">
           <UniIcon>
             {belowM ? (
-              <img width={'20px'} src={LogoMin} alt="logo" />
+              <img width={'20px'} src={isDark ? LogoDarkMin : LogoMin} alt="logo" />
             ) : (
               <img width={'105px'} src={isDark ? LogoDark : Logo} alt="logo" />
             )}

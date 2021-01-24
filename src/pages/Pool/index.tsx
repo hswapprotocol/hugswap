@@ -83,7 +83,8 @@ const AppBodyWrapper = styled(BodyWrapper)`
   max-width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 28px;
+  padding-bottom: 28px;
   width: 640px !important;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 100% !important;
@@ -189,7 +190,7 @@ export default function Pool() {
               <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
                 {t('liquidityReward')}
               </TYPE.mediumHeader>
-              <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="1rem" textAlign="left">
+              <TYPE.subHeader color={theme.text4} marginTop="0.5rem" marginBottom="20px" textAlign="left">
                 {t('liquidityContent')}
               </TYPE.subHeader>
               <ButtonRow justify="flex-end">
@@ -211,14 +212,14 @@ export default function Pool() {
                 {t('myLiquidity')}
               </TYPE.mediumHeader>
               {!account ? (
-                <Card padding="40px 0 20px 0">
-                  <TYPE.body color={theme.text3} textAlign="center">
+                <Card padding="48px 0 20px 0">
+                  <TYPE.body color={theme.text4} textAlign="center">
                     {t('connectHint')}
                   </TYPE.body>
                 </Card>
               ) : v2IsLoading ? (
                 <EmptyProposals>
-                  <TYPE.body color={theme.text3} textAlign="center">
+                  <TYPE.body color={theme.text4} textAlign="center">
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </EmptyProposals>
@@ -240,13 +241,13 @@ export default function Pool() {
                 </>
               ) : (
                 <EmptyProposals>
-                  <TYPE.body color={theme.text3} textAlign="center">
+                  <TYPE.body color={theme.text4} textAlign="center">
                     {t('noLiquiditys')}
                   </TYPE.body>
                 </EmptyProposals>
               )}
               <AutoColumn justify={'center'} gap="md">
-                <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0', marginTop: 20 }}>
+                <Text textAlign="center" fontSize={14} style={{ padding: '16px 0 0', marginTop: 20 }}>
                   {hasV1Liquidity ? t('foundLiquidity') : t('noLiquidityHint')}{' '}
                   <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
                     {hasV1Liquidity ? t('migrate') : t('Import')}

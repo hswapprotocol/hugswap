@@ -4,7 +4,8 @@ import { ThemeContext } from 'styled-components'
 import { Text } from 'rebass'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ButtonDropdownLight, ButtonPrimary } from '../../components/Button'
+import styled from 'styled-components'
+import { ButtonDropdownLight, ButtonPrimary as ButtonPrimaryBase } from '../../components/Button'
 import { NoBorderCardStyled } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyLogo from '../../components/CurrencyLogo'
@@ -25,6 +26,10 @@ enum Fields {
   TOKEN1 = 1
 }
 
+const ButtonPrimary = styled(ButtonPrimaryBase)`
+  margin-top: 24px;
+  margin-bottom: 0 !important;
+`
 
 export default function PoolFinder() {
   const { account } = useActiveWeb3React()
@@ -75,16 +80,14 @@ export default function PoolFinder() {
 
   const prerequisiteMessage = (
     <NoBorderCardStyled>
-        <Text textAlign="center">
-            {!account ? t('hint10') : t('hint9')}
-        </Text>
+      <Text textAlign="center">{!account ? t('hint10') : t('hint9')}</Text>
     </NoBorderCardStyled>
   )
 
   return (
     <AppBody>
       <FindPoolTabs />
-      <AutoColumn gap="md">
+      <AutoColumn gap="16px">
         <ButtonDropdownLight
           onClick={() => {
             setShowSearch(true)
@@ -132,12 +135,8 @@ export default function PoolFinder() {
             <Text textAlign="center" fontWeight={500}>
               {t('Found')}!
             </Text>
-            <ButtonPrimary
-                style={{ margin: '2rem auto 0'}}
-                as={Link}
-                to={`/pool`}
-            >
-                <Text textAlign="center">{t('managePool')}</Text>
+            <ButtonPrimary style={{ margin: '2rem auto 0' }} as={Link} to={`/pool`}>
+              <Text textAlign="center">{t('managePool')}</Text>
             </ButtonPrimary>
           </ColumnCenter>
         )}
@@ -147,49 +146,49 @@ export default function PoolFinder() {
             hasPosition && pair ? (
               <MinimalPositionCard pair={pair} border="1px solid #CED0D9" />
             ) : (
-                <AutoColumn gap="sm" justify="center">
-                    <NoBorderCardStyled>
-                        <Text textAlign="center">{t('hint11')}</Text>
-                    </NoBorderCardStyled>
-                    <ButtonPrimary
-                        style={{ marginBottom: '1rem'}}
-                        as={Link}
-                        to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
-                    >
-                        <Text textAlign="center">{t('addLiquiditys')}</Text>
-                    </ButtonPrimary>
-                </AutoColumn>
-            )
-          ) : validPairNoLiquidity ? (
               <AutoColumn gap="sm" justify="center">
-                <NoBorderCardStyled>      
-                    <Text textAlign="center">{t('noPool')}</Text>
+                <NoBorderCardStyled>
+                  <Text textAlign="center">{t('hint11')}</Text>
                 </NoBorderCardStyled>
                 <ButtonPrimary
-                    style={{ marginBottom: '1rem'}}
-                    as={Link}
-                    to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+                  style={{ marginBottom: '1rem' }}
+                  as={Link}
+                  to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                 >
-                    <Text textAlign="center">{t('Create pool')}</Text>
+                  <Text textAlign="center">{t('addLiquiditys')}</Text>
                 </ButtonPrimary>
               </AutoColumn>
+            )
+          ) : validPairNoLiquidity ? (
+            <AutoColumn gap="sm" justify="center">
+              <NoBorderCardStyled>
+                <Text textAlign="center">{t('noPool')}</Text>
+              </NoBorderCardStyled>
+              <ButtonPrimary
+                style={{ marginBottom: '1rem' }}
+                as={Link}
+                to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+              >
+                <Text textAlign="center">{t('Create pool')}</Text>
+              </ButtonPrimary>
+            </AutoColumn>
           ) : pairState === PairState.INVALID ? (
-              <AutoColumn gap="sm" justify="center">
-                <NoBorderCardStyled>      
-                    <Text textAlign="center" fontWeight={500}>
-                        {t('Invalid pair')}.
-                    </Text>
-                </NoBorderCardStyled>
-              </AutoColumn>
+            <AutoColumn gap="sm" justify="center">
+              <NoBorderCardStyled>
+                <Text textAlign="center" fontWeight={500}>
+                  {t('Invalid pair')}.
+                </Text>
+              </NoBorderCardStyled>
+            </AutoColumn>
           ) : pairState === PairState.LOADING ? (
-              <AutoColumn gap="sm" justify="center">
-                <NoBorderCardStyled>      
-                    <Text textAlign="center">
-                        Loading
-                        <Dots />
-                    </Text>
-                </NoBorderCardStyled>
-              </AutoColumn>
+            <AutoColumn gap="sm" justify="center">
+              <NoBorderCardStyled>
+                <Text textAlign="center">
+                  Loading
+                  <Dots />
+                </Text>
+              </NoBorderCardStyled>
+            </AutoColumn>
           ) : null
         ) : (
           prerequisiteMessage

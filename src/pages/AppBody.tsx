@@ -9,7 +9,7 @@ export const BodyWrapper = styled.div`
   background: ${({ theme }) => rgba(theme.bg1, 0.7)};
   filter: drop-shadow(0px 4px 16px rgba(131, 142, 163, 0.1));
   border-radius: 24px;
-  padding: 1.5rem;
+  padding: 20px 24px 32px 24px;
   backdrop-filter: blur(12px);
 `
 

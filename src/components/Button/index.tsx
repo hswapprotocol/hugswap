@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { darken, lighten } from 'polished'
 import { ThemeContext } from 'styled-components'
 import { RowBetween } from '../Row'
-import { ChevronDown } from 'react-feather'
+import { ReactComponent as ChevronDown } from '../../assets/images/dropdown.svg'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
 
 const Base = styled(RebassButton)<{
@@ -12,7 +12,7 @@ const Base = styled(RebassButton)<{
   borderRadius?: string
   altDisabledStyle?: boolean
 }>`
-  padding: ${({ padding }) => (padding ? padding : '20px 16px')};
+  padding: ${({ padding }) => (padding ? padding : '15px 16px')};
   width: ${({ width }) => (width ? width : '100%')};
   font-weight: 500;
   text-align: center;
@@ -55,7 +55,7 @@ export const ButtonPrimary = styled(Base)`
   }
   &:disabled {
     background-color: ${({ theme, altDisabledStyle }) => (altDisabledStyle ? theme.primary1 : theme.disable1)};
-    color: ${({ theme, altDisabledStyle }) => (altDisabledStyle ? 'white' : theme.text3)};
+    color: ${({ theme, altDisabledStyle }) => (altDisabledStyle ? 'white' : theme.text4)};
     cursor: auto;
     box-shadow: none;
     border: 1px solid transparent;
@@ -111,24 +111,21 @@ export const ButtonGray = styled(Base)`
 `
 
 export const ButtonSecondary = styled(Base)`
-  border: 1px solid ${({ theme }) => theme.primary4};
-  color: ${({ theme }) => theme.primary1};
+  border: 1px solid ${({ theme }) => theme.bg4};
+  color: ${({ theme }) => theme.text6};
   background-color: transparent;
   font-size: 16px;
   border-radius: 12px;
   padding: ${({ padding }) => (padding ? padding : '10px')};
 
-  &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
   &:hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
+    background-color: ${({ theme }) => theme.text6};
+    color: ${({ theme }) => theme.white};
   }
-  &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
+  // &:active {
+  //   box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
+  //   border: 1px solid ${({ theme }) => theme.primary3};
+  // }
   &:disabled {
     opacity: 50%;
     cursor: auto;
@@ -303,19 +300,19 @@ export function ButtonDropdown({ disabled = false, children, ...rest }: { disabl
     <ButtonPrimary {...rest} disabled={disabled}>
       <RowBetween>
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
-        <ChevronDown size={24} />
+        <ChevronDown />
       </RowBetween>
     </ButtonPrimary>
   )
 }
 
 export function ButtonDropdownLight({ disabled = false, children, ...rest }: { disabled?: boolean } & ButtonProps) {
-    const theme = useContext(ThemeContext)
+  const theme = useContext(ThemeContext)
   return (
     <ButtonOutlined {...rest} disabled={disabled}>
       <RowBetween>
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
-        <ChevronDown size={24} color={theme.text4}/>
+        <ChevronDown color={theme.text4} />
       </RowBetween>
     </ButtonOutlined>
   )

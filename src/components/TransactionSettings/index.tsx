@@ -7,7 +7,7 @@ import { TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
 
-import { darken } from 'polished'
+// import { darken } from 'polished'
 
 enum SlippageError {
   InvalidInput = 'InvalidInput',
@@ -27,14 +27,11 @@ const FancyButton = styled.button`
   font-size: 1rem;
   width: auto;
   min-width: 3.5rem;
-  border: 1px solid ${({ theme }) => theme.bg3};
+  border: 1px solid ${({ theme }) => theme.bg6};
   outline: none;
   background: none;
   :hover {
-    border: 1px solid ${({ theme }) => theme.bg4};
-  }
-  :focus {
-    border: 1px solid ${({ theme }) => theme.primary1};
+    border: 1px solid ${({ theme, color }) => (color === 'red' ? theme.red1 : theme.primary1)};
   }
 `
 
@@ -44,7 +41,7 @@ const Option = styled(FancyButton)<{ active: boolean }>`
     cursor: pointer;
   }
   background-color: ${({ active, theme }) => active && theme.primary1};
-  color: ${({ active, theme }) => (active ? theme.white : theme.text1)};
+  color: ${({ active, theme }) => (active ? theme.white : theme.text2)};
 `
 
 const Input = styled.input`
@@ -56,7 +53,7 @@ const Input = styled.input`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-  color: ${({ theme, color }) => (color === 'red' ? theme.red1 : theme.text1)};
+  color: ${({ theme, color }) => (color === 'red' ? theme.red1 : theme.text2)};
   text-align: right;
 `
 
@@ -67,10 +64,8 @@ const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }
   flex: 1;
   border: ${({ theme, active, warning }) => active && `1px solid ${warning ? theme.red1 : theme.primary1}`};
   :hover {
-    border: ${({ theme, active, warning }) =>
-      active && `1px solid ${warning ? darken(0.1, theme.red1) : darken(0.1, theme.primary1)}`};
+    border: ${({ theme, active, warning }) => active && `1px solid ${warning ? theme.red1 : theme.primary1}`};
   }
-
   input {
     width: 100%;
     height: 100%;
@@ -147,16 +142,13 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
   }
 
   return (
-    <AutoColumn gap="md">
-      <AutoColumn gap="sm">
+    <AutoColumn gap="16px">
+      <AutoColumn gap="16px">
         <RowFixed>
           <TYPE.black fontWeight={400} fontSize={14} color={theme.text4}>
             {t('tolerance')}
           </TYPE.black>
-          <QuestionHelper
-            color={theme.text4}
-            text={t('hint1')}
-          />
+          <QuestionHelper color={theme.text4} text={t('hint1')} />
         </RowFixed>
         <RowBetween>
           <Option
@@ -215,8 +207,8 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
           <RowBetween
             style={{
               fontSize: '14px',
-              paddingTop: '7px',
-              color: slippageError === SlippageError.InvalidInput ? 'red' : '#F3841E'
+              marginTop: '-8px',
+              color: slippageError === SlippageError.InvalidInput ? theme.red1 : theme.text4
             }}
           >
             {slippageError === SlippageError.InvalidInput
@@ -233,10 +225,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
           <TYPE.black fontSize={14} fontWeight={400} color={theme.text4}>
             {t('deadline')}
           </TYPE.black>
-          <QuestionHelper
-            color={theme.text4}
-            text={t('hint2')}
-          />
+          <QuestionHelper color={theme.text4} text={t('hint2')} />
         </RowFixed>
         <RowFixed>
           <OptionCustom style={{ width: '80px' }} tabIndex={-1}>
@@ -250,7 +239,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               onChange={e => parseCustomDeadline(e.target.value)}
             />
           </OptionCustom>
-          <TYPE.body style={{ paddingLeft: '8px' }} color={theme.text4} fontSize={14}>
+          <TYPE.body style={{ paddingLeft: '8px' }} color={theme.text3} fontSize={14}>
             {t('minutes')}
           </TYPE.body>
         </RowFixed>

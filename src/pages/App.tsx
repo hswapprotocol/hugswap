@@ -28,8 +28,8 @@ import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-import bgPc from '@src/assets/images/bg-pc.svg'
-import bgM from '@src/assets/images/bg-m.png'
+// import bgPc from '@src/assets/images/bg-pc.svg'
+// import bgM from '@src/assets/images/bg-m.png'
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -39,9 +39,11 @@ const AppWrapper = styled.div`
   align-items: flex-start;
   overflow-x: hidden;
   height: 100vh;
-  background: ${({ theme: { darkMode } }) => (darkMode ? 'none' : `url(${bgPc}) center top no-repeat`)};
+  background: ${({ theme: { darkMode } }) =>
+    darkMode ? 'none' : `radial-gradient(49.1% 87.28% at 50.9% 50%, #eafaff 0%, rgba(255, 255, 255, 0) 100%)`};
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    background: ${({ theme: { darkMode } }) => (darkMode ? 'none' : `url(${bgM}) center top no-repeat`)};
+    background: ${({ theme: { darkMode } }) =>
+      darkMode ? 'none' : `radial-gradient(49.1% 87.28% at 50.9% 50%, #EAFAFF 0%, rgba(255, 255, 255, 0) 100%)`};
   `};
 `
 

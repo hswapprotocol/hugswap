@@ -13,11 +13,11 @@ const QuestionWrapper = styled.div`
   outline: none;
   cursor: default;
   border-radius: 36px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text4};
 
   :hover,
   :focus {
-    color: ${({ theme }) => theme.text2};
+    color: ${({ theme }) => theme.text3};
   }
 `
 
@@ -33,10 +33,10 @@ const LightQuestionWrapper = styled.div`
   border-radius: 36px;
   width: 24px;
   height: 24px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text4};
   :hover,
   :focus {
-    color: ${({ theme }) => theme.text2};
+    color: ${({ theme }) => theme.text3};
   }
 `
 

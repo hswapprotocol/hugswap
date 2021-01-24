@@ -94,7 +94,7 @@ const MenuFlyout = styled.span`
   flex-direction: column;
   font-size: 1rem;
   position: absolute;
-  top: 4rem;
+  top: 43px;
   right: 0rem;
   z-index: 100;
 
@@ -124,14 +124,14 @@ const ModalContentWrapper = styled.div`
   border-radius: 20px;
 `
 const FancyButton = styled.button`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.text2};
   align-items: center;
   height: 2rem;
   border-radius: 36px;
   font-size: 1rem;
   width: auto;
   min-width: 3.5rem;
-  border: 1px solid ${({ theme }) => theme.bg3};
+  border: 1px solid ${({ theme }) => theme.bg6};
   outline: none;
   background: none;
   :hover {
@@ -145,9 +145,10 @@ const Option = styled(FancyButton)<{ active: boolean }>`
   margin-right: 8px;
   :hover {
     cursor: pointer;
+    border-color: ${({ theme }) => theme.text6};
   }
   background-color: ${({ active, theme }) => active && theme.primary1};
-  color: ${({ active, theme }) => (active ? theme.white : theme.text1)};
+  color: ${({ active, theme }) => (active ? theme.white : theme.text2)};
 `
 
 export default function SettingsTab() {
@@ -223,7 +224,7 @@ export default function SettingsTab() {
       </StyledMenuButton>
       {open && (
         <MenuFlyout>
-          <AutoColumn gap="md" style={{ padding: '1rem' }}>
+          <AutoColumn gap="16px" style={{ padding: '20px' }}>
             <Text fontWeight={600} fontSize={18}>
               {t('transactionSettings')}
             </Text>

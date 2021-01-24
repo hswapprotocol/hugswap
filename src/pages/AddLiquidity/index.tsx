@@ -2,7 +2,8 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useContext, useState } from 'react'
-import { Plus } from 'react-feather'
+// import { Plus } from 'react-feather'
+import { ReactComponent as Plus } from '../../assets/images/plus.svg'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
@@ -249,7 +250,7 @@ export default function AddLiquidity({
           </TokensText>
         </Row>
         <Text fontSize={14} color={theme.text4} lineHeight={1.4} textAlign="left" padding={'2px 0 0 0 '}>
-          {t('Output', {amount: allowedSlippage / 100})}
+          {t('Output', { amount: allowedSlippage / 100 })}
         </Text>
       </AutoColumn>
     )
@@ -330,15 +331,15 @@ export default function AddLiquidity({
             )}
             pendingText={pendingText}
           />
-          <AutoColumn gap="20px">
+          <AutoColumn gap="32px">
             {noLiquidity ||
               (isCreate && (
                 <ColumnCenter>
                   <BlueCard>
                     <AutoColumn>
-                      <TYPE.link fontWeight={400} color={'text4'}>
+                      <TYPE.subHeader fontWeight={400} color={'text4'}>
                         {t('content1')}
-                      </TYPE.link>
+                      </TYPE.subHeader>
                     </AutoColumn>
                   </BlueCard>
                 </ColumnCenter>
@@ -357,7 +358,7 @@ export default function AddLiquidity({
               showCommonBases
             />
             <ColumnCenter>
-              <Plus size="16" color={theme.text2} />
+              <Plus color={theme.text2} />
             </ColumnCenter>
             <CurrencyInputPanel
               value={formattedAmounts[Field.CURRENCY_B]}
@@ -380,7 +381,7 @@ export default function AddLiquidity({
                       {noLiquidity ? t('Initial prices') : t('Prices')}
                     </TYPE.subHeader>
                   </RowBetween>{' '}
-                  <LightCard padding="1rem" borderRadius={'20px'}>
+                  <LightCard margin="-1px" width="calc(100% + 2px) !important" padding="1rem" borderRadius={'20px'}>
                     <PoolPriceBar
                       currencies={currencies}
                       poolTokenPercentage={poolTokenPercentage}

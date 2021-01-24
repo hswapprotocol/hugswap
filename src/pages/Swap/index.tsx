@@ -1,7 +1,8 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { ArrowDown } from 'react-feather'
+// import { ArrowDown } from 'react-feather'
+import { ReactComponent as ArrowDown } from '../../assets/images/ArrowDown.svg'
 import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
@@ -52,16 +53,17 @@ import BannerSrc from '@src/assets/images/banner.png'
 
 const SwapBody = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr;
-  // grid-template-columns: 1fr;
+  // grid-template-columns: 3fr 2fr;
+  grid-template-columns: 1fr;
   align-items: start;
+  justify-items: center;
   flex-direction: row;
   width: 100%;
   max-width: 1200px;
   gap: 3rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
-    justify-items: space-between;
+    justify-items: unset;
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
@@ -345,7 +347,7 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-  const isHideMedium = useMedia('(max-width: 960px)')
+  const isHideMedium = true || useMedia('(max-width: 960px)')
   return (
     <>
       <SwapBody>
@@ -392,7 +394,6 @@ export default function Swap() {
                     <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
                       <ArrowWrapper clickable>
                         <ArrowDown
-                          size="16"
                           onClick={() => {
                             setApprovalSubmitted(false) // reset 2 step UI for approvals
                             onSwitchTokens()
@@ -422,7 +423,7 @@ export default function Swap() {
                     <>
                       <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
                         <ArrowWrapper clickable={false}>
-                          <ArrowDown size="16" color={theme.text2} />
+                          <ArrowDown color={theme.text2} />
                         </ArrowWrapper>
                         <LinkStyledButton id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
                           - {t('removeSend')}
@@ -437,7 +438,7 @@ export default function Swap() {
                       <AutoColumn gap="4px">
                         {Boolean(trade) && (
                           <RowBetween align="center">
-                            <Text fontWeight={500} fontSize={14} color={theme.text2}>
+                            <Text fontWeight={500} fontSize={14} color={theme.text3}>
                               {t('Price')}
                             </Text>
                             <TradePrice
@@ -449,10 +450,10 @@ export default function Swap() {
                         )}
                         {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
                           <RowBetween align="center">
-                            <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
+                            <ClickableText fontWeight={500} fontSize={14} color={theme.text3} onClick={toggleSettings}>
                               {t('Slippage Tolerance')}
                             </ClickableText>
-                            <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
+                            <ClickableText fontWeight={500} fontSize={14} color={theme.text4} onClick={toggleSettings}>
                               {allowedSlippage / 100}%
                             </ClickableText>
                           </RowBetween>
