@@ -3,8 +3,8 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import ReactGA from 'react-ga'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { ReactComponent as Back } from '../../assets/images/back.svg'
@@ -152,7 +152,7 @@ export default function WalletModal({
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
-
+  const { t } = useTranslation()
   const previousAccount = usePrevious(account)
 
   // close on connection, when logged out before
@@ -180,19 +180,22 @@ export default function WalletModal({
   }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
   const tryActivation = async (connector: AbstractConnector | undefined) => {
-    let name = ''
-    Object.keys(SUPPORTED_WALLETS).map(key => {
-      if (connector === SUPPORTED_WALLETS[key].connector) {
-        return (name = SUPPORTED_WALLETS[key].name)
-      }
-      return true
-    })
+    // let name = ''
+    // Object.keys(SUPPORTED_WALLETS).map(key => {
+    //   if (connector === SUPPORTED_WALLETS[key].connector) {
+    //     return (name = SUPPORTED_WALLETS[key].name)
+    //   }
+    //   return true
+    // })
     // log selected wallet
-    ReactGA.event({
-      category: 'Wallet',
-      action: 'Change Wallet',
-      label: name
-    })
+    // ReactGA.event({
+    //   category: 'Wallet',
+    //   action: 'Change Wallet',
+    //   label: name
+    // })
+    //remove ReactGA, extract the inner logic
+    //TODO: integrate with woodpecker
+
     setPendingWallet(connector) // set wallet for pending view
     setWalletView(WALLET_VIEWS.PENDING)
 
@@ -242,7 +245,7 @@ export default function WalletModal({
               color={option.color}
               link={option.href}
               header={option.name}
-              subheader={option.subheader}
+              subheader={t(option.subheader)}
               subheaderLink={option.subheaderLink}
               size={32}
               icon={require('../../assets/images/' + option.iconName)}
@@ -263,7 +266,7 @@ export default function WalletModal({
                 key={key}
                 color={'#E8831D'}
                 header={'Install Metamask'}
-                subheader={option.subheader}
+                subheader={t(option.subheader)}
                 subheaderLink={option.subheaderLink}
                 link={'https://metamask.io/'}
                 size={32}
@@ -300,7 +303,7 @@ export default function WalletModal({
             color={option.color}
             link={option.href}
             header={option.name}
-            subheader={option.subheader} //use option.descriptio to bring back multi-line
+            subheader={t(option.subheader)} //use option.descriptio to bring back multi-line
             subheaderLink={option.subheaderLink}
             size={32}
             icon={require('../../assets/images/' + option.iconName)}
@@ -317,12 +320,12 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
+          <HeaderRow>{error instanceof UnsupportedChainIdError ? t('Wrong Network') : t('Error connecting')}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate Heco network.</h5>
+              <h5>{t('connect Heco network')}</h5>
             ) : (
-              'Error connecting. Try refreshing the page.'
+              t('Error connecting info')
             )}
           </ContentWrapper>
         </UpperSection>
@@ -357,7 +360,7 @@ export default function WalletModal({
           </HeaderRow>
         ) : (
           <HeaderRow>
-            <HoverText>连接钱包</HoverText>
+            <HoverText>{t('connectWallet')}</HoverText>
           </HeaderRow>
         )}
         <ContentWrapper>

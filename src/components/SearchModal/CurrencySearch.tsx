@@ -1,6 +1,5 @@
 import { Currency, ETHER, Token } from '@src/sdk'
 import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -21,7 +20,6 @@ import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
-// const tokenList = require('../../tokenlist.json')
 interface CurrencySearchProps {
   isOpen: boolean
   onDismiss: () => void
@@ -56,11 +54,13 @@ export function CurrencySearch({
 
   useEffect(() => {
     if (isAddressSearch) {
-      ReactGA.event({
-        category: 'Currency Select',
-        action: 'Search by address',
-        label: isAddressSearch
-      })
+      // ReactGA.event({
+      //   category: 'Currency Select',
+      //   action: 'Search by address',
+      //   label: isAddressSearch
+      // })
+      //remove ReactGA, extract the inner logic
+      //TODO: integrate with woodpecker
     }
   }, [isAddressSearch])
 
@@ -140,7 +140,7 @@ export function CurrencySearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-              {t('selectCurrency')}
+            {t('selectCurrency')}
             <QuestionHelper text={t('hint7')} />
           </Text>
           <CloseIcon onClick={onDismiss} />

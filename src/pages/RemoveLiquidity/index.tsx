@@ -5,7 +5,6 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, Percent, WHT } from '@src/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
-import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
@@ -337,11 +336,13 @@ export default function RemoveLiquidity({
 
           setTxHash(response.hash)
 
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Remove',
-            label: [currencyA?.symbol, currencyB?.symbol].join('/')
-          })
+          // ReactGA.event({
+          //   category: 'Liquidity',
+          //   action: 'Remove',
+          //   label: [currencyA?.symbol, currencyB?.symbol].join('/')
+          // })
+          //remove ReactGA, extract the inner logic
+          //TODO: integrate with woodpecker
         })
         .catch((error: Error) => {
           setAttemptingTxn(false)

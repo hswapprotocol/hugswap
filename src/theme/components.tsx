@@ -1,5 +1,4 @@
 import React, { HTMLProps, useCallback } from 'react'
-import ReactGA from 'react-ga'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { darken } from 'polished'
@@ -144,15 +143,22 @@ export function ExternalLink({
         event.stopPropagation()
       }
       if (target === '_blank' || event.ctrlKey || event.metaKey) {
-        ReactGA.outboundLink({ label: href }, () => {
-          console.debug('Fired outbound link event', href)
-        })
+        // ReactGA.outboundLink({ label: href }, () => {
+        //   console.debug('Fired outbound link event', href)
+        // })
+        //remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
+        console.debug('Fired outbound link event', href)
       } else {
         event.preventDefault()
         // send a ReactGA event and then trigger a location change
-        ReactGA.outboundLink({ label: href }, () => {
-          window.location.href = href
-        })
+        // ReactGA.outboundLink({ label: href }, () => {
+        //   window.location.href = href
+        // })
+
+        //Remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
+        window.location.href = href
       }
     },
     [href, target]

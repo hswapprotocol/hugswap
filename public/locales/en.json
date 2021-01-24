@@ -1,6 +1,7 @@
 {
   "swap": "Swap",
   "pool": "Pool",
+  "Info": "Info",
   "selectToken": "Select a token",
   "selectCurrency": "Choose currency",
   "tokenSearchPlaceholder": "Search name or paste address",
@@ -274,5 +275,20 @@
   "Insufficient HT balance": "Insufficient HT balance",
   "Could not withdraw": "Could not withdraw",
   "Insufficient WHT balance": "Insufficient WHT balance",
-  "UnwrapTo": "Unwrap {{amount}} WHT to HT"
+  "UnwrapTo": "Unwrap {{amount}} WHT to HT",
+  "Swap input to output": "Swap {{inputAmount}} for {{output}}",
+  "connect Heco network": "Please connect to the appropriate Heco network.",
+  "Error connecting info": "Error connecting. Try refreshing the page.",
+  "Wrong Network": "Wrong Network",
+  "Error connecting": "Error connecting",
+  "Try Again": "Try Again",
+  "Initializing": "Initializing...",
+  "Injected web3 provider": "Injected web3 provider.",
+  "Easy-to-use browser extension": "Easy-to-use browser extension.",
+  "How to switch heco main network on metamask": "How to switch Heco mainnet on metamask?",
+  "Connect to Trust Wallet": "Connect to Trust Wallet, Rainbow Wallet and more...",
+  "Heco recommended Wallet": "Heco recommended wallets",
+  "Open in Huobi Wallet app": "Open in Huobi Wallet app.",
+  "Heco mainnet": "Heco mainnet",
+  "Heco testnet": "Heco testnet"
 }

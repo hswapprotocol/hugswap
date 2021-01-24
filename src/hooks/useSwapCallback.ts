@@ -13,6 +13,7 @@ import { useV1ExchangeContract } from './useContract'
 import useTransactionDeadline from './useTransactionDeadline'
 import useENS from './useENS'
 import { Version } from './useToggledVersion'
+import i18next from 'i18next'
 
 export enum SwapCallbackState {
   INVALID,
@@ -208,7 +209,7 @@ export function useSwapCallback(
             const inputAmount = trade.inputAmount.toSignificant(3)
             const outputAmount = trade.outputAmount.toSignificant(3)
 
-            const base = `Swap ${inputAmount} ${inputSymbol} for ${outputAmount} ${outputSymbol}`
+            const base = i18next.t('Swap input to output', {input: `${inputAmount} ${inputSymbol}`, output: `${outputAmount} ${outputSymbol}`})
             const withRecipient =
               recipient === account
                 ? base

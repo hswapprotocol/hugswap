@@ -2,8 +2,7 @@ import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import ReactGA from 'react-ga'
-import { useMedia } from 'react-use'
+// import { useMedia } from 'react-use'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
@@ -24,7 +23,7 @@ import ProgressSteps from '../../components/ProgressSteps'
 import ChartPanel from '../../components/ChartPanel'
 
 import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
-import { getTradeVersion } from '../../data/V1'
+// import { getTradeVersion } from '../../data/V1'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -48,7 +47,7 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
-import { HaloWrapper } from '../Pool/index'
+// import { HaloWrapper } from '../Pool/index'
 
 const SwapBody = styled.div`
   display: grid;
@@ -68,29 +67,29 @@ const SwapBody = styled.div`
     position: relative;
   `};
 `
-const TreeBalls = styled(HaloWrapper)`
-  &:before {
-    left: -20%;
-    right: 60%;
-    top: 60.74%;
-    bottom: 10%;
-    opacity: 0.46;
-  }
-  &:after {
-    left: 75.9%;
-    right: 13.89%;
-    top: -30%;
-    bottom: 100%;
-    opacity: 0.42;
-  }
-  @-moz-document url-prefix() {
-    &:before {
-      opacity: 0.16;
-    }
-    &:after {
-      opacity: 0.09;
-    }
-  }
+const TreeBalls = styled.div`
+  // &:before {
+  //   left: -20%;
+  //   right: 60%;
+  //   top: 60.74%;
+  //   bottom: 10%;
+  //   opacity: 0.46;
+  // }
+  // &:after {
+  //   left: 75.9%;
+  //   right: 13.89%;
+  //   top: -30%;
+  //   bottom: 100%;
+  //   opacity: 0.42;
+  // }
+  // @-moz-document url-prefix() {
+  //   &:before {
+  //     opacity: 0.16;
+  //   }
+  //   &:after {
+  //     opacity: 0.09;
+  //   }
+  // }
 `
 
 export default function Swap() {
@@ -247,25 +246,28 @@ export default function Swap() {
       .then(hash => {
         setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
 
-        ReactGA.event({
-          category: 'Swap',
-          action:
-            recipient === null
-              ? 'Swap w/o Send'
-              : (recipientAddress ?? recipient) === account
-              ? 'Swap w/o Send + recipient'
-              : 'Swap w/ Send',
-          label: [
-            trade?.inputAmount?.currency?.symbol,
-            trade?.outputAmount?.currency?.symbol,
-            getTradeVersion(trade)
-          ].join('/')
-        })
+        // ReactGA.event({
+        //   category: 'Swap',
+        //   action:
+        //     recipient === null
+        //       ? 'Swap w/o Send'
+        //       : (recipientAddress ?? recipient) === account
+        //       ? 'Swap w/o Send + recipient'
+        //       : 'Swap w/ Send',
+        //   label: [
+        //     trade?.inputAmount?.currency?.symbol,
+        //     trade?.outputAmount?.currency?.symbol,
+        //     getTradeVersion(trade)
+        //   ].join('/')
+        // })
 
-        ReactGA.event({
-          category: 'Routing',
-          action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
-        })
+        // ReactGA.event({
+        //   category: 'Routing',
+        //   action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
+        // })
+
+        //remove ReactGA, extract the inner logic
+        //TODO: integrate with woodpecker
       })
       .catch(error => {
         setSwapState({

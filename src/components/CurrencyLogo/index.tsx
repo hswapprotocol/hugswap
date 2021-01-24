@@ -8,7 +8,7 @@ import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
 const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/hswapprotocol/token-icons/master/heco/${address}.png`
+  `https://raw.githubusercontent.com/hswapprotocol/token-icons/master/heco/${address?.toLowerCase()}.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};

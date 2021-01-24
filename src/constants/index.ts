@@ -1,6 +1,5 @@
 import { ChainId, JSBI, Percent, Token, WHT } from '@src/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-
 import { injected, walletconnect } from '../connectors'
 
 // uniswap地址
@@ -135,7 +134,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     connector: injected,
     name: 'Injected',
     iconName: 'arrow-right.svg',
-    description: 'Injected web3 provider.',
+    description: 'Injected web3 provider',
     href: null,
     color: '#010101',
     primary: true
@@ -144,20 +143,20 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     connector: injected,
     name: 'METAMASK',
     iconName: 'metamask.png',
-    description: 'Easy-to-use browser extension.',
+    description: 'Easy-to-use browser extension',
     href: null,
     color: '#E8831D',
-    subheader: '如何在 metamask 上切换 Heco 主网？',
+    subheader: 'How to switch heco main network on metamask',
     subheaderLink: 'https://www.defibox.com/defiStrategy/113'
   },
   WALLET_CONNECT: {
     connector: walletconnect,
     name: 'WalletConnect',
     iconName: 'walletConnectIcon.svg',
-    description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+    description: 'Connect to Trust Wallet',
     href: null,
     color: '#4196FC',
-    subheader: 'Heco 推荐钱包',
+    subheader: 'Heco recommended Wallet',
     subheaderLink: 'https://docs.hecochain.com/#/wallet',
     mobile: true
   },
@@ -165,7 +164,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   HUOBI_WALLET: {
     name: 'Open in Huobi Wallet',
     iconName: 'coinbaseWalletIcon.svg',
-    description: 'Open in Huobi Wallet app.',
+    description: 'Open in Huobi Wallet app',
     href: 'https://go.cb-w.com/mtUDhEZPy1',
     color: '#315CF5',
     mobile: true,
@@ -202,13 +201,8 @@ export const MIN_HT: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) 
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000))
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), JSBI.BigInt(10000))
 
-// SDN OFAC addresses
-export const BLOCKED_ADDRESSES: string[] = [
-  '0x7F367cC41522cE07553e823bf3be79A889DEbe1B',
-  '0xd882cFc20F52f2599D84b8e8D58C7FB62cfE344b',
-  '0x901bb9583b24D97e995513C6778dc6888AB6870e',
-  '0xA7e5d5A720f06526557c513402f2e6B5fA20b008'
-]
+// SDN OFAC addresses 黑名单地址
+export const BLOCKED_ADDRESSES: string[] = []
 
 export const timeframeOptions = {
   DAY: '1 day',

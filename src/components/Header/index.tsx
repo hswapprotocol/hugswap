@@ -16,7 +16,7 @@ import { useHTBalances } from '../../state/wallet/hooks'
 // import { CountUp } from 'use-count-up'
 import { ExternalLink } from '../../theme'
 
-import { YellowCard } from '../Card'
+import { bg6Card } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
 
@@ -71,7 +71,7 @@ const HeaderControls = styled.div`
     position: fixed;
     bottom: 0px;
     left: 0px;
-    width: 100%;
+    width: 100vw;
     z-index: 99;
     height: 72px;
     border-radius: 12px 12px 0 0;
@@ -113,7 +113,7 @@ const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
+  background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bgTagS)};
   border-radius: 20px;
   white-space: nowrap;
   width: 100%;
@@ -153,9 +153,10 @@ const HideSmall = styled.span`
   `};
 `
 
-const NetworkCard = styled(YellowCard)`
-  border-radius: 12px;
+const NetworkCard = styled(bg6Card)`
+  border-radius: 40px;
   padding: 8px 12px;
+  white-space: nowrap;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;
@@ -164,6 +165,20 @@ const NetworkCard = styled(YellowCard)`
     text-overflow: ellipsis;
     flex-shrink: 1;
   `};
+`
+
+const VersionText = styled(Text)`
+  display: flex;
+  color: ${({ theme }) => theme.text7};
+  background-color: ${({ theme }) => theme.bgTagS};
+  border-radius: 4px;
+  font-size: 14px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 5px;
+  min-width: 50px !important;
+  text-align: center;
+  margin-right: 12px;
 `
 
 const BalanceText = styled(Text)`
@@ -178,7 +193,7 @@ const Title = styled.a`
   align-items: center;
   pointer-events: auto;
   justify-self: flex-start;
-  margin-right: 12px;
+  margin-right: 5px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     justify-self: center;
   `};
@@ -259,18 +274,13 @@ const StyledExternalLink = styled(ExternalLink).attrs({
 `}
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.RINKEBY]: 'Rinkeby',
-  [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.GÖRLI]: 'Görli',
-  [ChainId.KOVAN]: 'Kovan',
-  [ChainId.HECO_TESTNET]: 'Heco_testnet'
-}
-
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-
+  const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
+    [ChainId.HECO_MAINNET]: t('Heco mainnet'),
+    [ChainId.HECO_TESTNET]: t('Heco testnet')
+  }
   const userEthBalance = useHTBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
@@ -287,7 +297,6 @@ export default function Header() {
 
   // const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   // const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
-
   return (
     <HeaderFrame>
       <ClaimModal />
@@ -300,6 +309,7 @@ export default function Header() {
             <img width={'105px'} src={isDark ? LogoDark : Logo} alt="logo" />
           </UniIcon>
         </Title>
+        <VersionText>v{process.env.version}</VersionText>
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
             {t('swap')}
@@ -318,7 +328,7 @@ export default function Header() {
             {t('pool')}
           </StyledNavLink>
           <StyledExternalLink id={`stake-nav-link`} href={'https://info.hugswap.com'}>
-            Info
+            {t('Info')}
           </StyledExternalLink>
         </HeaderLinks>
       </HeaderRow>
@@ -326,7 +336,7 @@ export default function Header() {
         <HeaderElement>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
-              <NetworkCard title={NETWORK_LABELS[chainId]}>{/*NETWORK_LABELS[chainId]*/}</NetworkCard>
+              <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
           </HideSmall>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
