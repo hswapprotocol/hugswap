@@ -378,7 +378,7 @@ export default function Swap() {
                   onDismiss={handleConfirmDismiss}
                 />
 
-                <AutoColumn gap={'md'}>
+                <AutoColumn gap={'20px'}>
                   <CurrencyInputPanel
                     label={independentField === Field.OUTPUT && !showWrap && trade ? t('fromEstimated') : t('from')}
                     value={formattedAmounts[Field.INPUT]}

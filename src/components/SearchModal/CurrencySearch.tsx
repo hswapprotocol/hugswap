@@ -47,7 +47,7 @@ export function CurrencySearch({
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [invertSearchOrder, setInvertSearchOrder] = useState<boolean>(false)
   const allTokens = useAllTokens()
-
+  console.log('CurrencySearch.tsx', { allTokens })
   // if they input an address, use it
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
@@ -135,6 +135,7 @@ export function CurrencySearch({
   )
 
   // const selectedListInfo = useSelectedListInfo()
+  console.log({ filteredSortedTokens })
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn gap="14px">

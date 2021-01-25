@@ -78,7 +78,7 @@ export function colors(darkMode: boolean): Colors {
     // 背景色
     bg2: darkMode ? '#121414' : '#FFFFFF',
     // 辅助bg色
-    bg3: darkMode ? '#272C2C' : '#F3FCFB',
+    bg3: darkMode ? '#272C2C' : '#F4Fbfb',
     // 小标签bg
     bg4: darkMode ? '#2C3D3C' : '#E8F9F8',
     // 小标签bg
@@ -87,6 +87,8 @@ export function colors(darkMode: boolean): Colors {
     bg5: darkMode ? '#485150' : '#F2FAF9',
     // 分割线 & 边框色
     bg6: darkMode ? '#323636' : '#E4ECEB',
+    // 卡片色
+    bg7: darkMode ? 'rgba(34, 38, 38, 0.7)' : '#FCFFFF',
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
@@ -100,7 +102,7 @@ export function colors(darkMode: boolean): Colors {
     primary4: darkMode ? '#376bad70' : '#F6DDE8',
     primary5: darkMode ? '#01AFA5' : '#01AFA5',
     // 兑换按钮不可用
-    disable1: darkMode ? '#363C3C' : '#E0ECEB',
+    disable1: darkMode ? '#363C3C' : '#EEF4F8',
     // 兑换按钮按下
     pressed1: darkMode ? '#039E95' : '#039E95',
 

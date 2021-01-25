@@ -4,7 +4,7 @@ import { darken } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
 import PortisIcon from '../../assets/images/portisIcon.png'
@@ -60,32 +60,15 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: ${({ theme }) => theme.text6};
   border: none;
-  color: ${({ theme }) => theme.white} !important;
+  color: ${({ theme }) => theme.white};
   font-weight: 500;
 
   :hover,
   :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.text6)};
-    background-color: ${({ theme }) => theme.bg1} !important;
-    color: ${({ theme }) => theme.text1};
+    background-color: ${({ theme }) => darken(0.03, theme.text6)};
   }
-
-  ${({ faded }) =>
-    faded &&
-    css`
-      background-color: ${({ theme }) => theme.text6};
-      border: 1px solid ${({ theme }) => theme.text6};
-      color: ${({ theme }) => theme.bg1};
-
-      :hover,
-      :focus {
-        background-color: ${({ theme }) => darken(0.05, theme.text6)}} !important;
-        border: 1px solid ${({ theme }) => darken(0.05, theme.text6)};
-        color: ${({ theme }) => darken(0.05, theme.bg1)};
-      }
-    `}
 `
 
 const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`

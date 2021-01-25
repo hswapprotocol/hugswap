@@ -1,17 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
-import { rgba } from 'polished'
+// import { rgba } from 'polished'
 import * as StyledComponents from 'styled-components'
 
 export const BodyWrapper = styled.div`
   position: relative;
   max-width: 420px;
   width: 100%;
-  background: ${({ theme }) => rgba(theme.bg1, 0.7)};
-  filter: drop-shadow(0px 4px 16px rgba(131, 142, 163, 0.1));
+  background: ${({ theme }) => theme.bg7};
+  filter: drop-shadow(0px 4px 16px rgba(0, 65, 51, 0.05));
   border-radius: 24px;
   padding: 20px 24px 32px 24px;
-  backdrop-filter: blur(12px);
+  // backdrop-filter: blur(12px);
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 20px 20px 32px 20px;
+  `};
 `
 
 /**
