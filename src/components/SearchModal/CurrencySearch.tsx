@@ -18,7 +18,7 @@ import CurrencyList from './CurrencyList'
 import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
-import { PaddedColumn, SearchInput, Separator } from './styleds'
+import { PaddedColumn, SearchInput } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
 interface CurrencySearchProps {
   isOpen: boolean
@@ -164,7 +164,7 @@ export function CurrencySearch({
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>
       </PaddedColumn>
-      <Separator />
+      {/* <Separator />横线 */}
 
       <div style={{ flex: '1' }}>
         <AutoSizer disableWidth>

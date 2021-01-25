@@ -5,10 +5,10 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, Percent, WHT } from '@src/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import { ReactComponent as Plus } from '../../assets/images/plus.svg'
+import { ReactComponent as Plusbase } from '../../assets/images/plus.svg'
 import { RouteComponentProps } from 'react-router'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { ButtonPrimary, ButtonLight, ButtonError, ButtonConfirmed } from '../../components/Button'
 import { BorderCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
@@ -51,6 +51,14 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
+
+const Plus = styled(Plusbase)`
+  &,
+  path {
+    color: ${({ color }) => color};
+    fill: ${({ color }) => color};
+  }
+`
 
 export default function RemoveLiquidity({
   history,
@@ -368,7 +376,7 @@ export default function RemoveLiquidity({
           </RowFixed>
         </RowBetween>
         <RowFixed>
-          <Plus color={theme.text2} />
+          <Plus color={theme.text4} />
         </RowFixed>
         <RowBetween align="flex-end">
           <Text fontSize={24} fontWeight={500}>
@@ -626,7 +634,7 @@ export default function RemoveLiquidity({
                   id="remove-liquidity-tokena"
                 />
                 <ColumnCenter>
-                  <Plus color={theme.text2} />
+                  <Plus color={theme.text4} />
                 </ColumnCenter>
                 <CurrencyInputPanel
                   hideBalance={true}

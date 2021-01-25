@@ -86,7 +86,7 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.span`
   min-width: 20.125rem;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.bg1};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
   border-radius: 12px;
@@ -99,13 +99,14 @@ const MenuFlyout = styled.span`
   z-index: 100;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    min-width: 18.125rem;
+    min-width: 20rem;
     right: -46px;
   `};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    min-width: 18.125rem;
-    top: -22rem;
+    min-width: 20rem;
+    top: auto;
+    bottom: 40px;
   `};
 `
 
@@ -147,6 +148,7 @@ const Option = styled(FancyButton)<{ active: boolean }>`
     cursor: pointer;
     border-color: ${({ theme }) => theme.text6};
   }
+  ${({ active, theme }) => active && `border-color: ${theme.text6}`};
   background-color: ${({ active, theme }) => active && theme.primary1};
   color: ${({ active, theme }) => (active ? theme.white : theme.text2)};
 `

@@ -264,10 +264,5 @@ html {
 
 body {
   min-height: 100vh;
-  background: ${({ theme }) =>
-    theme.darkMode
-      ? `rgba(0, 0, 0, 0.6);`
-      : `radial-gradient(49.1% 87.28% at 50.9% 50%, rgba(223, 220, 254, 0.6) 0%, rgba(255, 255, 255, 0) 100%);`}
-  
 }
 `

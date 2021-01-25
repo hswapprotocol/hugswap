@@ -65,7 +65,7 @@
   "insufficient": "{{symbol}} 余额不足",
   "hint4": "该交易对流动性不足",
   "Connect to a wallet": "连接钱包",
-  "hint5": "当您增加流动性时，会得到代表您头寸的LP代币。这些LP代币会自动赚取您所放入流动性份额比例的手续费，并且可以随时兑换。",
+  "hint5": "当您增加流动性时，会得到代表您头寸的LP代币。这些LP代币会自动赚取您所放入流动性份额比例的手续费，且随时可兑换。",
   "content1": "您作为该流动性第一个提供者，所添加的币种比例将直接影响到流动性池的价格，请预知相关风险。",
   "Invalid pair": "无效交易对",
   "Prices": "价格与流动性池份额",
@@ -290,5 +290,8 @@
   "Heco recommended Wallet": "Heco社区推荐钱包",
   "Open in Huobi Wallet app": "在火币钱包中打开",
   "Heco mainnet": "Heco主网",
-  "Heco testnet": "Heco测试网"
+  "Heco testnet": "Heco测试网",
+  "Always make sure the URL is": "请确保您访问的是Hugswap唯一官方链接",
+  "bookmark it to be safe": "方可添加至书签",
+  "Make sure the URL is": "请确保您访问的是Hugswap唯一官方链接"
 }

@@ -64,7 +64,7 @@ const SwapBody = styled.div`
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     justify-items: unset;
-    padding: 0 1rem;
+    padding: 0;
     width: calc(100%);
     position: relative;
   `};
@@ -360,7 +360,7 @@ export default function Swap() {
         {/* <TreeBalls /> */}
         {isHideMedium || <ChartPanel id="main-chart" />}
         <div>
-          <AppBody>
+          <AppBody style={{ paddingTop: '32px' }}>
             <TreeBalls>
               <SwapPoolTabs active={'swap'} />
               <Wrapper id="swap-page">

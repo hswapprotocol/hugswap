@@ -40,6 +40,7 @@ const Option = styled(FancyButton)<{ active: boolean }>`
   :hover {
     cursor: pointer;
   }
+  ${({ active, theme }) => active && `border-color: ${theme.text6}`};
   background-color: ${({ active, theme }) => active && theme.primary1};
   color: ${({ active, theme }) => (active ? theme.white : theme.text2)};
 `

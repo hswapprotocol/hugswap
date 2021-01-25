@@ -3,7 +3,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WHT } from '@src/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 // import { Plus } from 'react-feather'
-import { ReactComponent as Plus } from '../../assets/images/plus.svg'
+import { ReactComponent as Plusbase } from '../../assets/images/plus.svg'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
@@ -43,6 +43,14 @@ import { PoolPriceBar } from './PoolPriceBar'
 const TokensText = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.text3};
+`
+
+const Plus = styled(Plusbase)`
+  &,
+  path {
+    color: ${({ color }) => color};
+    fill: ${({ color }) => color};
+  }
 `
 
 export default function AddLiquidity({
@@ -358,7 +366,7 @@ export default function AddLiquidity({
               showCommonBases
             />
             <ColumnCenter>
-              <Plus color={theme.text2} />
+              <Plus color={theme.text4} />
             </ColumnCenter>
             <CurrencyInputPanel
               value={formattedAmounts[Field.CURRENCY_B]}

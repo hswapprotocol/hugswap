@@ -51,6 +51,8 @@ const HeaderFrame = styled.div`
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
+    background-color: ${({ theme }) => theme.bg1}
+   border-bottom: 1px solid ${({ theme }) => theme.bg6}
   `};
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
@@ -78,13 +80,13 @@ const HeaderControls = styled.div`
     z-index: 99;
     height: 72px;
     background-color: ${({ theme }) => theme.bg1};
+    border-top: 1px solid ${({ theme }) => theme.bg6}
   `};
 `
 
 const HeaderElement = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
    flex-direction: row-reverse;
@@ -159,6 +161,7 @@ const NetworkCard = styled.div`
   background-color: ${({ theme }) => theme.bg4};
   color: ${({ theme }) => theme.text7};
   font-weight: 500;
+  margin-right: 16px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;

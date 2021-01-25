@@ -133,12 +133,12 @@ const AccountControl = styled.div`
 
 const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
   font-size: 0.825rem;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text4};
   margin-left: 1rem;
   font-size: 0.825rem;
   display: flex;
   :hover {
-    color: ${({ theme }) => theme.text2};
+    color: ${({ theme }) => theme.text3};
   }
 `
 
