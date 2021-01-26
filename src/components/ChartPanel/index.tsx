@@ -195,6 +195,8 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   // const theme = useContext(ThemeContext)
   let chartData: ChartData[] = []
   const tokenAInfo = getChartTokenInfo(tokenA)
+  const tokenBInfo = getChartTokenInfo(tokenB)
+  console.log('tokenAInfo', tokenAInfo, tokenBInfo)
   // let tokenBInfo
   if (tokenB) {
     // console.log(tokenB)

@@ -1,13 +1,14 @@
-import { Currency, ETHER, Token } from '@src/sdk'
+import { Currency, ETHER } from '@src/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import EthereumLogo from '../../assets/images/HT.svg'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
+import { useTokenBySymbol } from '../../hooks/Tokens'
 import Logo from '../Logo'
 
-const getTokenLogoURL = (address: string) =>
+const getTokenLogoURL = (address: string | undefined) =>
   `https://raw.githubusercontent.com/hswapprotocol/token-icons/master/heco/${address?.toLowerCase()}.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
@@ -31,23 +32,21 @@ export default function CurrencyLogo({
   size?: string
   style?: React.CSSProperties
 }) {
-  const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
+  const tokenInfo = useTokenBySymbol(currency?.symbol)
+  if (currency?.symbol === 'USDT') console.log(tokenInfo?.address, currency?.symbol)
+  const uriLocations = useHttpLocations(
+    currency instanceof WrappedTokenInfo ? currency.logoURI : getTokenLogoURL(tokenInfo?.address)
+  )
 
   const srcs: string[] = useMemo(() => {
     if (currency === ETHER) return []
-
-    if (currency instanceof Token) {
-      if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)]
-      }
-
-      return [getTokenLogoURL(currency.address)]
-    }
-    return []
+    // @ts-ignore
+    return [...uriLocations, getTokenLogoURL(currency?.address)]
   }, [currency, uriLocations])
 
   if (currency === ETHER) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
+  // console.log(currency, { srcs })
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

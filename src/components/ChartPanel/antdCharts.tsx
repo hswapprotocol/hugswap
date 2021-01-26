@@ -1,12 +1,155 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Area } from '@ant-design/charts'
+import { Currency } from '@src/sdk'
 import styled, { ThemeContext } from 'styled-components'
+import DoubleCurrencyLogo from '../../components/DoubleLogo'
+import { useDerivedSwapInfo } from '../../state/swap/hooks'
+import { timeframeOptions } from '../../constants'
+import { Field } from '../../state/swap/actions'
+// import { useTokenBySymbol } from '../../hooks/Tokens'
 
 const ChartWrapper = styled.div`
   width: 100%;
 `
+const ChartName = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+
+  .token-symbol-container,
+  .pair-name-container {
+    font-size: 18px;
+  }
+`
+const StyledTokenName = styled.span<{ active?: boolean }>`
+  ${({ active }) => (active ? '  margin: 0 0.25rem 0 8px;' : '  margin: 0 0.25rem 0 0.25rem;')}
+  font-size:  ${({ active }) => (active ? '20px' : '16px')};
+`
+const ChartTools = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+`
+const PriceBlock = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Price = styled.div`
+  font-size: 2.25rem;
+  font-weight: bloder;
+`
+interface PriceDiffProps {
+  diff: Number
+}
+const PriceDiff = ({ diff }: PriceDiffProps) => {
+  let wapperStyle = diff == 0 ? '' : diff > 0 ? 'up' : 'down'
+  return (
+    <>
+      <PriceDiffWrapper className={wapperStyle}>
+        {diff == 0 ? '' : diff > 0 ? '+' : '-'}
+        {diff}%
+      </PriceDiffWrapper>
+    </>
+  )
+}
+const PriceDiffWrapper = styled.div<{ diff?: number }>`
+  font-size: 18px;
+  margin-left: 0.75rem;
+  color: ${({ theme }) => theme.text10};
+  &.up {
+    color: ${({ theme }) => theme.text8};
+  }
+  &.down {
+    color: ${({ theme }) => theme.text9};
+  }
+`
+const Resolutions = styled.ul`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  user-select: none;
+
+  li {
+    position: relative;
+    padding: 0 0.625rem;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 10px;
+      width: 1px;
+      background-color: ${({ theme }) => theme.text4};
+    }
+    &:last-child {
+      padding-right: 0;
+      &:after {
+        display: none;
+      }
+    }
+  }
+`
+interface ResolutionBottonProps {
+  children: any | undefined
+  isActive: boolean
+  setActiveFn: () => void
+}
+const ResolutionButton = ({ children, isActive, setActiveFn }: ResolutionBottonProps) => {
+  let wapperStyle = isActive ? 'active' : ''
+  return (
+    <li>
+      <ResolutionButtonInner className={wapperStyle} onClick={setActiveFn}>
+        {children}
+      </ResolutionButtonInner>
+    </li>
+  )
+}
+const ResolutionButtonInner = styled.a`
+  color: ${({ theme }) => theme.text4};
+  cursor: pointer;
+
+  &.active {
+    cursor: default;
+    color: ${({ theme }) => theme.text6};
+  }
+`
+
+const TokenBSpan = styled.span`
+  color: ${({ theme }) => theme.text3};
+`
+
+// // 只用于画图， HT 地址返回 WHT 地址，用于获取价格
+// const getChartTokenInfo = (currency: Currency | undefined) => {
+//   let symbol = currency?.symbol
+//   if (symbol === 'HT') {
+//     symbol = 'WHT'
+//   }
+//   return useTokenBySymbol(symbol)
+// }
 
 const DemoArea: React.FC = () => {
+  const { currencies } = useDerivedSwapInfo()
+  // @ts-ignore
+  let tokenA = currencies[Field.INPUT],
+    tokenB = currencies[Field.OUTPUT]
+  if (!tokenA) {
+    tokenA = currencies[Field.OUTPUT] || Currency.ETHER
+    if (tokenB) {
+      tokenB = Currency.USD
+    }
+  }
+  if (!tokenB) {
+    tokenB = Currency.USD
+  }
+  //   const tokenAInfo = getChartTokenInfo(tokenA)
+  //   const tokenBInfo = getChartTokenInfo(tokenB)
+  //   console.log('tokenAInfo', tokenAInfo, tokenBInfo)
+  const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
   const theme = useContext(ThemeContext)
   const data = [
     {
@@ -436,6 +579,56 @@ const DemoArea: React.FC = () => {
   }
   return (
     <ChartWrapper>
+      <ChartName>
+        <DoubleCurrencyLogo currency0={tokenA} currency1={tokenB} size={24} margin={false} />
+        <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
+          {tokenA?.symbol} / <TokenBSpan>{tokenB?.symbol}</TokenBSpan>
+        </StyledTokenName>
+        {/*
+        {tokenA && tokenB ? (
+          <DoubleCurrencyLogo currency0={tokenA} currency1={tokenB} size={24} margin={true} />
+        ) : tokenA ? (
+          <CurrencyLogo currency={tokenA} size={'24px'} />
+        ) : null}
+        {tokenA && tokenB ? (
+          <StyledTokenName className="pair-name-container">
+            {tokenA.symbol}:{tokenB.symbol}
+          </StyledTokenName>
+        ) : (
+          <StyledTokenName className="token-symbol-container" active={Boolean(tokenA && tokenA.symbol)}>
+            {(tokenA && tokenA.symbol && tokenA.symbol.length > 20
+              ? tokenA.symbol.slice(0, 4) + '...' + tokenA.symbol.slice(tokenA.symbol.length - 5, tokenA.symbol.length)
+              : tokenA?.symbol) || '--'}
+          </StyledTokenName>
+        )}
+        */}
+      </ChartName>
+      <ChartTools>
+        <PriceBlock id="chart-tooltip">
+          <Price>--</Price>
+          <PriceDiff diff={0} />
+        </PriceBlock>
+        <Resolutions>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.DAY}
+            setActiveFn={() => setTimeWindow(timeframeOptions.DAY)}
+          >
+            1D
+          </ResolutionButton>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.WEEK}
+            setActiveFn={() => setTimeWindow(timeframeOptions.WEEK)}
+          >
+            1W
+          </ResolutionButton>
+          <ResolutionButton
+            isActive={timeWindow === timeframeOptions.ALL_TIME}
+            setActiveFn={() => setTimeWindow(timeframeOptions.ALL_TIME)}
+          >
+            ALL
+          </ResolutionButton>
+        </Resolutions>
+      </ChartTools>
       <Area {...config} />
     </ChartWrapper>
   )
