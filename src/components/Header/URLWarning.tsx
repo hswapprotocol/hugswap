@@ -28,7 +28,7 @@ export default function URLWarning() {
   const { t } = useTranslation()
   return isMobile ? (
     <PhishAlert isActive={showURLWarning}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('Make sure the URL is')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.hugswap.com</code>
       </div>
@@ -36,7 +36,7 @@ export default function URLWarning() {
     </PhishAlert>
   ) : window.location.hostname === 'app.hugswap.com' ? (
     <PhishAlert isActive={showURLWarning}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('Always make sure the URL is')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.hugswap.com</code> -&nbsp;
         {t('bookmark it to be safe')}

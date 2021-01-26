@@ -165,7 +165,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     name: 'Open in Huobi Wallet',
     iconName: 'coinbaseWalletIcon.svg',
     description: 'Open in Huobi Wallet app',
-    href: 'https://go.cb-w.com/mtUDhEZPy1',
+    href: 'https://www.huobiwallet.com/',
     color: '#315CF5',
     mobile: true,
     mobileOnly: true

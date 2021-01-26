@@ -293,5 +293,15 @@
   "Heco testnet": "Heco testnet",
   "Always make sure the URL is": "Always make sure the URL is",
   "bookmark it to be safe": "bookmark  it to be safe.",
-  "Make sure the URL is": "Make sure the URL is"
+  "Make sure the URL is": "Make sure the URL is",
+  "Transaction rejected": "Transaction rejected.",
+  "Swap failed": "Swap failed: {{message}}",
+  "Removing tokenA and tokenB": "Removing {{tokenA}} and {{tokenB}}",
+  "Token imported": "Token imported",
+  "Anyone can create an": "Anyone can create an ERC20 token on Ethereum with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.",
+  "This interface can load": "This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research when interacting with arbitrary ERC20 tokens.",
+  "If you purchase an arbitrary token": "If you purchase an arbitrary token, you may be unable to sell it back.",
+  "I understand": "I understand",
+  "Routing through these tokens resulted": "Routing through these tokens resulted in the best price for your trade.",
+  "Continue": "Continue"
 }

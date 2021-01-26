@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Code, Twitter, Info, Send } from 'react-feather'
+import { Code, Twitter, /*Info,*/ Send } from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
@@ -108,10 +108,10 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="/#/">
+          {/* <MenuItem id="link" href="/#/">
             <Info size={14} />
             {t('about')}
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem id="link" href={CODE_LINK}>
             <Code size={14} />
             {t('code')}

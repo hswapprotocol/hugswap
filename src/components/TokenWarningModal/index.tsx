@@ -2,6 +2,7 @@ import { Token } from '@src/sdk'
 import { transparentize } from 'polished'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { ExternalLink, TYPE } from '../../theme'
@@ -42,7 +43,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
 
   const tokenSymbol = token?.symbol?.toLowerCase() ?? ''
   const tokenName = token?.name?.toLowerCase() ?? ''
-
+  const { t } = useTranslation()
   const allTokens = useAllTokens()
 
   const duplicateNameOrSymbol = useMemo(() => {
@@ -74,7 +75,9 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
           </TYPE.main>
           {chainId && (
             <ExternalLink style={{ fontWeight: 400 }} href={getHecoscanLink(chainId, token.address, 'token')}>
-              <TYPE.blue title={token.address}>{shortenAddress(token.address)} (View on Hecoscan)</TYPE.blue>
+              <TYPE.blue title={token.address}>
+                {shortenAddress(token.address)} ({t('viewHecoscan')})
+              </TYPE.blue>
             </ExternalLink>
           )}
         </AutoColumn>
@@ -94,7 +97,7 @@ export default function TokenWarningModal({
 }) {
   const [understandChecked, setUnderstandChecked] = useState(false)
   const toggleUnderstand = useCallback(() => setUnderstandChecked(uc => !uc), [])
-
+  const { t } = useTranslation()
   const handleDismiss = useCallback(() => null, [])
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
@@ -102,19 +105,11 @@ export default function TokenWarningModal({
         <AutoColumn gap="lg">
           <AutoRow gap="6px">
             <StyledWarningIcon />
-            <TYPE.main color={'red2'}>Token imported</TYPE.main>
+            <TYPE.main color={'red2'}>{t('Token imported')}</TYPE.main>
           </AutoRow>
-          <TYPE.body color={'red2'}>
-            Anyone can create an ERC20 token on Ethereum with <em>any</em> name, including creating fake versions of
-            existing tokens and tokens that claim to represent projects that do not have a token.
-          </TYPE.body>
-          <TYPE.body color={'red2'}>
-            This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research
-            when interacting with arbitrary ERC20 tokens.
-          </TYPE.body>
-          <TYPE.body color={'red2'}>
-            If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
-          </TYPE.body>
+          <TYPE.body color={'red2'}>{t('Anyone can create an')}</TYPE.body>
+          <TYPE.body color={'red2'}>{t('This interface can load')}</TYPE.body>
+          <TYPE.body color={'red2'}>{t('If you purchase an arbitrary token')}</TYPE.body>
           {tokens.map(token => {
             return <TokenWarningCard key={token.address} token={token} />
           })}
@@ -127,7 +122,7 @@ export default function TokenWarningModal({
                   checked={understandChecked}
                   onChange={toggleUnderstand}
                 />{' '}
-                I understand
+                {t('I understand')}
               </label>
             </div>
             <ButtonError
@@ -143,7 +138,7 @@ export default function TokenWarningModal({
                 onConfirm()
               }}
             >
-              <TYPE.body color="white">Continue</TYPE.body>
+              <TYPE.body color="white">{t('Continue')}</TYPE.body>
             </ButtonError>
           </RowBetween>
         </AutoColumn>

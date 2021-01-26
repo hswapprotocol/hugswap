@@ -1,5 +1,6 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, Percent, WHT } from '@src/sdk'
@@ -438,9 +439,10 @@ export default function RemoveLiquidity({
     )
   }
 
-  const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-    currencyA?.symbol
-  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
+  const pendingText = i18next.t('Removing tokenA and tokenB', {
+    tokenA: `${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencyA?.symbol}`,
+    tokenB: `${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
+  })
 
   const liquidityPercentChangeCallback = useCallback(
     (value: number) => {
