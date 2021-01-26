@@ -1,5 +1,6 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@src/sdk'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 // import { ArrowDown } from 'react-feather'
 import { ReactComponent as ArrowDown } from '../../assets/images/ArrowDown.svg'
@@ -21,7 +22,7 @@ import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../
 import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
-import ChartPanel from '../../components/ChartPanel'
+import ChartPanel from '../../components/ChartPanel/antdCharts'
 
 import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 // import { getTradeVersion } from '../../data/V1'
@@ -48,13 +49,15 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import { isTradeBetter } from 'utils/trades'
-import BannerSrc from '@src/assets/images/banner.png'
+import BannerenSrc from '@src/assets/images/banner1en.png'
+import BannerzhSrc from '@src/assets/images/banner1zh.png'
+
 // import { HaloWrapper } from '../Pool/index'
 
 const SwapBody = styled.div`
   display: grid;
-  // grid-template-columns: 3fr 2fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: 3fr 2fr;
+  // grid-template-columns: 1fr;
   align-items: start;
   justify-items: center;
   flex-direction: row;
@@ -347,7 +350,8 @@ export default function Swap() {
   const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
     onCurrencySelection
   ])
-  const isHideMedium = true || useMedia('(max-width: 960px)')
+  const showChart = useMedia('(min-width: 960px)')
+  const BannerSrc = i18next.language?.split('-')[0] === 'zh' ? BannerzhSrc : BannerenSrc
   return (
     <>
       <SwapBody>
@@ -358,7 +362,7 @@ export default function Swap() {
         />
 
         {/* <TreeBalls /> */}
-        {isHideMedium || <ChartPanel id="main-chart" />}
+        {showChart && <ChartPanel />}
         <div>
           <AppBody style={{ paddingTop: '32px' }}>
             <TreeBalls>
@@ -567,7 +571,7 @@ export default function Swap() {
               {Boolean(trade) && <AdvancedSwapDetailsDropdown trade={trade} />}
             </TreeBalls>
           </AppBody>
-          <a href="#">
+          <a href="https://t.me/hugswap" target="_blank">
             <Banner src={BannerSrc} />
           </a>
         </div>

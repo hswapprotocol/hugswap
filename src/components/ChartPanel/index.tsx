@@ -209,7 +209,6 @@ export default function ChartPanel({ id }: ChartPanelProps) {
   chartData = useTokenChartData(tokenAInfo?.address?.toLowerCase())
   // }
 
-  console.log('tokenAInfo:', tokenAInfo)
   // settings for the window and candle width
   // const [chartFilter, setChartFilter] = useState(CHART_VIEW.PRICE)
   // const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
