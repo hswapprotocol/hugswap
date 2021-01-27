@@ -9,6 +9,10 @@ const gitPath = path.join(hugswapBuild, '.git')
 console.log('开始build')
 // execSync("npm run build")
 console.log('build结束')
+execSync(`
+cd ${hugswapBuild}
+git pull --all
+`)
 fs.copySync(gitPath, temp)
 fs.emptyDirSync(hugswapBuild)
 fs.copySync(temp, gitPath)
