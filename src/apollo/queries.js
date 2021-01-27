@@ -64,9 +64,8 @@ export const GET_BLOCK = gql`
 export const GET_BLOCKS = (timestamps) => {
   let queryString = 'query blocks {'
   queryString += timestamps.map((timestamp) => {
-    return `t${timestamp}:blocks(first: 1, orderBy: timestamp, orderDirection: desc, where: { timestamp_gt: ${timestamp}, timestamp_lt: ${
-      timestamp + 600
-    } }) {
+    return `t${timestamp}:blocks(first: 1, orderBy: timestamp, orderDirection: desc, where: { timestamp_gt: ${timestamp}, timestamp_lt: ${timestamp + 600
+      } }) {
       number
     }`
   })
@@ -737,17 +736,17 @@ export const TOKEN_CHART = gql`
     }
   }
 `
-      // mostLiquidPairs {
-      //   id
-      //   token0 {
-      //     id
-      //     derivedETH
-      //   }
-      //   token1 {
-      //     id
-      //     derivedETH
-      //   }
-      // }
+// mostLiquidPairs {
+//   id
+//   token0 {
+//     id
+//     derivedETH
+//   }
+//   token1 {
+//     id
+//     derivedETH
+//   }
+// }
 
 const TokenFields = `
   fragment TokenFields on Token {

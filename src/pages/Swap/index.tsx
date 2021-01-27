@@ -110,7 +110,7 @@ const TreeBalls = styled.div`
   // }
 `
 
-export default function Swap() {
+const Swap = function() {
   const { t } = useTranslation()
 
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -579,3 +579,4 @@ export default function Swap() {
     </>
   )
 }
+export default Swap
