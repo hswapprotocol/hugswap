@@ -134,6 +134,14 @@ export const HOURLY_PAIR_RATES = (pairAddress, blocks) => {
       t${block.timestamp}: pair(id:"${pairAddress}", block: { number: ${block.number} }) { 
         token0Price
         token1Price
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
       }
     `
   )

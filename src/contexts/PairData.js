@@ -414,7 +414,7 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
       })
     }
     const result = await splitQuery(HOURLY_PAIR_RATES, client, [pairAddress.toLocaleLowerCase()], blocks, 100)
-
+    let token0, token1
     // format token ETH price results
     let values = []
     for (var row in result) {
@@ -425,6 +425,10 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
           rate0: parseFloat(result[row]?.token0Price),
           rate1: parseFloat(result[row]?.token1Price),
         })
+        if (!token0 && result[row]) {
+          token0 = result[row].token0
+          token1 = result[row].token1
+        }
       }
     }
     let formattedHistoryRate0 = []
@@ -444,10 +448,10 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
       })
     }
 
-    return [formattedHistoryRate0, formattedHistoryRate1]
+    return { Rate0: formattedHistoryRate0, Rate1: formattedHistoryRate1, token0, token1 }
   } catch (e) {
     console.log(e)
-    return [[], []]
+    return { Rate0: [], Rate1: [], token0: {}, token1: {} }
   }
 }
 

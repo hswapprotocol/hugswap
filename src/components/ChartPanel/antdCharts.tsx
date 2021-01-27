@@ -157,14 +157,20 @@ const ResolutionButtonInner = styled.a`
 const TokenBSpan = styled.span`
   color: ${({ theme }) => theme.text3};
 `
+const getSymbol = symbol => {
+  const $symbol = symbol.toUpperCase()
+  if ($symbol === 'WHT' || $symbol === 'HT') {
+    return 'WHT'
+  } else {
+    return symbol
+  }
+}
 // 只用于画图， HT 地址返回 WHT 地址，用于获取价格
 const getChartTokenInfo = (currency: Currency | undefined) => {
-  let symbol = currency?.symbol
-  if (symbol === 'HT') {
-    symbol = 'WHT'
-  }
+  let symbol = getSymbol(currency?.symbol)
   return useTokenBySymbol(symbol)
 }
+let count = 0
 const AreaChart: React.FC = () => {
   const { t } = useTranslation()
   const { currencies } = useDerivedSwapInfo()
@@ -222,8 +228,11 @@ const AreaChart: React.FC = () => {
   //   }, [pairInfo, timeWindow])
 
   //   useEffect(() => {
-  if (PairData && PairData[0]) {
-    data = PairData[0]
+
+  if (PairData && PairData.Rate0) {
+    console.log(tokenB.symbol, PairData.token0.symbol)
+    data = getSymbol(tokenB.symbol) === getSymbol(PairData.token0.symbol) ? PairData.Rate0 : PairData.Rate1
+    data = data
       .map((info: PairInfo) => {
         const Date = dayjs(Number(info.timestamp) * 1000).format('hh:mmA MM-DD')
         const Price = Number(info.close < 0.0001 ? info.close.toFixed(8) : info.close.toFixed(4))
@@ -243,9 +252,10 @@ const AreaChart: React.FC = () => {
   const HoverHandle = evt => {
     const { x, y } = evt
     const data = plot.chart.getTooltipItems({ x, y })
-    setShowPrice(data[0].data.Price)
-    setShowDiff(getDiff(data[0].data))
+    // setShowPrice(data[0].data.Price)
+    // setShowDiff(getDiff(data[0].data))
   }
+  // console.log(JSON.stringify(data, '\t', 2))
   var config = {
     data: data,
     xField: 'Date',
@@ -302,11 +312,7 @@ const AreaChart: React.FC = () => {
       },
       // @ts-ignore
       customContent: name => {
-        return (
-          <>
-            <h5>{name}</h5>
-          </>
-        )
+        return <h5>{name}</h5>
       },
       //   itemTpl: '',
       //   fields: ['xAxis'],
@@ -324,19 +330,20 @@ const AreaChart: React.FC = () => {
       // 圆圈
       marker: {
         fill: theme.text6,
-        r: 6
+        r: 7
       }
     },
     onReady: $plot => {
       console.log('ready')
       plot = $plot
-      plot.chart.on('plot:mousemove', HoverHandle)
+      plot.chart.on('plot:mousemove', () => {})
       plot.chart.on('beforedestroy', evt => {
         console.log('beforedestroy')
         plot.chart.off('plot:mousemove', HoverHandle)
       })
     }
   }
+  console.log(count++)
   return (
     <ChartWrapper>
       <ChartName>
@@ -378,7 +385,7 @@ const AreaChart: React.FC = () => {
           <div>{t('No data')}</div>
         </ChartEmptyWrap>
       )}
-      {loadchart || emptychart || <Area {...config}></Area>}
+      {loadchart || emptychart || <Area key={1} {...config}></Area>}
     </ChartWrapper>
   )
 }
