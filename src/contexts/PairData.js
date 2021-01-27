@@ -392,7 +392,7 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
       timestamps.push(time)
       time += 3600
     }
-
+    console.log({ startTime, timestamps });
     // backout if invalid timestamp format
     if (timestamps.length === 0) {
       return []
