@@ -8,6 +8,7 @@ import { Currency, TokenAmount, Pair, Token } from '@src/sdk'
 import dayjs from 'dayjs'
 import styled, { ThemeContext } from 'styled-components'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
+import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
 import { timeframeOptions } from '../../constants'
 import { Field } from '../../state/swap/actions'
@@ -165,6 +166,16 @@ const getChartTokenInfo = (currency: Currency | undefined) => {
   }
   return useTokenBySymbol(symbol)
 }
+
+const checkAreaConfig = (prevArea:any, nextArea:any):boolean => {
+  console.log('checkAreaConfig')
+  console.log(!!prevArea, JSON.stringify(prevArea.data) === JSON.stringify(nextArea.data))
+  return !!prevArea && JSON.stringify(prevArea.data) === JSON.stringify(nextArea.data)
+}
+
+const MemoizedArea = React.memo(Area, checkAreaConfig);
+
+
 const AreaChart: React.FC = () => {
   const { t } = useTranslation()
   const { currencies } = useDerivedSwapInfo()
@@ -222,16 +233,18 @@ const AreaChart: React.FC = () => {
   //   }, [pairInfo, timeWindow])
 
   //   useEffect(() => {
+  let basePrice = 0
   if (PairData && PairData[0]) {
     data = PairData[0]
       .map((info: PairInfo) => {
-        const Date = dayjs(Number(info.timestamp) * 1000).format('hh:mmA MM-DD')
-        const Price = Number(info.close < 0.0001 ? info.close.toFixed(8) : info.close.toFixed(4))
-        return { Date, Price }
+        // const Date = dayjs(Number(info.timestamp) * 1000).format('hh:mmA MM-DD')
+        const price = Number(info.close < 0.0001 ? info.close.toFixed(8) : info.close.toFixed(4))
+        // return { Date, Price }
+        return { date: info.timestamp, price }
       })
-      .filter((info: Info) => !!info.Price)
+      .filter((info: Info) => !!info.price)
 
-    lastPrice = data.length > 0 ? data[data.length - 1].Price : undefined
+    lastPrice = data.length > 0 ? data[data.length - 1].price : undefined
     if (lastPrice && lastPrice !== showPrice) {
       setShowPrice(lastPrice)
       setShowDiff(getDiff(data[data.length - 1]))
@@ -243,100 +256,101 @@ const AreaChart: React.FC = () => {
   const HoverHandle = evt => {
     const { x, y } = evt
     const data = plot.chart.getTooltipItems({ x, y })
-    setShowPrice(data[0].data.Price)
+    setShowPrice(data[0].data.price)
     setShowDiff(getDiff(data[0].data))
   }
-  var config = {
-    data: data,
-    xField: 'Date',
-    yField: 'Price',
-    smooth: true,
-    nice: true,
+  console.log('data', data)
+  // var config = {
+  //   data: data,
+  //   xField: 'Date',
+  //   yField: 'Price',
+  //   smooth: true,
+  //   nice: true,
 
-    xAxis: {
-      tickCount: 6,
-      line: {
-        style: {
-          stroke: theme.bg6,
-          lineWidth: 1
-        }
-      },
-      style: {}
-    },
-    yAxis: {
-      line: {
-        style: {
-          stroke: theme.bg6,
-          lineWidth: 1
-        }
-      },
-      grid: null
-    },
-    areaStyle: {
-      fill: `l(90) 0.349:rgba(45, 197, 188, 0.19) 1:rgba(244, 255, 254, 0)`,
-      fillOpacity: 0.84
-    },
-    color: theme.text6,
-    line: {
-      color: theme.text6,
-      size: 1
-    },
-    subTickLine: {
-      stroke: theme.text6,
-      lineWidth: 1
-    },
-    meta: {
-      Date: {
-        range: [0, 1]
-      }
-    },
-    // customContent: (data: { name: any }) => data.name,
-    tooltip: {
-      // tips框
-      domStyles: {
-        'g2-tooltip': {
-          boxShadow: '0px 4px 16px 4px rgba(0, 0, 0, 0.12)',
-          border: `1px solid ${theme.text6}`,
-          borderRadius: '4px'
-        }
-      },
-      // @ts-ignore
-      customContent: name => {
-        return (
-          <>
-            <h5>{name}</h5>
-          </>
-        )
-      },
-      //   itemTpl: '',
-      //   fields: ['xAxis'],
-      //   formatter: () => {},
-      // 竖线
-      crosshairs: {
-        line: {
-          style: {
-            stroke: theme.text6,
-            lineWidth: 2,
-            opacity: 0.5
-          }
-        }
-      },
-      // 圆圈
-      marker: {
-        fill: theme.text6,
-        r: 6
-      }
-    },
-    onReady: $plot => {
-      console.log('ready')
-      plot = $plot
-      plot.chart.on('plot:mousemove', HoverHandle)
-      plot.chart.on('beforedestroy', evt => {
-        console.log('beforedestroy')
-        plot.chart.off('plot:mousemove', HoverHandle)
-      })
-    }
-  }
+  //   xAxis: {
+  //     tickCount: 6,
+  //     line: {
+  //       style: {
+  //         stroke: theme.bg6,
+  //         lineWidth: 1
+  //       }
+  //     },
+  //     style: {}
+  //   },
+  //   yAxis: {
+  //     line: {
+  //       style: {
+  //         stroke: theme.bg6,
+  //         lineWidth: 1
+  //       }
+  //     },
+  //     grid: null
+  //   },
+  //   areaStyle: {
+  //     fill: `l(90) 0.349:rgba(45, 197, 188, 0.19) 1:rgba(244, 255, 254, 0)`,
+  //     fillOpacity: 0.84
+  //   },
+  //   color: theme.text6,
+  //   line: {
+  //     color: theme.text6,
+  //     size: 1
+  //   },
+  //   subTickLine: {
+  //     stroke: theme.text6,
+  //     lineWidth: 1
+  //   },
+  //   meta: {
+  //     Date: {
+  //       range: [0, 1]
+  //     }
+  //   },
+  //   // customContent: (data: { name: any }) => data.name,
+  //   tooltip: {
+  //     // tips框
+  //     domStyles: {
+  //       'g2-tooltip': {
+  //         boxShadow: '0px 4px 16px 4px rgba(0, 0, 0, 0.12)',
+  //         border: `1px solid ${theme.text6}`,
+  //         borderRadius: '4px'
+  //       }
+  //     },
+  //     // @ts-ignore
+  //     customContent: name => {
+  //       return (
+  //         <>
+  //           <h5>{name}</h5>
+  //         </>
+  //       )
+  //     },
+  //     //   itemTpl: '',
+  //     //   fields: ['xAxis'],
+  //     //   formatter: () => {},
+  //     // 竖线
+  //     crosshairs: {
+  //       line: {
+  //         style: {
+  //           stroke: theme.text6,
+  //           lineWidth: 2,
+  //           opacity: 0.5
+  //         }
+  //       }
+  //     },
+  //     // 圆圈
+  //     marker: {
+  //       fill: theme.text6,
+  //       r: 6
+  //     }
+  //   },
+  //   onReady: $plot => {
+  //     console.log('ready')
+  //     plot = $plot
+  //     plot.chart.on('plot:mousemove', HoverHandle)
+  //     plot.chart.on('beforedestroy', evt => {
+  //       console.log('beforedestroy')
+  //       plot.chart.off('plot:mousemove', HoverHandle)
+  //     })
+  //   }
+  // }
   return (
     <ChartWrapper>
       <ChartName>
@@ -378,7 +392,19 @@ const AreaChart: React.FC = () => {
           <div>{t('No data')}</div>
         </ChartEmptyWrap>
       )}
-      {loadchart || emptychart || <Area {...config}></Area>}
+      {/*loadchart || emptychart || <MemoizedArea {...config}></MemoizedArea>*/}
+      {loadchart || emptychart || (
+       <TradingViewChart
+          toolTipSelector="#chart-tooltip"
+          data={data}
+          base={0}
+          baseChange={0}
+          title={''}
+          field="price"
+          width={600}
+          type={CHART_TYPES.AREA}
+        />
+      )}
     </ChartWrapper>
   )
 }

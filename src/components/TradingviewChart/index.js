@@ -5,7 +5,6 @@ import utc from 'dayjs/plugin/utc'
 import { formattedNum } from '../../utils'
 import styled, { ThemeContext } from 'styled-components'
 import { usePrevious } from 'react-use'
-import { Play } from 'react-feather'
 import { useDarkModeManager } from '../../state/user/hooks'
 
 dayjs.extend(utc)
