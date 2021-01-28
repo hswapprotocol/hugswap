@@ -1,7 +1,6 @@
 // @ts-nocheck
-
-import React, { useContext, useState, useEffect } from 'react'
-import { Area, Bar } from '@ant-design/charts'
+import { AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts'
+import React, { PureComponent, useContext, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 // import { Area } from '@ant-design/charts/index.charts'
 import { Currency, TokenAmount, Pair, Token } from '@src/sdk'
@@ -12,14 +11,25 @@ import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
 import { timeframeOptions } from '../../constants'
 import { Field } from '../../state/swap/actions'
-import { useHourlyRateData } from '../../contexts/PairData'
+import { useHourlyRateData as getHourlyRateData } from '../../contexts/PairData'
 import { useTokenBySymbol } from '../../hooks/Tokens'
 import { ReactComponent as ChartLoadingBase } from '../../assets/images/chart-loading.svg'
+import { ReactComponent as ChartLoadingBaseBlack } from '../../assets/images/chart-loading-black.svg'
 import { ReactComponent as ChartEmpty } from '../../assets/images/chart-empty.svg'
+import { useDarkModeManager } from '../../state/user/hooks'
 
 const ChartWrapper = styled.div`
   width: 100%;
 `
+
+const ChartBlackLoading = styled(ChartLoadingBaseBlack)`
+  width: 100%;
+  height: 350px;
+  path {
+    width: 100%;
+  }
+`
+
 const ChartLoading = styled(ChartLoadingBase)`
   width: 100%;
   height: 350px;
@@ -120,6 +130,16 @@ const Resolutions = styled.ul`
     }
   }
 `
+const ChartTooltip = styled.div`
+  box-shadow: 0px 4px 16px 4px rgba(0, 0, 0, 0.12);
+  border: 0.5px solid ${({ theme }) => theme.text6};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text2};
+  padding: 10px 16px;
+  font-size: 12px;
+`
+
 interface ResolutionBottonProps {
   children: any | undefined
   isActive: boolean
@@ -134,7 +154,15 @@ interface Info {
   Date: string
   Price: number
 }
+const ResolutionButtonInner = styled.a`
+  color: ${({ theme }) => theme.text4};
+  cursor: pointer;
 
+  &.active {
+    cursor: default;
+    color: ${({ theme }) => theme.text6};
+  }
+`
 const ResolutionButton = ({ children, isActive, setActiveFn }: ResolutionBottonProps) => {
   let wapperStyle = isActive ? 'active' : ''
   return (
@@ -145,21 +173,11 @@ const ResolutionButton = ({ children, isActive, setActiveFn }: ResolutionBottonP
     </li>
   )
 }
-const ResolutionButtonInner = styled.a`
-  color: ${({ theme }) => theme.text4};
-  cursor: pointer;
-
-  &.active {
-    cursor: default;
-    color: ${({ theme }) => theme.text6};
-  }
-`
-
 const TokenBSpan = styled.span`
   color: ${({ theme }) => theme.text3};
 `
 const getSymbol = symbol => {
-  const $symbol = symbol.toUpperCase()
+  const $symbol = symbol?.toUpperCase()
   if ($symbol === 'WHT' || $symbol === 'HT') {
     return 'WHT'
   } else {
@@ -178,43 +196,96 @@ const checkAreaConfig = (prevArea: any, nextArea: any): boolean => {
   return !!prevArea && JSON.stringify(prevArea.data) === JSON.stringify(nextArea.data)
 }
 
-const MemoizedArea = React.memo(Area, checkAreaConfig)
+const getPrev24Price = (data = [], mDate: string) => {
+  let index = data.findIndex((info: Info) => info.date === mDate) - 1
+  let price: number = data[index + 1]?.price ?? 0
+  while (index >= 0) {
+    if (data[index].date.split(' ')[1] !== mDate.split(' ')[1]) {
+      price = data[index].price
+      console.log(242, { index, price }, data)
+      break
+    }
+    index--
+  }
+  if (index < 0 && data[0]) {
+    price = data[0].price
+  }
+  return price
+}
+const getDiff = (data, info: Info) => {
+  const price24 = getPrev24Price(data, info.date)
+  const myPrice = info.price
+  return Number((((myPrice - price24) / price24) * 100).toFixed(2))
+}
 
-const AreaChart: React.FC = () => {
+const data = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100
+  }
+]
+let theValue
+let count = 0
+export default () => {
   const { t } = useTranslation()
   const { currencies } = useDerivedSwapInfo()
+  const [darkMode] = useDarkModeManager()
   let tokenA,
     tokenB,
     tokenAInfo,
     tokenBInfo,
     pairInfo,
     PairData,
-    data = [],
-    lastPrice
+    lastPrice,
+    data,
+    loadchart = true,
+    emptychart = false
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
-  const [loadchart, setLoadchart] = useState(true)
-  const [emptychart, setEmptyChart] = useState(false)
-  const [showPrice, setShowPrice] = useState('-')
+  //   const [loadchart, setLoadchart] = useState(true)
+  //   const [emptychart, setEmptyChart] = useState(false)
+  let [showPrice, setShowPrice] = useState('-')
   const [showDiff, setShowDiff] = useState(0)
+  //   const [data, setData] = useState([])
   const theme = useContext(ThemeContext)
 
-  const getPrev24Price = (mDate: string) => {
-    let index = data.findIndex((info: Info) => info.Date === mDate) - 1
-    let price: number = data[index + 1]?.Price ?? 0
-    while (index >= 0) {
-      if (data[index].Date.split(' ')[1] !== mDate.split(' ')[1]) {
-        price = data[index].Price
-        break
-      }
-      index--
-    }
-    return price
-  }
-  const getDiff = (info: Info) => {
-    const price24 = getPrev24Price(info.Date)
-    const myPrice = info.Price
-    return Number((((myPrice - price24) / price24) * 100).toFixed(2))
-  }
   //   useEffect(() => {
   tokenA = currencies[Field.INPUT]
   tokenB = currencies[Field.OUTPUT]
@@ -229,44 +300,79 @@ const AreaChart: React.FC = () => {
   }
   tokenAInfo = getChartTokenInfo(tokenA)
   tokenBInfo = getChartTokenInfo(tokenB)
-  pairInfo = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
-  //   }, [currencies])
 
   //   useEffect(() => {
-  if (pairInfo && timeWindow) PairData = useHourlyRateData(pairInfo.liquidityToken.address, timeWindow)
+  if (tokenAInfo && tokenBInfo) {
+    if (getSymbol(tokenAInfo.symbol) === getSymbol(tokenBInfo.symbol)) {
+      //   console.log('wht - ht')
+      //   loadchart = false
+      //   emptychart = true
+      //   pairInfo = null
+      //   PairData = null
+      //   data = []
+    } else {
+    }
+  }
+
+  emptychart = false
+  try {
+    console.log('try: ----')
+    pairInfo = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
+  } catch (error) {
+    console.log('catch: ----')
+    loadchart = false
+    emptychart = true
+    pairInfo = null
+    PairData = null
+    data = []
+  }
+  // if (pairInfo && timeWindow) {
+  PairData = getHourlyRateData(pairInfo?.liquidityToken.address, timeWindow)
+  // }
+  //   }, [tokenAInfo, tokenBInfo])
+
+  //   useEffect(() => {
+
   //   }, [pairInfo, timeWindow])
 
   //   useEffect(() => {
-  let basePrice = 0
   if (PairData && PairData.Rate0) {
-    console.log(tokenB.symbol, PairData.token0.symbol)
-    data = getSymbol(tokenB.symbol) === getSymbol(PairData.token0.symbol) ? PairData.Rate0 : PairData.Rate1
-    data = data
+    console.log({ PairData })
+    let $data = getSymbol(tokenB.symbol) === getSymbol(PairData.token0?.symbol) ? PairData.Rate0 : PairData.Rate1
+    $data = $data
       .map((info: PairInfo) => {
-        // const Date = dayjs(Number(info.timestamp) * 1000).format('hh:mmA MM-DD')
+        const date = dayjs(Number(info.timestamp) * 1000).format('HH:mm MM-DD')
         const price = Number(info.close < 0.0001 ? info.close.toFixed(8) : info.close.toFixed(4))
-        // return { Date, Price }
-        return { date: info.timestamp, price }
+        return { date, price }
       })
       .filter((info: Info) => !!info.price)
-
-    lastPrice = data.length > 0 ? data[data.length - 1].price : undefined
+    // data !== $data && setData($data)
+    data = $data
+    lastPrice = $data.length > 0 ? $data[$data.length - 1].price : undefined
     if (lastPrice && lastPrice !== showPrice) {
       setShowPrice(lastPrice)
-      setShowDiff(getDiff(data[data.length - 1]))
-      setLoadchart(false)
+      setShowDiff(getDiff($data, $data[$data.length - 1]))
     }
+    loadchart = false
+    emptychart = !lastPrice
   }
-  //   }, [PairData])
-  let plot
-  const HoverHandle = evt => {
-    const { x, y } = evt
-    const data = plot.chart.getTooltipItems({ x, y })
-    setShowPrice(data[0].data.price)
-    setShowDiff(getDiff(data[0].data))
-  }
-  console.log('data', data)
+  //   }, [PairData, tokenA, tokenB, timeWindow])
 
+  const CustomTooltip = ({ payload, label, active }) => {
+    if (active) {
+      if (payload && theValue !== payload[0]?.value) {
+        theValue = payload[0]?.value
+        setShowPrice(theValue)
+        setShowDiff(getDiff(data, { date: label, price: payload[0]?.value }))
+      }
+      return <ChartTooltip>{label}</ChartTooltip>
+    }
+
+    return null
+  }
+  //   console.log('data', data)
+  //   console.log(count++)
+  console.log({ loadchart, emptychart })
   return (
     <ChartWrapper>
       <ChartName>
@@ -301,7 +407,7 @@ const AreaChart: React.FC = () => {
           </ResolutionButton>
         </Resolutions>
       </ChartTools>
-      {loadchart && <ChartLoading />}
+      {loadchart && (darkMode ? <ChartBlackLoading /> : <ChartLoading />)}
       {emptychart && (
         <ChartEmptyWrap>
           <ChartEmpty />
@@ -310,109 +416,57 @@ const AreaChart: React.FC = () => {
       )}
       {/*loadchart || emptychart || <MemoizedArea {...config}></MemoizedArea>*/}
       {loadchart || emptychart || (
-        <TradingViewChart
-          toolTipSelector="#chart-tooltip"
+        <AreaChart
+          key="AreaChart"
+          width={690}
+          height={400}
           data={data}
-          base={0}
-          baseChange={0}
-          title={''}
-          field="price"
-          width={600}
-          type={CHART_TYPES.AREA}
-        />
+          margin={{
+            top: 0,
+            right: 0,
+            left: -40,
+            bottom: 0
+          }}
+        >
+          <defs>
+            <linearGradient id="color1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="34.9%" stopColor="rgba(45, 197, 188, 0.19)" stopOpacity={1} />
+              <stop offset="100%" stopColor="rgba(244, 255, 254, 0)" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="date"
+            allowDecimals={false}
+            tickCount={4}
+            tickLine={false}
+            stroke={theme.bg2}
+            fontSize={12}
+            axisLine={{ stroke: theme.bg6 }}
+            tick={{ fill: theme.text4 }}
+            padding={{
+              left: 0,
+              right: 0
+            }}
+          />
+          <YAxis
+            stroke={theme.bg6}
+            tickLine={false}
+            fontSize={12}
+            axisLine={{ stroke: theme.bg6 }}
+            tick={{ fill: theme.text4 }}
+          />
+          <Tooltip content={CustomTooltip} axisLine={{ stroke: theme.text6 }} />
+          <Area
+            type="monotone"
+            dataKey="price"
+            strokeWidth="0.5"
+            stroke={theme.text6}
+            fillOpacity={0.84}
+            fill="url(#color1)"
+            axisLine={{ stroke: theme.text6 }}
+          />
+        </AreaChart>
       )}
     </ChartWrapper>
   )
 }
-export default AreaChart
-// var config = {
-//   data: data,
-//   xField: 'Date',
-//   yField: 'Price',
-//   smooth: true,
-//   nice: true,
-
-//   xAxis: {
-//     tickCount: 6,
-//     line: {
-//       style: {
-//         stroke: theme.bg6,
-//         lineWidth: 1
-//       }
-//     },
-//     style: {}
-//   },
-//   yAxis: {
-//     line: {
-//       style: {
-//         stroke: theme.bg6,
-//         lineWidth: 1
-//       }
-//     },
-//     grid: null
-//   },
-//   areaStyle: {
-//     fill: `l(90) 0.349:rgba(45, 197, 188, 0.19) 1:rgba(244, 255, 254, 0)`,
-//     fillOpacity: 0.84
-//   },
-//   color: theme.text6,
-//   line: {
-//     color: theme.text6,
-//     size: 1
-//   },
-//   subTickLine: {
-//     stroke: theme.text6,
-//     lineWidth: 1
-//   },
-//   meta: {
-//     Date: {
-//       range: [0, 1]
-//     }
-//   },
-//   // customContent: (data: { name: any }) => data.name,
-//   tooltip: {
-//     // tips框
-//     domStyles: {
-//       'g2-tooltip': {
-//         boxShadow: '0px 4px 16px 4px rgba(0, 0, 0, 0.12)',
-//         border: `1px solid ${theme.text6}`,
-//         borderRadius: '4px'
-//       }
-//     },
-//     // @ts-ignore
-//     customContent: name => {
-//       return (
-//         <>
-//           <h5>{name}</h5>
-//         </>
-//       )
-//     },
-//     //   itemTpl: '',
-//     //   fields: ['xAxis'],
-//     //   formatter: () => {},
-//     // 竖线
-//     crosshairs: {
-//       line: {
-//         style: {
-//           stroke: theme.text6,
-//           lineWidth: 2,
-//           opacity: 0.5
-//         }
-//       }
-//     },
-//     // 圆圈
-//     marker: {
-//       fill: theme.text6,
-//       r: 6
-//     }
-//   },
-//   onReady: $plot => {
-//     console.log('ready')
-//     plot = $plot
-//     plot.chart.on('plot:mousemove', HoverHandle)
-//     plot.chart.on('beforedestroy', evt => {
-//       console.log('beforedestroy')
-//       plot.chart.off('plot:mousemove', HoverHandle)
-//     })
-//   }
-// }

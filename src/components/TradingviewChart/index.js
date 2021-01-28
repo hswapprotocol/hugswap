@@ -5,7 +5,6 @@ import utc from 'dayjs/plugin/utc'
 import { formattedNum } from '../../utils'
 import styled, { ThemeContext } from 'styled-components'
 import { usePrevious } from 'react-use'
-import { Play } from 'react-feather'
 import { useDarkModeManager } from '../../state/user/hooks'
 
 dayjs.extend(utc)
@@ -48,7 +47,7 @@ const TradingViewChart = ({
     if (data !== dataPrev && chartCreated && type === CHART_TYPES.BAR) {
       // remove the tooltip element
       let toolTip = document.querySelector(toolTipSelector)
-      if (toolTip) {toolTip.innerHTML = ''}
+      if (toolTip) { toolTip.innerHTML = '' }
       chartCreated.resize(0, 0)
       setChartCreated()
     }
@@ -66,7 +65,7 @@ const TradingViewChart = ({
     diffData = formattedData.map((item, i, a) => {
       let diff = 0;
       if (i > 0) {
-        diff = ((item.value - a[i-1].value) / a[i-1].value) * 100
+        diff = ((item.value - a[i - 1].value) / a[i - 1].value) * 100
       }
       return {
         time: item.time,
@@ -88,7 +87,7 @@ const TradingViewChart = ({
     if (chartCreated && previousTheme !== darkMode) {
       // remove the tooltip element
       let toolTip = document.querySelector(toolTipSelector)
-      if (toolTip) {toolTip.innerHTML = ''}
+      if (toolTip) { toolTip.innerHTML = '' }
       chartCreated.resize(0, 0)
       setChartCreated()
     }
@@ -112,10 +111,10 @@ const TradingViewChart = ({
             top: topScale,
             bottom: 0,
           },
-          borderVisible: false,
+          borderVisible: true,
         },
         timeScale: {
-          borderVisible: false,
+          borderVisible: true,
         },
         grid: {
           horzLines: {
@@ -148,31 +147,31 @@ const TradingViewChart = ({
       series =
         (type === CHART_TYPES.BAR
           ? chart.addHistogramSeries({
-              color: '#BA40F3',
-              priceFormat: {
-                type: 'volume',
-              },
-              scaleMargins: {
-                top: 0.32,
-                bottom: 0,
-              },
-              lineColor: '#BA40F3',
-              lineWidth: 3,
-            })
+            color: '#BA40F3',
+            priceFormat: {
+              type: 'volume',
+            },
+            scaleMargins: {
+              top: 0.32,
+              bottom: 0,
+            },
+            lineColor: '#BA40F3',
+            lineWidth: 3,
+          })
           : chart.addAreaSeries({
-              topColor: '#BA40F3',
-              bottomColor: 'rgba(186, 64, 243, 0.17)',
-              lineColor: '#BA40F3',
-              lineWidth: 1,
-              scaleMargins: {
-                top: 0.2,
-                bottom: 0.1,
-              },
-            })
+            topColor: 'rgba(244, 255, 254, 0)',
+            bottomColor: 'rgba(45, 197, 188, 0.19)',
+            lineColor: theme.text6,
+            lineWidth: 1,
+            scaleMargins: {
+              top: 0.2,
+              bottom: 0.1,
+            },
+          })
         )
 
       series.setData(formattedData)
-      
+
       diffSeries = chart.addLineSeries({
         visible: false,
         priceScaleId: 'left'
@@ -191,8 +190,8 @@ const TradingViewChart = ({
       function setLastBarText() {
         toolTip.innerHTML =
           `<div style="font-size: 2.25rem; font-weight: bloder; color:${titleColor}" >` +
-            formattedNum(base ?? 0, true)  +
-          '</div>'+ 
+          formattedNum(base ?? 0, true) +
+          '</div>' +
           (baseChange !== 0 ?
             `<div style="margin-left: 10px; font-size: 16px; color: ${color};">${formattedPercentChange}</div>`
             : ''
@@ -214,12 +213,12 @@ const TradingViewChart = ({
         } else {
           let dateStr = useWeekly
             ? dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day)
-                .startOf('week')
-                .format('MMMM D, YYYY') +
-              '-' +
-              dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day)
-                .endOf('week')
-                .format('MMMM D, YYYY')
+              .startOf('week')
+              .format('MMMM D, YYYY') +
+            '-' +
+            dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day)
+              .endOf('week')
+              .format('MMMM D, YYYY')
             : dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day).format('MMMM D, YYYY')
           var price = param.seriesPrices.get(series)
           var diff = param.seriesPrices.get(diffSeries)

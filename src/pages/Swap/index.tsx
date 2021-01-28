@@ -22,7 +22,7 @@ import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../
 import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
-import ChartPanel from '../../components/ChartPanel/antdCharts'
+import ChartPanel from '../../components/ChartPanel/recharts'
 
 import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 // import { getTradeVersion } from '../../data/V1'
