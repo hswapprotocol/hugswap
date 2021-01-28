@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts'
-import React, { PureComponent, useContext, useState, useEffect } from 'react'
+import React, { PureComponent, useContext, useState, useEffect, useRef, createRef } from 'react'
 import { useTranslation } from 'react-i18next'
 // import { Area } from '@ant-design/charts/index.charts'
 import { Currency, TokenAmount, Pair, Token } from '@src/sdk'
@@ -80,16 +80,21 @@ const Price = styled.div`
 interface PriceDiffProps {
   diff: Number
 }
-const PriceDiff = ({ diff }: PriceDiffProps) => {
+const PriceDiff = React.forwardRef(({ diff }: PriceDiffProps, ref) => {
   let wapperStyle = diff == 0 ? '' : diff > 0 ? 'up' : 'down'
   return (
-    <>
-      <PriceDiffWrapper className={wapperStyle}>
-        {diff > 0 ? '+' : ''}
-        {diff}%
-      </PriceDiffWrapper>
-    </>
+    <PriceDiffWrapper className={wapperStyle} ref={ref}>
+      {diff > 0 ? '+' : ''}
+      {diff}%
+    </PriceDiffWrapper>
   )
+})
+const PriceDiffHTML = (current, diff, theme) => {
+  let color = diff == 0 ? '' : diff > 0 ? theme.text8 : theme.text9
+  if (current) {
+    current.innerText = `${diff > 0 ? '+' : ''}${diff}%`
+    current.style.color = color
+  }
 }
 const PriceDiffWrapper = styled.div<{ diff?: number }>`
   font-size: 18px;
@@ -191,8 +196,6 @@ const getChartTokenInfo = (currency: Currency | undefined) => {
 }
 
 const checkAreaConfig = (prevArea: any, nextArea: any): boolean => {
-  console.log('checkAreaConfig')
-  console.log(!!prevArea, JSON.stringify(prevArea.data) === JSON.stringify(nextArea.data))
   return !!prevArea && JSON.stringify(prevArea.data) === JSON.stringify(nextArea.data)
 }
 
@@ -202,7 +205,6 @@ const getPrev24Price = (data = [], mDate: string) => {
   while (index >= 0) {
     if (data[index].date.split(' ')[1] !== mDate.split(' ')[1]) {
       price = data[index].price
-      console.log(242, { index, price }, data)
       break
     }
     index--
@@ -218,50 +220,6 @@ const getDiff = (data, info: Info) => {
   return Number((((myPrice - price24) / price24) * 100).toFixed(2))
 }
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100
-  }
-]
 let theValue
 let count = 0
 export default () => {
@@ -277,16 +235,14 @@ export default () => {
     lastPrice,
     data,
     loadchart = true,
-    emptychart = false
+    emptychart = false,
+    showPrice = '-',
+    showDiff = 0
+  const priceRef = createRef<HTMLDivElement>()
+  const diffRef = createRef<HTMLDivElement>()
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.WEEK)
-  //   const [loadchart, setLoadchart] = useState(true)
-  //   const [emptychart, setEmptyChart] = useState(false)
-  let [showPrice, setShowPrice] = useState('-')
-  const [showDiff, setShowDiff] = useState(0)
-  //   const [data, setData] = useState([])
   const theme = useContext(ThemeContext)
 
-  //   useEffect(() => {
   tokenA = currencies[Field.INPUT]
   tokenB = currencies[Field.OUTPUT]
   if (!tokenA) {
@@ -301,43 +257,20 @@ export default () => {
   tokenAInfo = getChartTokenInfo(tokenA)
   tokenBInfo = getChartTokenInfo(tokenB)
 
-  //   useEffect(() => {
-  if (tokenAInfo && tokenBInfo) {
-    if (getSymbol(tokenAInfo.symbol) === getSymbol(tokenBInfo.symbol)) {
-      //   console.log('wht - ht')
-      //   loadchart = false
-      //   emptychart = true
-      //   pairInfo = null
-      //   PairData = null
-      //   data = []
-    } else {
-    }
-  }
-
   emptychart = false
   try {
-    console.log('try: ----')
     pairInfo = new Pair(new TokenAmount(tokenAInfo as Token, '0'), new TokenAmount(tokenBInfo as Token, '0'))
   } catch (error) {
-    console.log('catch: ----')
     loadchart = false
     emptychart = true
     pairInfo = null
     PairData = null
     data = []
   }
-  // if (pairInfo && timeWindow) {
+
   PairData = getHourlyRateData(pairInfo?.liquidityToken.address, timeWindow)
-  // }
-  //   }, [tokenAInfo, tokenBInfo])
 
-  //   useEffect(() => {
-
-  //   }, [pairInfo, timeWindow])
-
-  //   useEffect(() => {
   if (PairData && PairData.Rate0) {
-    console.log({ PairData })
     let $data = getSymbol(tokenB.symbol) === getSymbol(PairData.token0?.symbol) ? PairData.Rate0 : PairData.Rate1
     $data = $data
       .map((info: PairInfo) => {
@@ -346,33 +279,47 @@ export default () => {
         return { date, price }
       })
       .filter((info: Info) => !!info.price)
-    // data !== $data && setData($data)
     data = $data
     lastPrice = $data.length > 0 ? $data[$data.length - 1].price : undefined
     if (lastPrice && lastPrice !== showPrice) {
-      setShowPrice(lastPrice)
-      setShowDiff(getDiff($data, $data[$data.length - 1]))
+      showPrice = lastPrice
+      showDiff = getDiff($data, $data[$data.length - 1])
+    } else {
+      showDiff = 0
     }
     loadchart = false
     emptychart = !lastPrice
   }
-  //   }, [PairData, tokenA, tokenB, timeWindow])
 
   const CustomTooltip = ({ payload, label, active }) => {
     if (active) {
       if (payload && theValue !== payload[0]?.value) {
         theValue = payload[0]?.value
-        setShowPrice(theValue)
-        setShowDiff(getDiff(data, { date: label, price: payload[0]?.value }))
+        if (priceRef.current) {
+          priceRef.current.innerHTML = theValue
+        }
+        if (diffRef.current) {
+          PriceDiffHTML(
+            diffRef.current,
+            getDiff(data, {
+              date: label,
+              price: theValue
+            }),
+            theme
+          )
+        }
       }
       return <ChartTooltip>{label}</ChartTooltip>
     }
 
     return null
   }
-  //   console.log('data', data)
-  //   console.log(count++)
-  console.log({ loadchart, emptychart })
+  const chartLeave = () => {
+    priceRef.current.innerHTML = showPrice
+    PriceDiffHTML(diffRef.current, getDiff(data, data[data.length - 1]), theme)
+  }
+
+  console.log(count++)
   return (
     <ChartWrapper>
       <ChartName>
@@ -383,8 +330,8 @@ export default () => {
       </ChartName>
       <ChartTools>
         <PriceBlock id="chart-tooltip">
-          <Price>{showPrice}</Price>
-          <PriceDiff diff={showDiff} />
+          <Price ref={priceRef}>{showPrice}</Price>
+          <PriceDiff ref={diffRef} diff={showDiff} />
         </PriceBlock>
         <Resolutions>
           <ResolutionButton
@@ -427,6 +374,7 @@ export default () => {
             left: -40,
             bottom: 0
           }}
+          onMouseLeave={chartLeave}
         >
           <defs>
             <linearGradient id="color1" x1="0" y1="0" x2="0" y2="1">
